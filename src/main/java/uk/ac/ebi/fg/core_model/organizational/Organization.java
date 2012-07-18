@@ -1,0 +1,160 @@
+package uk.ac.ebi.fg.core_model.organizational;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.AssociationOverride;
+import javax.persistence.Entity;
+import javax.persistence.JoinTable;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
+
+
+/**
+ * 
+ * The representation of an organisation, such as a department or a university.
+ *
+ * Setters like {@link #setUrl(String)}, {@link #setPhone(String)} are treated as free-text strings and not checked for
+ * consistency. This is up to the application.
+ * 
+ * Organisation equivalence is the object identity, since usually organisations are not re-used (unless complex 
+ * reconciliation is in place, which would not use equivalence methods any way).
+ *
+ * <dl><dt>date</dt><dd>Jun 5, 2012</dd></dl>
+ * @author brandizi
+ *
+ */
+@Entity
+@Table(name = "organization")
+@SequenceGenerator ( name = "hibernate_seq", sequenceName = "organization_seq" )
+@AssociationOverride ( name = "annotations", joinTable = @JoinTable( name = "organization_annotation" ) )
+public class Organization extends DefaultAnnotatable
+{
+	private String name;
+	private String description;
+	private String address;
+	private String url;
+	private String email;
+	private String phone;
+	private String fax;
+
+	private Set<ContactRole> organizationRoles = new HashSet<ContactRole> ();
+	
+	
+  public String getName ()
+	{
+		return name;
+	}
+
+	public void setName ( String name )
+	{
+		this.name = name;
+	}
+
+	public String getDescription ()
+	{
+		return description;
+	}
+
+	public void setDescription ( String description )
+	{
+		this.description = description;
+	}
+
+	public String getAddress ()
+	{
+		return address;
+	}
+
+	public void setAddress ( String address )
+	{
+		this.address = address;
+	}
+
+	public String getUrl ()
+	{
+		return url;
+	}
+
+	public void setUrl ( String url )
+	{
+		this.url = url;
+	}
+
+	public String getEmail ()
+	{
+		return email;
+	}
+
+	public void setEmail ( String email )
+	{
+		this.email = email;
+	}
+
+	public String getPhone ()
+	{
+		return phone;
+	}
+
+	public void setPhone ( String phone )
+	{
+		this.phone = phone;
+	}
+
+	public String getFax ()
+	{
+		return fax;
+	}
+
+	public void setFax ( String fax )
+	{
+		this.fax = fax;
+	}
+
+	public Set<? extends ContactRole> getOrganizationRoles() {
+    return organizationRoles;
+  }
+
+  /**
+   * @see #addOrganizationRole(ContactRole)
+   */
+	protected void setOrganizationRoles ( Set<ContactRole> organizationRoles ) {
+    this.organizationRoles = organizationRoles;
+  }
+
+  /**
+   *  The role-related methods allows for the addition of a {@link ContactRole} extension, cause one may want the 
+   *  latter to be an OntologyEntry and not simply a CVTerm.
+   *  
+   */
+  public boolean addOrganizationRole ( ContactRole organizationRole ) {
+    return organizationRoles.add ( organizationRole );
+  }
+
+  /**
+   * @see #addOrganizationRole(ContactRole)
+   */
+  public boolean removeOrganizationRole ( ContactRole organizationRole ) {
+    return organizationRoles.remove ( organizationRole );
+  }
+
+  /**
+   * @see #addOrganizationRole(ContactRole)
+   */
+  public boolean containsOrganizationRole ( ContactRole organizationRole ) {
+    return organizationRoles.contains ( organizationRole );
+  }
+  
+  public String toString() 
+  {
+  	return String.format ( 
+  		"%s { id: %d, name: '%s', description: '%s', url: '%s', email: '%s', address: '%s', phone: '%s', fax: '%s', roles: %s }",
+  		this.getClass ().getSimpleName (), this.getId (),
+  		this.getName (), this.getDescription (), this.getUrl (), this.getEmail (), this.getAddress (), 
+  		this.getPhone (), this.getFax (), getOrganizationRoles ()
+  	);
+  }
+  
+}
