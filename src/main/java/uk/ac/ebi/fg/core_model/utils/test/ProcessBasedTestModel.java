@@ -22,6 +22,7 @@ import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
  * @author Marco Brandizi
  *
  */
+@SuppressWarnings ( { "rawtypes", "unchecked" } )
 public class ProcessBasedTestModel
 {
 	public BioMaterial bm1;
@@ -88,7 +89,7 @@ public class ProcessBasedTestModel
 		ch1.addOntologyTerm ( new OntologyEntry ( "123", new ReferenceSource ( "EFO", null ) ) );
 		ch1.addOntologyTerm ( new OntologyEntry ( "456", new ReferenceSource ( "MA", null ) ) );
 		cv1 = new BioCharacteristicValue ( "mus-mus", ch1 );
-		bm1.addCharacteristicValue ( cv1 );
+		bm1.addPropertyValue ( cv1 );
 		
 		ch2 = new BioCharacteristicType ();
 		ch2.setTermText ( "Age" );
@@ -98,20 +99,20 @@ public class ProcessBasedTestModel
 		timeDim = new UnitDimension ( "time" );
 		monthsUnit = new Unit ( "months", timeDim );
 		cv2.setUnit ( monthsUnit );
-		bm1.addCharacteristicValue ( cv2 );
+		bm1.addPropertyValue ( cv2 );
 
 		// Cannot be re-used, you need to create a new one, even if it is the same
 		cv3 = new BioCharacteristicValue ( "mus-mus", ch1 );
-		bm2.addCharacteristicValue ( cv3 );
+		bm2.addPropertyValue ( cv3 );
 		
 		cv4 = new BioCharacteristicValue ( "8", ch2 );
 		// Units can be recycled instead
 		cv4.setUnit ( monthsUnit );
-		bm2.addCharacteristicValue ( cv4 ); 
+		bm2.addPropertyValue ( cv4 ); 
 		
 		dp1 = new DataPropertyType ( "p-value" );
 		dpv1 = new DataPropertyValue ( "1E-6", dp1 );
-		data1.addDataPropertyValue ( dpv1 );
+		data1.addPropertyValue ( dpv1 );
 	}
 	
 }
