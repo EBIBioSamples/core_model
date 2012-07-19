@@ -1,20 +1,14 @@
 package uk.ac.ebi.fg.core_model.expgraph;
 
-import java.util.Collection;
-
 import javax.persistence.AssociationOverride;
 import javax.persistence.AssociationOverrides;
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import uk.ac.ebi.fg.core_model.expgraph.properties.DataPropertyValue;
 import uk.ac.ebi.fg.core_model.expgraph.properties.ExperimentalPropertyValue;
 
 /**

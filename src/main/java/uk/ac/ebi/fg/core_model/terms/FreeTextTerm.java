@@ -12,7 +12,7 @@ import javax.persistence.Transient;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 
 /**
- * An free-text annotation that can optionally be linked to existing ontology terms. An example of where this is useful
+ * A free-text annotation that can optionally be linked to existing ontology terms. An example of where this is useful
  * is curated submissions, where initially provided properties are enriched by curators (or their computational tools) 
  * with ontology annotations. 
  * 
