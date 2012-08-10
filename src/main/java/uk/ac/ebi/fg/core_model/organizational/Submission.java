@@ -4,13 +4,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.AssociationOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,9 +27,7 @@ import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
  *
  */
 @Entity
-@Table ( name = "submission" )
-@SequenceGenerator ( name = "hibernate_seq", sequenceName = "submission_seq" )
-@AssociationOverride ( name = "annotations", joinTable = @JoinTable( name = "submission_annotation" ) )
+@Table( name = "submission" )
 public class Submission extends DefaultAccessibleAnnotatable
 {
 	private String title;
@@ -42,23 +38,10 @@ public class Submission extends DefaultAccessibleAnnotatable
 	private Date updateDate;
 	private Date submissionDate;
 	
-	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
-	@JoinColumn ( name = "submission_id" )
 	private Set<Contact> contacts = new HashSet<Contact> ();
-	
-	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
-	@JoinColumn ( name = "submission_id" )
 	private Set<Organization> organizations = new HashSet<Organization> ();
-	
-	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
-	@JoinColumn ( name = "submission_id" )
 	private Set<Publication> publications = new HashSet<Publication> ();
-
-	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
-	@JoinColumn ( name = "submission_id" )
 	private Set<ReferenceSource> referenceSources = new HashSet<ReferenceSource> ();
-	
-	
 	
 	protected Submission () {
 		super ();
@@ -139,6 +122,9 @@ public class Submission extends DefaultAccessibleAnnotatable
 		this.submissionDate = submissionDate;
 	}
 	
+	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
+	@JoinTable ( name = "submission_contact", 
+	  joinColumns = @JoinColumn ( name = "submission_id" ), inverseJoinColumns = @JoinColumn ( name = "contact_id" ) )
 	public Set<Contact> getContacts ()
 	{
 		return contacts;
@@ -154,6 +140,9 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 	
 	
+	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
+	@JoinTable ( name = "submission_organization", 
+    joinColumns = @JoinColumn ( name = "submission_id" ), inverseJoinColumns = @JoinColumn ( name = "organization_id" ) )
 	public Set<Organization> getOrganizations ()
 	{
 		return organizations;
@@ -169,6 +158,9 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 
 	
+	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
+	@JoinTable ( name = "submission_publication", 
+  	joinColumns = @JoinColumn ( name = "submission_id" ), inverseJoinColumns = @JoinColumn ( name = "publication_id" ) )
 	public Set<Publication> getPublications ()
 	{
 		return publications;
@@ -185,6 +177,9 @@ public class Submission extends DefaultAccessibleAnnotatable
 
 	
 	
+	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
+	@JoinTable ( name = "submission_ref_source", 
+    joinColumns = @JoinColumn ( name = "submission_id" ), inverseJoinColumns = @JoinColumn ( name = "ref_id" ) )
 	public Set<ReferenceSource> getReferenceSources ()
 	{
 		return referenceSources;

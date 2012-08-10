@@ -2,29 +2,27 @@ package uk.ac.ebi.fg.core_model.xref;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
+import uk.ac.ebi.fg.core_model.toplevel.Accessible;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 
 /**
  * 
  * A cross reference is something like a publication or a database entry. In terms of the core model, it is an 
- * {@link #acc accession}, referring to the context of a {@link ReferenceSource}. 
+ * {@link #acc accession}, referring to the context of a {@link ReferenceSource}. This is not an {@link Accessible}, 
+ * despite having an accession property, since the accession for an XRef is unique only within in its context.
  *
  * <dl><dt>date</dt><dd>Jun 14, 2012</dd></dl>
  * @author Marco Brandizi
  *
  */
 @Entity
-@Table ( name = "xref" )
-@SequenceGenerator( name = "hibernate_seq", sequenceName = "xref_seq" )
 public class XRef extends Identifiable
 {
 	private String acc;
 
-	@ManyToOne ( targetEntity = ReferenceSource.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
 	private ReferenceSource source;
 
 	protected XRef () {
@@ -45,6 +43,8 @@ public class XRef extends Identifiable
 		this.acc = acc;
 	}
 
+	@ManyToOne ( targetEntity = ReferenceSource.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
+	@JoinColumn ( name = "source_id" )
 	public ReferenceSource getSource () {
 		return this.source;
 	}

@@ -4,7 +4,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -26,7 +29,6 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  */
 @Entity
 @Table( name = "free_text_term" )
-@SequenceGenerator ( name = "hibernate_seq", sequenceName = "free_text_term_seq" )
 public class FreeTextTerm extends Identifiable 
 {
   private String termText;
@@ -54,6 +56,8 @@ public class FreeTextTerm extends Identifiable
 	}
 
 
+	@ManyToMany( targetEntity = OntologyEntry.class, 
+							 cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
 	public <OE extends OntologyEntry> Set<OE> getOntologyTerms () {
   	return (Set<OE>) this.ontologyTerms;
   }

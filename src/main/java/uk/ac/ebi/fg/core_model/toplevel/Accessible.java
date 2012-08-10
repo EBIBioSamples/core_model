@@ -4,14 +4,18 @@ package uk.ac.ebi.fg.core_model.toplevel;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import uk.ac.ebi.fg.core_model.terms.OntologyEntry;
+import uk.ac.ebi.fg.core_model.xref.XRef;
+
 
 /**
- * An accessible object is any {@link Identifiable} object that also has an
- * assigned accession number.  An accession number is intended as a database
- * identifier that can be assigned to objects for external reuse, such as
- * identiers in the interface, that are distinct from the internal database
- * identifier.  Any objects in the model that should be reusable, or otherwise
- * identifiable, by their accession number should override this class.
+ * An accessible object is any {@link Identifiable} object that also has an assigned accession number. 
+ * An accession number is intended as a database-wide unique identifier that can be assigned to objects for external
+ * reuse, such as identifiers in the interface, which are distinct from the internal database identifier.
+ * Any objects in the model that should be reusable, or otherwise identifiable by their accession number should
+ * override this class. However, objects having external accessions, which are assigned by third-parties and are only
+ * unique within their contexts (e.g., within an external database), should not be modelled as descendants of this class. 
+ * For instance, that is the case of {@link XRef} or {@link OntologyEntry}.  
  * 
  * <dl><dt>Date</dt><dd>Jul 11, 2007</dd></dl>
  *
@@ -34,9 +38,9 @@ public abstract class Accessible extends Identifiable
 	}
 
 
-	@Column( unique = true, nullable = false )
   private String acc;
 
+	@Column( unique = true, nullable = false )
   public String getAcc() {
     return acc;
   }

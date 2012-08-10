@@ -2,11 +2,9 @@ package uk.ac.ebi.fg.core_model.toplevel;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Fetch;
@@ -27,20 +25,10 @@ import uk.ac.ebi.fg.core_model.terms.AnnotationType;
  * @author Marco Brandizi (migrated to AE2 and revised in 2012)
  * 
  */
-@Embeddable
-@SequenceGenerator ( name = "hibernate_seq" )
+@Entity
 public class Annotation extends Identifiable 
 {
-	@ManyToOne( 
-		targetEntity = AnnotationType.class, cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, 
-		fetch = FetchType.EAGER 
-	)
-	@Fetch( FetchMode.JOIN )
-	@JoinColumn( name = "type_id", nullable = false)
 	private AnnotationType type;
-	
-	// TODO: BLOB?!
-	@Column ( name = "text", length = 4000 )
 	private String text;
 
 	protected Annotation() {
@@ -52,6 +40,10 @@ public class Annotation extends Identifiable
   	this.text = text;
   }
 
+
+  
+	// TODO: BLOB?!
+	@Column ( name = "text", length = 4000 )
   public String getText() {
     return text;
   }
@@ -60,6 +52,9 @@ public class Annotation extends Identifiable
     this.text = text;
   }
 
+	@ManyToOne( targetEntity = AnnotationType.class, cascade = { CascadeType.PERSIST, CascadeType.REFRESH } )
+	@Fetch( FetchMode.JOIN )
+	@JoinColumn( name = "type_id", nullable = false)
   public AnnotationType getType() {
     return type;
   }
@@ -92,6 +87,7 @@ public class Annotation extends Identifiable
     return 31 * result + ( getText () == null ? 0 : text.hashCode() );
   }
 
+ 
   @Override
   public String toString() 
   {

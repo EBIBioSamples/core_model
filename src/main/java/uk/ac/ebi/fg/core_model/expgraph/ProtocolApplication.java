@@ -21,7 +21,6 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  *
  */
 @Embeddable
-@SequenceGenerator ( name = "hibernate_seq" )
 public class ProtocolApplication extends Identifiable
 {
 	private Protocol protocol;

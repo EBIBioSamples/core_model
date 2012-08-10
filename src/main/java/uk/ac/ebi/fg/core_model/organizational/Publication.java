@@ -3,16 +3,12 @@ package uk.ac.ebi.fg.core_model.organizational;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.AssociationOverride;
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
@@ -36,14 +32,12 @@ import uk.ac.ebi.fg.core_model.xref.XRef;
 
 @Entity
 @Table(name = "publication")
-@SequenceGenerator( name = "hibernate_seq", sequenceName = "publication_seq" )
-@AssociationOverride ( name = "annotations", joinTable = @JoinTable( name = "publication_annotation" ) )
 public class Publication extends DefaultAnnotatable implements Referrer
 {
   private String title;
   private String authorList;
   private String doi;
-  private String pubMedId;
+  private String pubmedId;
   private String journal;
   private String publisher;
   private String editor;
@@ -53,15 +47,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
   private String pages;
   private String uri;
 
-  @Embedded
-	@ElementCollection
-	@CollectionTable( name = "referrer_annotation", joinColumns = @JoinColumn( name = "owner_id" ) )
 	private Set<XRef> references = new HashSet<XRef> ();
-  
-  @ManyToOne(
-  	targetEntity = PublicationStatus.class,
-    cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-  @JoinColumn( name = "status_id", nullable = true )
   private PublicationStatus status;
   
   
@@ -80,11 +66,11 @@ public class Publication extends DefaultAnnotatable implements Referrer
    * equal and the other types are null. Eg. doi1 = doi2 and pmid1 = pmid2 = (value or null).
    * 
    */
-	public Publication ( String doi, String pubMedId )
+	public Publication ( String doi, String pubmedId )
 	{
 		super ();
 		this.doi = doi;
-		this.pubMedId = pubMedId;
+		this.pubmedId = pubmedId;
 	}
 
 
@@ -124,15 +110,15 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	}
 
 
-	public String getPubMedId ()
+	public String getPubmedId ()
 	{
-		return pubMedId;
+		return pubmedId;
 	}
 
 
-	protected void setPubmedId ( String pubMedId )
+	protected void setPubmedId ( String pubmedId )
 	{
-		this.pubMedId = pubMedId;
+		this.pubmedId = pubmedId;
 	}
 
 
@@ -236,7 +222,8 @@ public class Publication extends DefaultAnnotatable implements Referrer
 		this.uri = uri;
 	}
 
-
+  @ManyToOne( targetEntity = PublicationStatus.class, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+  @JoinColumn( name = "status_id", nullable = true )
 	public PublicationStatus getStatus ()
 	{
 		return status;
@@ -247,8 +234,9 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	{
 		this.status = status;
 	}
-	
-	@Override
+
+  @OneToMany( cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true )
+  @JoinTable ( joinColumns = @JoinColumn ( name = "owner_id" ), inverseJoinColumns = @JoinColumn ( name = "xref_id" ) )
 	public Set<XRef> getReferences ()
 	{
 		return this.references;
@@ -287,10 +275,10 @@ public class Publication extends DefaultAnnotatable implements Referrer
   	that.getDOI ();
   	
   	if ( this.getDOI () != null && this.doi.equals ( that.doi ) ) 
-  		return this.getPubMedId () != null ? this.pubMedId.equals ( that.getPubMedId () ) : that.getPubMedId () == null;
+  		return this.getPubmedId () != null ? this.pubmedId.equals ( that.getPubmedId () ) : that.getPubmedId () == null;
   	
   	// DOIs are different, both can be null
-  	if ( this.getPubMedId () != null && this.pubMedId.equals ( that.getPubMedId () ) )
+  	if ( this.getPubmedId () != null && this.pubmedId.equals ( that.getPubmedId () ) )
   		return this.doi == null && that.doi == null;
   	
   	// Otherwise use the identity
@@ -303,12 +291,13 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	{
 		if ( getDOI () != null ) {
 			int result = getDOI ().hashCode () * 31;
-			return getPubMedId () == null ? result : result + pubMedId.hashCode ();
+			return getPubmedId () == null ? result : result + pubmedId.hashCode ();
 		}
 		
 		// DOI is null
-		return getPubMedId () == null ? super.hashCode () : pubMedId.hashCode ();
+		return getPubmedId () == null ? super.hashCode () : pubmedId.hashCode ();
 	}
+
 
 	@Override
 	public String toString ()
@@ -316,7 +305,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 		return String.format (
 			"%s { id: %id, title: '%s', authors: '%s', year: '%s', PMID: '%s', DOI: '%s', status: '%s', URI: '%s' }", 
 			this.getClass ().getName (), this.getId (), this.getTitle (), this.getAuthorList (), this.getYear (), 
-			this.getPubMedId (), this.getDOI (), this.getStatus (), this.getUri ()
+			this.getPubmedId (), this.getDOI (), this.getStatus (), this.getUri ()
 		);
 	}
 	

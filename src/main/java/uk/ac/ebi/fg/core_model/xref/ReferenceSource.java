@@ -3,26 +3,29 @@ package uk.ac.ebi.fg.core_model.xref;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Index;
 
+import uk.ac.ebi.fg.core_model.terms.OntologyEntry;
 import uk.ac.ebi.fg.core_model.toplevel.Accessible;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 
 
 /**
- * 
- * The source of any external reference. For instance, a record that represent the ENA database (the whole DB). Or, the
- * source of an ontology, such as EFO or GO. In the context of this model, it is assumed that every source has a different
- * accession, presumably assigned by the database curators.
+ * The description of a (external) reference source, such as PUBMED, GEO, the EFO ontology. This provides context to 
+ * other reference entities, such as {@link XRef} or {@link OntologyEntry}. 
+ *
+ * It is assumed that every source has a different accession, presumably assigned by the database curators.
  * 
  * Note that this class doesn't extend {@link Accessible}, because in general you need both an accession and a version 
  * to identify a source. It's up to the application to be such fine-grained or to assume unique accessions for reference
  * sources.  
  * 
+ * TODO: this class has a version property, but, apart from that, it doesn't really support versioning. You cannot
+ * define a version order and you cannot have two reference sources and the only mechanism you can use to refer to the
+ * last version is give null as version value.   
  *
  * <dl><dt>date</dt><dd>Jun 14, 2012, imported from the AE2 model</dd></dl>
  * 
@@ -32,7 +35,6 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  */
 @Entity
 @Table( name = "reference_source", uniqueConstraints = @UniqueConstraint ( columnNames = { "acc", "version" } ) )
-@SequenceGenerator ( name = "hibernate_seq", sequenceName = "reference_source_seq" )
 @org.hibernate.annotations.Table ( 
 	appliesTo = "reference_source", 
 	indexes = {	@Index ( name = "reference_source_av", columnNames = { "acc", "version" } ) }

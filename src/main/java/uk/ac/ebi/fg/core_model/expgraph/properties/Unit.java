@@ -1,6 +1,9 @@
 package uk.ac.ebi.fg.core_model.expgraph.properties;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
@@ -29,8 +32,8 @@ public class Unit extends FreeTextTerm
 		this.dimension = dimension;
 	}
 
-	
-
+	@ManyToOne( cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} )
+	@JoinColumn( name = "dimension_id", nullable = true)
 	public UnitDimension getDimension ()
 	{
 		return dimension;

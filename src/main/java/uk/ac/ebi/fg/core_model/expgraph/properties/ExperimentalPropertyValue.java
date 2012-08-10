@@ -1,15 +1,13 @@
 package uk.ac.ebi.fg.core_model.expgraph.properties;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
@@ -27,18 +25,12 @@ import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
  */
 @Entity
 @Table ( name = "property_value" )
-@SequenceGenerator ( name = "hibernate_seq", sequenceName = "property_value_seq" )
 @DiscriminatorColumn ( name = "category" )
 @DiscriminatorValue ( "generic" )
 @Inheritance ( strategy = InheritanceType.SINGLE_TABLE )
 public class ExperimentalPropertyValue<PT extends ExperimentalPropertyType> extends FreeTextTerm
 {
-	@ManyToOne ( cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH} )
-	@Column ( name = "type_id" )
 	private PT type;
-
-	@ManyToOne ( cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH} )
-	@Column ( name = "unit_id" )
 	private Unit unit;
 
 	public ExperimentalPropertyValue () {
@@ -52,6 +44,8 @@ public class ExperimentalPropertyValue<PT extends ExperimentalPropertyType> exte
 	}
 
 	
+	@ManyToOne ( targetEntity = ExperimentalPropertyType.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH} )
+	@JoinColumn ( name = "type_id" )
 	public PT getType ()
 	{
 		return type;
@@ -62,6 +56,8 @@ public class ExperimentalPropertyValue<PT extends ExperimentalPropertyType> exte
 		this.type = type;
 	}
 
+	@ManyToOne ( cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH} )
+	@JoinColumn ( name = "unit_id" )
 	public Unit getUnit ()
 	{
 		return unit;

@@ -3,20 +3,17 @@ package uk.ac.ebi.fg.core_model.xref;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.AssociationOverride;
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
+import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
 
-import uk.ac.ebi.fg.core_model.organizational.Contact;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 
 /**
  * 
- * A default implementation for the {@link DefaultReferrer} interface. You need to override some ORM for this class
- * to work well in sub-classes, see {@link #references}.
+ * A default implementation for the {@link DefaultReferrer} interface.
  *
  * <dl><dt>date</dt><dd>Jun 14, 2012</dd></dl>
  * @author Marco Brandizi
@@ -25,15 +22,10 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 @MappedSuperclass
 public abstract class DefaultReferrer extends Identifiable implements Referrer
 {
-	/**
-	 * You need to change the table name with {@link AssociationOverride#joinTable()}. Have a look at {@link Contact}
-	 * for an example.
-	 */
-  @Embedded
-	@ElementCollection
-	@CollectionTable( name = "referrer_annotation", joinColumns = @JoinColumn( name = "owner_id" ) )
 	private Set<XRef> references = new HashSet<XRef> ();
 	
+  @OneToMany( cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true )
+  @JoinTable ( joinColumns = @JoinColumn ( name = "owner_id" ), inverseJoinColumns = @JoinColumn ( name = "xref_id" ) )
 	@Override
 	public Set<XRef> getReferences ()
 	{

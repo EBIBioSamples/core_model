@@ -2,8 +2,8 @@ package uk.ac.ebi.fg.core_model.expgraph;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
-import javax.persistence.AssociationOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -12,13 +12,15 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterType;
 import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterValue;
 import uk.ac.ebi.fg.core_model.expgraph.properties.ProtocolType;
+import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
+import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 
 
 /**
@@ -35,8 +37,6 @@ import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
  */
 @Entity
 @Table( name = "protocol" )
-@SequenceGenerator ( name = "hibernate_seq", sequenceName = "protocol_seq" )
-@AssociationOverride ( name = "annotations", joinTable = @JoinTable( name = "protocol_annotation" ) )
 public class Protocol extends DefaultAccessibleAnnotatable 
 {
   private String name;
@@ -47,13 +47,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
   private String contact;
   private String uri;
   
-  @ManyToOne( cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
-  @JoinColumn ( name = "type_id" )
   private ProtocolType type;
-  
-  @Embedded
-	@ElementCollection
-	@CollectionTable( name = "parameter_type", joinColumns = @JoinColumn( name = "protocol_id" ) )
   private Collection<ParameterType> parameterTypes = new ArrayList<ParameterType>();
 
   
@@ -127,6 +121,8 @@ public class Protocol extends DefaultAccessibleAnnotatable
 		this.uri = uri;
 	}
 
+  @ManyToOne( cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
+  @JoinColumn ( name = "type_id" )
 	public ProtocolType getType ()
 	{
 		return type;
@@ -137,6 +133,8 @@ public class Protocol extends DefaultAccessibleAnnotatable
 		this.type = type;
 	}
 
+  @OneToMany( cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval=true )
+  @JoinTable( name = "protocol_parameter_type", joinColumns = @JoinColumn ( name = "protocol_id" ) )
 	public Collection<ParameterType> getParameterTypes ()
 	{
 		return parameterTypes;
@@ -146,6 +144,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
 	{
 		this.parameterTypes = parameterTypes;
 	}
+	
 
 	@Override
 	public String toString ()
@@ -160,4 +159,4 @@ public class Protocol extends DefaultAccessibleAnnotatable
 	}
   
 	
- }
+}

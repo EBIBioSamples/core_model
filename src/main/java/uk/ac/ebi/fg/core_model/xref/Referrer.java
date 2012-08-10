@@ -4,7 +4,7 @@ import java.util.Set;
 
 /**
  * 
- * TODO: Comment me!
+ * The referrer interface, i.e., something able to bring {@link XRef cross-references} with it. 
  *
  * <dl><dt>date</dt><dd>Jun 14, 2012</dd></dl>
  * @author Marco Brandizi

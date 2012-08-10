@@ -7,7 +7,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinTable;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import uk.ac.ebi.fg.core_model.expgraph.properties.ExperimentalPropertyValue;
@@ -26,15 +25,13 @@ import uk.ac.ebi.fg.core_model.expgraph.properties.ExperimentalPropertyValue;
  * @author Marco Brandizi
  *
  */
-@Table ( name = "generic_bio_material" )
+@Table ( name = "bio_material" )
 @Inheritance( strategy = InheritanceType.SINGLE_TABLE )
-@SequenceGenerator ( name = "hibernate_seq", sequenceName = "biomaterial_seq" )
 @DiscriminatorColumn ( name = "material_type_class" )
 @DiscriminatorValue ( "generic" )
 @AssociationOverrides({ 
 	@AssociationOverride ( name = "upstreamProcesses", joinTable = @JoinTable ( name = "process_biomaterial_output" ) ), 
-	@AssociationOverride ( name = "downstreamProcesses", joinTable = @JoinTable ( name = "process_biomaterial_input" ) ),
-	@AssociationOverride ( name = "annotations", joinTable = @JoinTable( name = "biomaterial_annotation" ) )
+	@AssociationOverride ( name = "downstreamProcesses", joinTable = @JoinTable ( name = "process_biomaterial_input" ) )
 })
 public class BioMaterial<EP extends ExperimentalPropertyValue> extends Product<EP>
 {
@@ -47,4 +44,5 @@ public class BioMaterial<EP extends ExperimentalPropertyValue> extends Product<E
 	{
 		super ( acc );
 	}
+
 }

@@ -43,8 +43,6 @@ public class OntologyEntry extends CVTerm
 {
 	private String acc; 
 	
-	@ManyToOne ( targetEntity = ReferenceSource.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
-	@JoinColumn( name = "source" )
 	private ReferenceSource source;
 	
 	protected OntologyEntry ()
@@ -69,6 +67,8 @@ public class OntologyEntry extends CVTerm
 		this.acc = acc;
 	}
 
+	@ManyToOne ( targetEntity = ReferenceSource.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
+	@JoinColumn( name = "source_id" )
 	public ReferenceSource getSource ()
 	{
 		return source;

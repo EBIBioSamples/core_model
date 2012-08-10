@@ -24,10 +24,9 @@ import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
  */
 @Entity
 @Table ( name = "property_type" )
-@SequenceGenerator ( name = "hibernate_seq", sequenceName = "property_type_seq" )
+@Inheritance ( strategy = InheritanceType.SINGLE_TABLE )
 @DiscriminatorColumn ( name = "category" )
 @DiscriminatorValue ( "generic" )
-@Inheritance ( strategy = InheritanceType.SINGLE_TABLE )
 public class ExperimentalPropertyType extends FreeTextTerm
 {
 	private int order = 0;

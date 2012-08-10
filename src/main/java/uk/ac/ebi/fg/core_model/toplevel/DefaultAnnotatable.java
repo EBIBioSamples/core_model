@@ -3,18 +3,15 @@ package uk.ac.ebi.fg.core_model.toplevel;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.AssociationOverride;
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
+import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.MappedSuperclass;
-
-import uk.ac.ebi.fg.core_model.organizational.Contact;
+import javax.persistence.OneToMany;
 
 /**
  * A default implementation for {@link Annotatable}. You can use this for those Annotatable(s) that needs only to 
- * extend {@link Identifiable}.
+ * extend {@link Identifiable}. @see {@link Annotatable} for notes on the references relationship.
  * 
  * <dl><dt>date</dt><dd>Jun 5, 2012</dd></dl>
  * @author brandizi
@@ -23,13 +20,6 @@ import uk.ac.ebi.fg.core_model.organizational.Contact;
 @MappedSuperclass
 public class DefaultAnnotatable extends Identifiable implements Annotatable
 {
-	/**
-	 * You need to change the table name with {@link AssociationOverride#joinTable()}. Have a look at {@link Contact}
-	 * for an example.
-	 */
-  @Embedded
-	@ElementCollection
-	@CollectionTable( name = "annotatable_annotation", joinColumns = @JoinColumn( name = "owner_id" ) )
 	private Set<Annotation> annotations = new HashSet<Annotation>();
   
   @Override
@@ -37,6 +27,8 @@ public class DefaultAnnotatable extends Identifiable implements Annotatable
   	annotations.add ( annotation );
   }
 
+  @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true )
+  @JoinTable ( joinColumns = @JoinColumn ( name = "owner_id" ), inverseJoinColumns = @JoinColumn ( name = "annotation_id" ) )
   @Override
   public Set<Annotation> getAnnotations() {
   	return annotations;

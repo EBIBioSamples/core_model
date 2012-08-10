@@ -14,7 +14,6 @@ import uk.ac.ebi.fg.core_model.terms.CVTerm;
  */
 @Entity
 @Table ( name = "contact_role" )
-@SequenceGenerator ( name = "hibernate_seq", sequenceName = "contact_role_seq" )
 public class ContactRole extends CVTerm
 {
 	protected ContactRole ()

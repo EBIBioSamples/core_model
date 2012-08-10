@@ -3,12 +3,18 @@ package uk.ac.ebi.fg.core_model.organizational;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.AssociationOverride;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 
 
@@ -28,8 +34,6 @@ import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
  */
 @Entity
 @Table(name = "organization")
-@SequenceGenerator ( name = "hibernate_seq", sequenceName = "organization_seq" )
-@AssociationOverride ( name = "annotations", joinTable = @JoinTable( name = "organization_annotation" ) )
 public class Organization extends DefaultAnnotatable
 {
 	private String name;
@@ -39,6 +43,7 @@ public class Organization extends DefaultAnnotatable
 	private String email;
 	private String phone;
 	private String fax;
+
 
 	private Set<ContactRole> organizationRoles = new HashSet<ContactRole> ();
 	
@@ -113,10 +118,24 @@ public class Organization extends DefaultAnnotatable
 		this.fax = fax;
 	}
 
-	public Set<? extends ContactRole> getOrganizationRoles() {
+  @ManyToMany( targetEntity = ContactRole.class, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+  @JoinTable(
+    name = "organization_roles", 
+    joinColumns = {@JoinColumn( name = "organization_id" )}, inverseJoinColumns = @JoinColumn( name = "role_id" ))
+	public Set<ContactRole> getOrganizationRoles() {
     return organizationRoles;
   }
 
+  /** 
+   * This allows you to get a contact-role of a different sub-class. We need to implement this separately than
+   * {@link #getOrganizationRoles()}, because Hibernate doesn't like generic wild cards in method signatures.  
+   */
+  @Transient
+  public Set<? extends ContactRole> getOrganizationRolesAsGeneric () {
+    return getOrganizationRoles ();
+  }
+
+  
   /**
    * @see #addOrganizationRole(ContactRole)
    */
@@ -147,6 +166,7 @@ public class Organization extends DefaultAnnotatable
     return organizationRoles.contains ( organizationRole );
   }
   
+
   public String toString() 
   {
   	return String.format ( 

@@ -17,7 +17,6 @@ import uk.ac.ebi.fg.core_model.toplevel.Annotation;
  */
 @Entity
 @Table ( name = "annotation_type" )
-@SequenceGenerator ( name = "hibernate_seq", sequenceName = "annotation_type_seq" )
 public final class AnnotationType extends CVTerm 
 {
 	protected AnnotationType () {

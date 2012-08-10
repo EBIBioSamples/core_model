@@ -3,14 +3,13 @@ package uk.ac.ebi.fg.core_model.organizational;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.AssociationOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 
@@ -28,8 +27,6 @@ import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
  */
 @Entity
 @Table(name = "contact")
-@SequenceGenerator ( name = "hibernate_seq", sequenceName = "contact_seq" )
-@AssociationOverride ( name = "annotations", joinTable = @JoinTable( name = "contact_annotation" ) )
 public class Contact extends DefaultAnnotatable
 {
   private String firstName;
@@ -42,12 +39,7 @@ public class Contact extends DefaultAnnotatable
   private String affiliation;
   private String url;
 
-  @ManyToMany( targetEntity = ContactRole.class, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-  @JoinTable(
-    name = "contact_roles", 
-    joinColumns = {@JoinColumn( name = "contact_id" )}, inverseJoinColumns = @JoinColumn( name = "role_id" ))
   private Set<ContactRole> contactRoles = new HashSet<ContactRole>();
-
   
   public String getFirstName() {
     return firstName;
@@ -172,8 +164,25 @@ public class Contact extends DefaultAnnotatable
     this.url = url;
   }
 
-  public Set<? extends ContactRole> getContactRoles() {
+  /**
+   * @see #getContactRolesAsGeneric().
+   * @return
+   */
+  @ManyToMany( targetEntity = ContactRole.class, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+  @JoinTable(
+    name = "contact_roles", 
+    joinColumns = {@JoinColumn( name = "contact_id" )}, inverseJoinColumns = @JoinColumn( name = "role_id" ))
+  public Set<ContactRole> getContactRoles() {
     return contactRoles;
+  }
+
+  /** 
+   * This allows you to get a contact-role of a different sub-class. We need to implement this separately than
+   * {@link #getContactRoles()}, because Hibernate doesn't like generic wild cards in method signatures.  
+   */
+  @Transient
+  public Set<? extends ContactRole> getContactRolesAsGeneric () {
+    return getContactRoles ();
   }
 
   /**
@@ -206,7 +215,8 @@ public class Contact extends DefaultAnnotatable
     return contactRoles.contains ( contactRole );
   }
 
-  public String toString() 
+
+	public String toString() 
   {
   	return String.format ( 
   		"%s { id: %d, name: '%s', '%s', '%s', email: '%s', phone: '%s', fax: '%s', address: '%s', affiliation: '%s', roles: %s }",

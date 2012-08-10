@@ -14,7 +14,6 @@ import uk.ac.ebi.fg.core_model.terms.CVTerm;
  */
 @Entity
 @Table ( name = "publication_status" )
-@SequenceGenerator ( name = "hibernate_seq", sequenceName = "publication_status_seq" )
 public class PublicationStatus extends CVTerm
 {
 	protected PublicationStatus ()

@@ -23,14 +23,14 @@ import javax.persistence.MappedSuperclass;
 @Inheritance( strategy = InheritanceType.TABLE_PER_CLASS )
 public abstract class Identifiable 
 {
-  @Id
-  @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "identifiable_seq" )
   private Long id;
 
   /**
    * Get the id of this identifiable object.  This is the database id.
    */
-  public Long getId() {
+  @Id
+  @GeneratedValue ( strategy = GenerationType.TABLE )
+  public Long getId () {
     return id;
   }
 
@@ -39,7 +39,7 @@ public abstract class Identifiable
    * You should never explicitly set this, Hibernate will handle the creation of this ID whenever a new object is saved.
    * 
    */
-  protected void setId(Long id) 
+  protected void setId ( Long id ) 
   {
     this.id = id;
   }

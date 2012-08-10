@@ -5,14 +5,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.AssociationOverride;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
+import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
+import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 
 /**
  * <p>An experimental workflow graph node. This may be things like Biomaterial, Processing/ProtocolApplication etc.
@@ -46,8 +52,6 @@ import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
  */
 @MappedSuperclass
 @Inheritance( strategy = InheritanceType.TABLE_PER_CLASS )
-@SequenceGenerator ( name = "hibernate_seq", sequenceName = "contact_seq" )
-@AssociationOverride ( name = "annotations", joinTable = @JoinTable( name = "node_annotation" ) )
 @SuppressWarnings ( "rawtypes" )
 public abstract class Node<U extends Node, D extends Node> extends DefaultAccessibleAnnotatable
 {

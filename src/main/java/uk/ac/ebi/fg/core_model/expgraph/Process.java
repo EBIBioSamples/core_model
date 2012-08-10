@@ -16,9 +16,12 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import uk.ac.ebi.fg.core_model.expgraph.Node;
+import uk.ac.ebi.fg.core_model.toplevel.Annotation;
+import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 
 /**
  * 
@@ -37,16 +40,13 @@ import uk.ac.ebi.fg.core_model.expgraph.Node;
  * @author Marco Brandizi
  *
  */
-@Table ( name = "generic_process" )
+@Table ( name = "process" )
 @Inheritance( strategy = InheritanceType.SINGLE_TABLE )
 @DiscriminatorColumn ( name = "process_type_class" )
 @DiscriminatorValue ( "generic" )
-@AssociationOverride ( name = "annotations", joinTable = @JoinTable( name = "process_annotation" ) )
 public class Process<I extends Product, O extends Product> extends Node<I, O>
 {
-	@Embedded
-	@ElementCollection
-	@CollectionTable( name = "protocol_application", joinColumns = @JoinColumn( name = "process_id" ) )
+	@OneToMany
 	private List<ProtocolApplication> protocolApplications = new ArrayList<ProtocolApplication> ();
 	
 	public Process ()
@@ -164,5 +164,4 @@ public class Process<I extends Product, O extends Product> extends Node<I, O>
   		this.getClass ().getSimpleName (), this.getId (), this.getAcc (), this.getProtocolApplications () 
   	);
   }
-	
 }
