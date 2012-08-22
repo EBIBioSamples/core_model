@@ -32,14 +32,14 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 	 * Note that a null version is matched against a null version in the database.
 	 *  
 	 */
-	public boolean exists ( String accession, String srcAcc, String srcVer ) 
+	public boolean contains ( String accession, String srcAcc, String srcVer ) 
 	{
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null x-ref" );
-	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an accessible with empty accession" );
+	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an x-ref with empty accession" );
 		
 		// TODO: SQL-injection security
 		String hql = "SELECT x.id FROM " + this.getPersistentClass().getCanonicalName() + 
-			" x WHERE x.acc = '" + accession + "' AND x.source AND x.version " + 
+			" x WHERE x.acc = '" + accession + "' AND x.source.acc = '" + srcAcc + "' AND x.source.version " + 
 			( srcVer == null ? "IS NULL" : "= '" + srcVer + "'" );
 				
 		Query query = getEntityManager ().createQuery( hql );
@@ -50,6 +50,27 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 	}
 	
 	/**
+	 * Same as {@link #contains(String, String, String)}, but checks any version.
+	 */
+	public boolean contains ( String accession, String srcAcc ) 
+	{
+	  Validate.notNull ( accession, "Database access error: cannot fetch a null x-ref" );
+	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an x-ref with empty accession" );
+		
+		// TODO: SQL-injection security
+		String hql = "SELECT x.id FROM " + this.getPersistentClass().getCanonicalName() 
+			+ " x WHERE x.acc = '" + accession + "' AND x.source.acc = '" + srcAcc + "'";
+				
+		Query query = getEntityManager ().createQuery( hql );
+		
+		@SuppressWarnings ( "unchecked" )
+		List<Long> list = query.getResultList();
+		return !list.isEmpty ();
+	}
+	
+	
+	
+	/**
 	 * Searches for a cross-reference via {@link #find(String, String, String)}. Returns a DB record if it finds something,
 	 * attaches the parameter to the persistence context if not. 
 	 * 
@@ -57,7 +78,7 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 	public X getOrCreate ( X xref ) 
 	{
 	  Validate.notNull ( xref, "Database access error: cannot fetch a null x-ref" );
-	  Validate.notEmpty ( xref.getAcc(), "Database access error: cannot fetch an accessible with empty accession" );
+	  Validate.notEmpty ( xref.getAcc(), "Database access error: cannot fetch an x-ref with empty accession" );
 	  
 	  ReferenceSource src = xref.getSource ();
 	  Validate.notNull ( src, "Database access error: cannot fetch a x-ref with null reference-source" );
@@ -79,11 +100,11 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 	public X find ( String accession, String srcAcc, String srcVer ) 
 	{
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null x-ref" );
-	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an accessible with empty accession" );
+	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an x-ref with empty accession" );
 		
 		// TODO: SQL-injection security
 		String hql = "SELECT x FROM " + this.getPersistentClass().getCanonicalName() + 
-			" x WHERE x.acc = '" + accession + "' AND x.source AND x.version " + 
+			" x WHERE x.acc = '" + accession + "' AND x.source.acc = '" + srcAcc + "' AND x.source.version " + 
 			( srcVer == null ? "IS NULL" : "= '" + srcVer + "'" );
 				
 		Query query = getEntityManager ().createQuery( hql );
@@ -92,4 +113,23 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 		List<X> result = query.getResultList();
 		return result.isEmpty () ? null : result.get ( 0 );
 	}
+	
+	
+	/**
+	 * Same as {@link #find(String, String, String)} but finds any version.
+	 */
+	@SuppressWarnings ( "unchecked" )
+	public List<X> find ( String accession, String srcAcc ) 
+	{
+	  Validate.notNull ( accession, "Database access error: cannot fetch a null x-ref" );
+	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an x-ref with empty accession" );
+		
+		// TODO: SQL-injection security
+		String hql = "SELECT x FROM " + this.getPersistentClass().getCanonicalName() + 
+			" x WHERE x.acc = '" + accession + "' AND x.source.acc = '" + srcAcc + "'"; 
+				
+		Query query = getEntityManager ().createQuery( hql );
+		return query.getResultList();
+	}
+
 }

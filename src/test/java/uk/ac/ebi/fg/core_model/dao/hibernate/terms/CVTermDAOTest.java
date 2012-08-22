@@ -1,7 +1,7 @@
 /*
  * 
  */
-package uk.ac.ebi.fg.core_model.dao.hibernate.toplevel;
+package uk.ac.ebi.fg.core_model.dao.hibernate.terms;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -13,57 +13,60 @@ import javax.persistence.EntityTransaction;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.perfectjpattern.jee.api.integration.dao.ITransaction;
 
 import uk.ac.ebi.fg.core_model.resources.Resources;
+import uk.ac.ebi.fg.core_model.terms.AnnotationType;
+import uk.ac.ebi.fg.core_model.terms.CVTerm;
 import uk.ac.ebi.utils.test.junit.TestEntityMgrProvider;
 
 /**
+ * 
  * TODO: Comment me!
  *
- * <dl><dt>date</dt><dd>Aug 10, 2012</dd></dl>
+ * <dl><dt>date</dt><dd>Aug 22, 2012</dd></dl>
  * @author Marco Brandizi
  *
  */
-public class AccessibleDAOTest
+public class CVTermDAOTest
 {	
 	@Rule
 	public TestEntityMgrProvider emProvider = new TestEntityMgrProvider ( Resources.getInstance ().getEntityManagerFactory () );
 
-	private AccessibleDAO<MyAccessible> dao;
+	private CVTermDAO<AnnotationType> dao;
 	private EntityManager em;
 	
-	private String testAcc = "tests.myacc-1";
+	private String testName = "tests, my name 1";
 	
 	@Before
 	public void init()
 	{
 		em = emProvider.getEntityManager ();
-		dao = new AccessibleDAO<MyAccessible> ( MyAccessible.class, em );
-		MyAccessible accDB = dao.find ( testAcc );
-		if ( accDB != null ) {
+		dao = new CVTermDAO<AnnotationType> ( AnnotationType.class, em );
+		AnnotationType cvDB = dao.find ( testName );
+		if ( cvDB != null ) {
 			EntityTransaction tns = em.getTransaction ();
 			tns.begin ();
-			dao.delete ( accDB );
+			dao.delete ( cvDB );
 			tns.commit ();
 		}
-		assertFalse ( "Test accessible not removed from the DB!", dao.contains ( testAcc ) );
+		assertFalse ( "Test cvterm not removed from the DB!", dao.contains ( testName ) );
+		
 	}
 
 	@Test
 	public void testBasicCreation ()
 	{
-		MyAccessible acc = new MyAccessible ( testAcc );
+		AnnotationType cvt = new AnnotationType ( testName );
 		EntityTransaction tns = em.getTransaction ();
 		tns.begin ();
-		dao.create ( acc );
+		dao.create ( cvt );
 		tns.commit ();
 		
-		assertNotNull ( "Persisted accessible has a null ID!", acc.getId () );
+		assertNotNull ( "Persisted cv-term has a null ID!",cvt.getId () );
 		
-		MyAccessible accDB = dao.find ( testAcc );
+		CVTerm cvtDB = dao.find ( testName );
 
-		assertNotNull ( "Cannot find persisted accessible!", accDB );
-		assertEquals ( "Bad accession for retrieved entity!", testAcc, accDB.getAcc () );
+		assertNotNull ( "Cannot find persisted cvterm!", cvtDB );
+		assertEquals ( "Bad name for retrieved cvterm!", testName, cvtDB.getName () );
 	}
 }

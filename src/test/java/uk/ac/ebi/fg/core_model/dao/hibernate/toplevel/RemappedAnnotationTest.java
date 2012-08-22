@@ -20,6 +20,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.perfectjpattern.jee.api.integration.dao.ITransaction;
 
+import uk.ac.ebi.fg.core_model.dao.hibernate.terms.CVTermDAO;
 import uk.ac.ebi.fg.core_model.organizational.Contact;
 import uk.ac.ebi.fg.core_model.resources.Resources;
 import uk.ac.ebi.fg.core_model.terms.AnnotationType;
@@ -158,8 +159,10 @@ public class RemappedAnnotationTest
 	private EntityManager em;
 	
 	private IdentifiableDAO<MyContact> cntDao;
-
-
+	private MyContact cnt;
+	private AnnotationType atype;
+	private Annotation ann1, ann2;
+	
 	/**
 	 * Deletes previously-created stuff, if it's still there. 
 	 */
@@ -168,34 +171,42 @@ public class RemappedAnnotationTest
 	{
 		em = emProvider.getEntityManager ();
 		cntDao = new IdentifiableDAO<MyContact> ( MyContact.class, em );
+
+		cnt = new MyContact ();
+		cnt.setFirstName ( "Mr Specific" ); cnt.setLastName ( "Contact Test" );
+		atype = new AnnotationType ( "tests.mycontact.foo-ann-type-1" );
+		ann1 = new Annotation ( atype, "foo specific annotation 1" );
+		ann2 = new Annotation ( atype, "foo specific annotation 2" );
+		cnt.addAnnotation ( ann1 );
+		cnt.addAnnotation ( ann2 );
+		
 		
 		ITransaction tns = cntDao.getTransaction ();
-		
 		tns.begin ();
-		
-		MyContact cntTpl = new MyContact ();
-		cntTpl.setFirstName ( "Mr Specific" ); cntTpl.setLastName ( "Contact Test" );
-		for ( MyContact cntDb: cntDao.findByExample ( cntTpl ) )
+		for ( MyContact cntDb: cntDao.findByExample ( cnt ) )
 			cntDao.delete ( cntDb );
-
 		tns.commit ();
 		
-		// TODO: check it's deleted
+		IdentifiableDAO<Annotation> annDao = new IdentifiableDAO<Annotation> ( Annotation.class, em );
+		
+		assertTrue ( "Test Annotation 1 not deleted!", annDao.findByExample ( ann1 ).isEmpty () );
+		assertTrue ( "Test Annotation 2 not deleted!", annDao.findByExample ( ann2 ).isEmpty () );
+
+		CVTermDAO<AnnotationType> annTypeDao = new CVTermDAO<AnnotationType> ( AnnotationType.class, em );
+		AnnotationType atypeDB = annTypeDao.find ( atype.getName () );
+		if ( atypeDB != null ) 
+		{
+			tns = annTypeDao.getTransaction ();
+			tns.begin ();
+			annTypeDao.delete ( atypeDB );
+			tns.commit ();
+		}
+		assertFalse ( "Test Annotation Type not deleted!", annTypeDao.contains ( atype.getName () ) );
 	}
 	
 	@Test
 	public void testMyContact () 
 	{
-		MyContact cnt = new MyContact ();
-		cnt.setFirstName ( "Mr Specific" ); cnt.setLastName ( "Contact Test" );
-		
-		AnnotationType atype = new AnnotationType ( "tests.mycontact.foo-ann-type-1" );
-		Annotation ann1 = new Annotation ( atype, "foo annotation 1" );
-		Annotation ann2 = new Annotation ( atype, "foo annotation 2" );
-		
-		cnt.addAnnotation ( ann1 );
-		cnt.addAnnotation ( ann2 );
-		
 		ITransaction tns = cntDao.getTransaction ();
 		
 		tns.begin ();
@@ -205,6 +216,5 @@ public class RemappedAnnotationTest
 		cnt = cntDao.findById ( cnt.getId () );
 		assertNotNull ( "MyContact not saved!", cnt );
 		assertEquals ( "My Annotations not saved!", 2, cnt.getAnnotations ().size () );
-
 	}
 }

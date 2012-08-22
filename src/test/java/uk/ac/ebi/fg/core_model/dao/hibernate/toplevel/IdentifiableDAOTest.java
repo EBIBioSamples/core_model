@@ -3,6 +3,11 @@
  */
 package uk.ac.ebi.fg.core_model.dao.hibernate.toplevel;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,6 +17,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.perfectjpattern.jee.api.integration.dao.ITransaction;
 
+import uk.ac.ebi.fg.core_model.dao.hibernate.terms.CVTermDAO;
 import uk.ac.ebi.fg.core_model.organizational.Contact;
 import uk.ac.ebi.fg.core_model.resources.Resources;
 import uk.ac.ebi.fg.core_model.terms.AnnotationType;
@@ -19,8 +25,6 @@ import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 import uk.ac.ebi.fg.core_model.xref.XRef;
 import uk.ac.ebi.utils.test.junit.TestEntityMgrProvider;
-
-import static junit.framework.Assert.*;
 
 /**
  * TODO: Comment me!
@@ -39,6 +43,10 @@ public class IdentifiableDAOTest
 	private IdentifiableDAO<ReferenceSource> srcDao;
 	private IdentifiableDAO<Contact> cntDao;
 
+	private Contact cnt;
+	private Annotation ann1, ann2;
+	private AnnotationType atype;
+	
 	/**
 	 * Deletes previously created test entities if they're still around.
 	 * 
@@ -57,23 +65,59 @@ public class IdentifiableDAOTest
 		XRef xtpl = new XRef ( "tests.dao.foo-xref-1", null );
 		for ( XRef xdb: xrefDao.findByExample ( xtpl ) )
 			xrefDao.delete ( xdb );
-		
+		tns.commit ();
+
+		tns = srcDao.getTransaction ();
+		tns.begin ();
 		ReferenceSource srcTpl = new ReferenceSource ( "tests.dao.foo-src-1", null );
 		for ( ReferenceSource srcDb: srcDao.findByExample ( srcTpl ))
 			srcDao.delete ( srcDb );
+		tns.commit();
 		
-		Contact cntTpl = new Contact ();
-		cntTpl.setFirstName ( "Mr" ); cntTpl.setLastName ( "Test" );
-		for ( Contact cntDb: cntDao.findByExample ( cntTpl ) )
+		tns = cntDao.getTransaction ();
+		tns.begin ();
+		cnt = new Contact ();
+		cnt.setFirstName ( "Mr" ); cnt.setLastName ( "Test" );
+		
+		atype = new AnnotationType ( "tests.dao.foo-ann-type-1" );
+		ann1 = new Annotation ( atype, "foo annotation 1" );
+		ann2 = new Annotation ( atype, "foo annotation 2" );
+		
+		cnt.addAnnotation ( ann1 );
+		cnt.addAnnotation ( ann2 );
+		
+		for ( Contact cntDb: cntDao.findByExample ( cnt, "annotations" ) )
 			cntDao.delete ( cntDb );
-		
 		tns.commit ();
+
+		assertTrue ( "Test Contact not deleted!", cntDao.findByExample ( cnt ).isEmpty () );
 		
-		// TODO: check they're gone
+		IdentifiableDAO<Annotation> annDao = new IdentifiableDAO<Annotation> ( Annotation.class, em );
+		
+		/* DEBUG System.out.println ( "\n\n   _____________________ ANNOTATIONS NOT DELETED:" );
+		List<Annotation> anns = annDao.findByExample ( ann1 );
+		for ( Annotation ann: annDao.findByExample ( ann1 ) )
+			System.out.println ( ann );
+		for ( Annotation ann: annDao.findByExample ( ann2 ) )
+			System.out.println ( ann ); */
+		
+		assertTrue ( "Test Annotation 1 not deleted!", annDao.findByExample ( ann1 ).isEmpty () );
+		assertTrue ( "Test Annotation 2 not deleted!", annDao.findByExample ( ann2 ).isEmpty () );
+
+		CVTermDAO<AnnotationType> annTypeDao = new CVTermDAO<AnnotationType> ( AnnotationType.class, em );
+		AnnotationType atypeDB = annTypeDao.find ( atype.getName () );
+		if ( atypeDB != null ) 
+		{
+			tns = annTypeDao.getTransaction ();
+			tns.begin ();
+			annTypeDao.delete ( atypeDB );
+			tns.commit ();
+		}
+		assertFalse ( "Test Annotation Type not deleted!", annTypeDao.contains ( atype.getName () ) );
 	}
 	
 	@Test
-	public void basicCreationTest () 
+	public void testBasics () 
 	{
 		// Create a new Src/XRef, save, fetch.
 		ReferenceSource src = new ReferenceSource ( "tests.dao.foo-src-1", "v1.0" );
@@ -99,22 +143,15 @@ public class IdentifiableDAOTest
 	@Test
 	public void testAnnotatable ()
 	{
-		Contact cnt = new Contact ();
-		cnt.setFirstName ( "Mr" ); cnt.setLastName ( "Test" );
-		
-		AnnotationType atype = new AnnotationType ( "tests.dao.foo-ann-type-1" );
-		Annotation ann1 = new Annotation ( atype, "foo annotation 1" );
-		Annotation ann2 = new Annotation ( atype, "foo annotation 2" );
-		
-		cnt.addAnnotation ( ann1 );
-		cnt.addAnnotation ( ann2 );
-		
 		ITransaction tns = cntDao.getTransaction ();
 
 		tns.begin ();
 		cntDao.create ( cnt );
 		tns.commit ();
 		
-		// TODO : checks
+		assertNotNull ( "Saved contact has null ID!", cnt.getId () );
+		assertNotNull ( "Annotation not saved!", ann1.getId () );
+		assertNotNull ( "Annotation not saved!", ann2.getId () );
+		assertNotNull ( "Annotation Type not saved!", atype.getId () );
 	}
 }

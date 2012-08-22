@@ -30,7 +30,7 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	 * Tells whether a given source exists, based on its accession and version. Note that if the version is null it checks
 	 * that there is a record with null version. 
 	 */
-	public boolean exists ( String accession, String version )
+	public boolean contains ( String accession, String version )
 	{
 		Validate.notEmpty ( accession, "accession must not be empty" );
 		
@@ -46,14 +46,14 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	}
 	
 	/**
-	 * Works like {@link #exists(String, String)}, but don't check the version, i.e., returns true if there is any version
+	 * Works like {@link #contains(String, String)}, but don't check the version, i.e., returns true if there is any version
 	 * of the source with the given accession. 
 	 * 
 	 */
-	public boolean exists ( String accession ) 
+	public boolean contains ( String accession ) 
 	{
 		// TODO: SQL-injection security
-		String hql = "SELECT s.id FROM " + this.getPersistentClass().getCanonicalName() + " s WHERE s.acc = '" + accession;
+		String hql = "SELECT s.id FROM " + this.getPersistentClass().getCanonicalName() + " s WHERE s.acc = '" + accession + "'";
 				
 		Query query = getEntityManager ().createQuery( hql );
 		
@@ -72,7 +72,7 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	public S getOrCreate ( S src ) 
 	{
 	  Validate.notNull ( src, "Database access error: cannot fetch a null reference-source" );
-	  Validate.notEmpty ( src.getAcc(), "Database access error: cannot fetch an accessible with empty accession" );
+	  Validate.notEmpty ( src.getAcc(), "Database access error: cannot fetch a reference-source with empty accession" );
 	
 	  S srcDB = find ( src.getAcc(), src.getVersion () );
 	  if ( srcDB == null ) 
