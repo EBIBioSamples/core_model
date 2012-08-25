@@ -1,6 +1,7 @@
 package uk.ac.ebi.fg.core_model.terms;
 
 import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -14,6 +15,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import uk.ac.ebi.fg.core_model.toplevel.Accessible;
+import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 
 
@@ -38,10 +40,9 @@ import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 @DiscriminatorColumn ( name = "term_category" )
 @DiscriminatorValue ( "generic" )
 @SequenceGenerator( name = "hibernate_seq", sequenceName = "ontology_entry_seq" )
-@AttributeOverride ( name = "name", column = @Column( unique = false, nullable = false ) )
-public class OntologyEntry extends CVTerm
+public class OntologyEntry extends Identifiable
 {
-	private String acc; 
+	private String acc, label; 
 	
 	private ReferenceSource source;
 	
@@ -57,16 +58,22 @@ public class OntologyEntry extends CVTerm
 		this.source = source;
 	}
 
-	public String getAcc ()
-	{
+	public String getAcc () {
 		return acc;
 	}
 
-	protected void setAcc ( String acc )
-	{
+	protected void setAcc ( String acc ) {
 		this.acc = acc;
 	}
 
+	public String getLabel () {
+		return label;
+	}
+
+	public void setLabel ( String label ) {
+		this.label = label;
+	}
+	
 	@ManyToOne ( targetEntity = ReferenceSource.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
 	@JoinColumn( name = "source_id" )
 	public ReferenceSource getSource ()
@@ -79,12 +86,6 @@ public class OntologyEntry extends CVTerm
 		this.source = source;
 	}
 	
-
-	@Override
-	public void setName ( String name )
-	{
-		super.setName ( name );
-	}
 	
   /**
    * If both accessions and reference sources are non-null, compares them, else uses object identity. 

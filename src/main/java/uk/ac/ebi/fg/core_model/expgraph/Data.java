@@ -1,23 +1,9 @@
 package uk.ac.ebi.fg.core_model.expgraph;
 
-import java.util.Set;
-
-import javax.persistence.AssociationOverride;
-import javax.persistence.AssociationOverrides;
-import javax.persistence.CollectionTable;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Table;
+import javax.persistence.Entity;
 
 import uk.ac.ebi.fg.core_model.expgraph.properties.ExperimentalPropertyValue;
-import uk.ac.ebi.fg.core_model.toplevel.Annotation;
-import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 
 /**
  * <p>A data entity, such as a .CEL file, a data matrix of gene expression levels, a protein peak file. 
@@ -31,14 +17,9 @@ import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
  * @author Marco Brandizi
  *
  */
-@Table( name = "generic_data" )
-@Inheritance( strategy = InheritanceType.SINGLE_TABLE )
-@DiscriminatorColumn ( name = "data_type_class" )
-@DiscriminatorValue ( "generic" )
-@AssociationOverrides({ 
-	@AssociationOverride ( name = "upstreamProcesses", joinTable = @JoinTable ( name = "process_data_output" ) ), 
-	@AssociationOverride ( name = "downstreamProcesses", joinTable = @JoinTable ( name = "process_data_input" ) )
-})
+@Entity
+@DiscriminatorValue ( "generic_data" )
+@SuppressWarnings ( "rawtypes" )
 public class Data<EP extends ExperimentalPropertyValue> extends Product<EP>
 {
 	public Data ()

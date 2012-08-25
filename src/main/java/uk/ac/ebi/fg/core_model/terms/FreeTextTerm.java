@@ -5,9 +5,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
@@ -25,9 +24,8 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  * @date Jul 12, 2007, imported from the AE2 model in 2012
  *  
  */
-@Entity
-@Table( name = "free_text_term" )
-public class FreeTextTerm extends Identifiable 
+@MappedSuperclass
+public abstract class FreeTextTerm extends Identifiable 
 {
   private String termText;
   private Set<OntologyEntry> ontologyTerms = new HashSet<OntologyEntry> ();
@@ -53,7 +51,12 @@ public class FreeTextTerm extends Identifiable
 		this.termText = termText;
 	}
 
-
+	/**
+	 * TODO: At the moment join table names are auto-generated with the '_ontology_entry' postfix. This sounds too long and
+	 * probably it would be a good idea to override the association at subclass level and redefine the table names using the
+	 * _oe postfix.
+	 *
+	 */
 	@ManyToMany( targetEntity = OntologyEntry.class, 
 							 cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
 	public <OE extends OntologyEntry> Set<OE> getOntologyTerms () {

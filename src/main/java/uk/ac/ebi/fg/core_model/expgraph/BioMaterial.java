@@ -1,13 +1,7 @@
 package uk.ac.ebi.fg.core_model.expgraph;
 
-import javax.persistence.AssociationOverride;
-import javax.persistence.AssociationOverrides;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinTable;
-import javax.persistence.Table;
+import javax.persistence.Entity;
 
 import uk.ac.ebi.fg.core_model.expgraph.properties.ExperimentalPropertyValue;
 
@@ -25,14 +19,9 @@ import uk.ac.ebi.fg.core_model.expgraph.properties.ExperimentalPropertyValue;
  * @author Marco Brandizi
  *
  */
-@Table ( name = "bio_material" )
-@Inheritance( strategy = InheritanceType.SINGLE_TABLE )
-@DiscriminatorColumn ( name = "material_type_class" )
-@DiscriminatorValue ( "generic" )
-@AssociationOverrides({ 
-	@AssociationOverride ( name = "upstreamProcesses", joinTable = @JoinTable ( name = "process_biomaterial_output" ) ), 
-	@AssociationOverride ( name = "downstreamProcesses", joinTable = @JoinTable ( name = "process_biomaterial_input" ) )
-})
+@Entity
+@DiscriminatorValue ( "generic_bio_material" )
+@SuppressWarnings ( "rawtypes" )
 public class BioMaterial<EP extends ExperimentalPropertyValue> extends Product<EP>
 {
 	public BioMaterial ()
@@ -44,5 +33,4 @@ public class BioMaterial<EP extends ExperimentalPropertyValue> extends Product<E
 	{
 		super ( acc );
 	}
-
 }

@@ -24,10 +24,10 @@ import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
  *
  */
 @Entity
+@Inheritance ( strategy = InheritanceType.SINGLE_TABLE )
 @Table ( name = "property_value" )
 @DiscriminatorColumn ( name = "category" )
 @DiscriminatorValue ( "generic" )
-@Inheritance ( strategy = InheritanceType.SINGLE_TABLE )
 public class ExperimentalPropertyValue<PT extends ExperimentalPropertyType> extends FreeTextTerm
 {
 	private PT type;

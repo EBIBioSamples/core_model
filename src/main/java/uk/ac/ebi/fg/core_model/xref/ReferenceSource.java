@@ -3,6 +3,8 @@ package uk.ac.ebi.fg.core_model.xref;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -34,6 +36,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  *
  */
 @Entity
+@Inheritance ( strategy = InheritanceType.TABLE_PER_CLASS )
 @Table( name = "reference_source", uniqueConstraints = @UniqueConstraint ( columnNames = { "acc", "version" } ) )
 @org.hibernate.annotations.Table ( 
 	appliesTo = "reference_source", 

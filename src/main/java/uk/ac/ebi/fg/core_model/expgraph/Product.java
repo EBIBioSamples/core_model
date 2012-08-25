@@ -5,13 +5,16 @@ import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import uk.ac.ebi.fg.core_model.expgraph.properties.ExperimentalPropertyValue;
@@ -35,26 +38,25 @@ import com.google.common.collect.ImmutableSet.Builder;
  *
  * <p>EP is used to mark the type of property values a node can be associated to (e.g, bio-characteristics, data properties).</p>
  * 
+ * <p>Product is mapped with {@link InheritanceType#SINGLE_TABLE} strategy, because: 1) TABLE_PER_CLASS makes it very
+ * difficult to deal with the Java Generics used in several subclasses and 2) JOINED at the moment generates secondary
+ * tables that are almost empty, being the attribute sets for the various subclasses very similar.</p>
+ * 
  * <dl><dt>date</dt><dd>Jun 29, 2012</dd></dl>
  * @author Marco Brandizi
  *  
  */
-@MappedSuperclass
-@Inheritance( strategy = InheritanceType.TABLE_PER_CLASS )
+@Entity
+@Table ( name = "bio_product" )
+@Inheritance( strategy = InheritanceType.SINGLE_TABLE )
+@DiscriminatorColumn ( name = "product_type" )
+@DiscriminatorValue ( "generic_bio_product" )
 @SuppressWarnings ( { "rawtypes", "unchecked" } )
 public abstract class Product<EP extends ExperimentalPropertyValue> extends Node<Process, Process>
 {
-	@ManyToMany ( mappedBy = "derivedInto", cascade = CascadeType.ALL )
-	@JoinTable ( name = "product_direct_derivation", 
-	  joinColumns = @JoinColumn ( name = "to_id" ), inverseJoinColumns = @JoinColumn ( name = "from_id" ) )
 	private Set<Product> derivedFrom; 
-
-	@ManyToMany ( mappedBy = "derivedFrom", cascade = CascadeType.ALL )
 	private Set<Product> derivedInto;
 	
-	
-	@OneToMany ( cascade = CascadeType.ALL, orphanRemoval = true )
-	@JoinColumn ( name = "owner_id" )
 	private Collection<EP> propertyValues = new ArrayList<EP> ();
 
 	public Product () {
@@ -65,13 +67,15 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	{
 		super ( acc );
 	}
-
+	
+	
+	
 	/**
 	 * As in {@link Process#getOutputs()} this is managed via {@link #getUpstreamNodes()} and hence in a coordinate fashion.
+	 * See {@link Process#getInputs()} for information about ORM.
+	 * See {@link #getDerivedFrom()} for notes about cascading of persistence operations.
 	 */
-	@ManyToMany ( mappedBy = "outputs", cascade = CascadeType.ALL )
-	@JoinTable ( name = "process_output", 
-	  joinColumns = @JoinColumn ( name = "output_id" ), inverseJoinColumns = @JoinColumn ( name = "process_id" ) )
+	@ManyToMany ( mappedBy = "outputs", cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
 	public Set<Process> getUpstreamProcesses ()
 	{
 		return this.getUpstreamNodes ();
@@ -104,10 +108,10 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	
 	/**
 	 * As in {@link Process#getInputs()} this is managed via {@link #getDownstreamNodes()} and hence in a coordinate fashion.
+	 * See {@link Process#getInputs()} for information about ORM.
+	 * See {@link #getDerivedFrom()} for notes about cascading of persistence operations.
 	 */
-	@ManyToMany ( mappedBy = "inputs", cascade = CascadeType.ALL )
-	@JoinTable ( name = "process_input", 
-	  joinColumns = @JoinColumn ( name = "input_id" ), inverseJoinColumns = @JoinColumn ( name = "process_id" ) )
+	@ManyToMany ( mappedBy = "inputs", cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
 	public Set<Process> getDownstreamProcesses ()
 	{
 		return this.getDownstreamNodes ();
@@ -138,9 +142,17 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	}
 	
 	/**
-	 * As explained in the class header this is a new relation, which supports the simple provenance model see 
-	 * (see {@link Node} too) and is unrelated to {@link #getUpstreamProcesses()} or {@link #getUpstreamNodes()}.
+	 * <p>As explained in the class header this is a new relation, which supports the simple provenance model see 
+	 * (see {@link Node} too) and is unrelated to {@link #getUpstreamProcesses()} or {@link #getUpstreamNodes()}.</p>
+	 * 
+	 * <p><b>PLEASE NOTE</b>: this relation doesn't cascade {@link CascadeType#REMOVE}. Wether you want or not this, depends 
+	 * on the way you updated workflows. If you always store/remove a whole graph at a time, you will want to cascade deletions. 
+	 * If you expect to remove single nodes from existing graphs, then you obviously don't want this type of update.</p>
+	 * 
 	 */
+	@ManyToMany ( targetEntity = Product.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
+	@JoinTable ( name = "product_direct_derivation", 
+	  joinColumns = @JoinColumn ( name = "to_id" ), inverseJoinColumns = @JoinColumn ( name = "from_id" ) )
 	public <P extends Product> Set<P> getDerivedFrom ()
 	{
 		return (Set<P>) derivedFrom;
@@ -179,7 +191,10 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	/**
 	 * As explained in the class header this is a new relation, which supports the simple provenance model see 
 	 * (see {@link Node} too) and is unrelated to {@link #getDownstreamProcesses()} or {@link #getDownstreamNodes()}.
+	 * 
+	 * See {@link #getDerivedFrom()} for notes about cascading of persistence operations.
 	 */
+	@ManyToMany ( targetEntity = Product.class, mappedBy = "derivedFrom", cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
 	public <P extends Product> Set<P> getDerivedInto ()
 	{
 		return (Set<P>) derivedInto;
@@ -247,6 +262,8 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	 * are bound to the generic returned in the sub-classes of this class.
 	 * 
 	 */
+	@OneToMany ( targetEntity = ExperimentalPropertyValue.class, cascade = CascadeType.ALL, orphanRemoval = true )
+	@JoinColumn ( name = "owner_id" )
 	public Collection<EP> getPropertyValues ()
 	{
 		return propertyValues;

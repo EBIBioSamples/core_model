@@ -1,6 +1,7 @@
 package uk.ac.ebi.fg.core_model.expgraph;
 
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 /**
  * The data processing procedure, which produce data from other data, eg, scan, normalization, scaling, filtering, 
@@ -10,7 +11,9 @@ import javax.persistence.DiscriminatorValue;
  * @author Marco Brandizi
  *
  */
+@Entity
 @DiscriminatorValue ( "data_processing" )
+@SuppressWarnings ( "rawtypes" )
 public class DataProcessing extends Process<Data, Data>
 {
 	public DataProcessing ()

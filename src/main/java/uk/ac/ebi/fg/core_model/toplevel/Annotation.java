@@ -3,6 +3,8 @@ package uk.ac.ebi.fg.core_model.toplevel;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -26,6 +28,7 @@ import uk.ac.ebi.fg.core_model.terms.AnnotationType;
  * 
  */
 @Entity
+@Inheritance ( strategy = InheritanceType.TABLE_PER_CLASS )
 public class Annotation extends Identifiable 
 {
 	private AnnotationType type;

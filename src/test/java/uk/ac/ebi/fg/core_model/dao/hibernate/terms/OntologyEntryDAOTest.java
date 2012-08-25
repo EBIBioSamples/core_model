@@ -49,7 +49,7 @@ public class OntologyEntryDAOTest
 		src.setUrl ( "http://tests.dao/foo-src-4/v2.0" );
 
 		oe = new OntologyEntry ( "tests.dao.foo-oe-4", src );
-		oe.setName ( "Test OE 4" );
+		oe.setLabel ( "Test OE 4" );
 		
 		OntologyEntry oeDB = oeDao.find ( oe.getAcc (), oe.getSource ().getAcc (), oe.getSource ().getVersion () );
 		

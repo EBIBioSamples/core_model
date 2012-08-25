@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import uk.ac.ebi.fg.core_model.toplevel.Accessible;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
@@ -19,6 +20,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  *
  */
 @Entity
+@Table ( name = "xref" )
 public class XRef extends Identifiable
 {
 	private String acc;

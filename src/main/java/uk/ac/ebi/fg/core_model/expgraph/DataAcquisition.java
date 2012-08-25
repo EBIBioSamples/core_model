@@ -1,6 +1,7 @@
 package uk.ac.ebi.fg.core_model.expgraph;
 
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 /**
  * The process that allows one to acquire some data from biomaterials. 
@@ -9,7 +10,9 @@ import javax.persistence.DiscriminatorValue;
  * @author Marco Brandizi
  *
  */
+@Entity
 @DiscriminatorValue ( "data_acquisition" )
+@SuppressWarnings ( "rawtypes" )
 public class DataAcquisition extends Process<BioMaterial, Data>
 {
 	public DataAcquisition ()

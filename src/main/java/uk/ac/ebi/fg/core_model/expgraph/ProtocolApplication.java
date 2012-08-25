@@ -2,10 +2,15 @@ package uk.ac.ebi.fg.core_model.expgraph;
 
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterValue;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
@@ -20,7 +25,8 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  * @author Marco Brandizi
  *
  */
-@Embeddable
+@Entity
+@Table ( name = "protocol_application" )
 public class ProtocolApplication extends Identifiable
 {
 	private Protocol protocol;
@@ -35,6 +41,8 @@ public class ProtocolApplication extends Identifiable
 		this.protocol = protocol;
 	}
 
+	@ManyToOne ( cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} )
+	@JoinColumn ( name = "protocol_id" )
 	public Protocol getProtocol ()
 	{
 		return protocol;
@@ -45,6 +53,8 @@ public class ProtocolApplication extends Identifiable
 		this.protocol = protocol;
 	}
 
+	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true )
+	@JoinColumn ( name = "protocol_app_id" )
 	public Collection<ParameterValue> getParameterValues ()
 	{
 		return parameterValues;

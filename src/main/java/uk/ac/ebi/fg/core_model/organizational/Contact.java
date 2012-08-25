@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -27,6 +29,7 @@ import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
  */
 @Entity
 @Table(name = "contact")
+@Inheritance ( strategy = InheritanceType.TABLE_PER_CLASS )
 public class Contact extends DefaultAnnotatable
 {
   private String firstName;

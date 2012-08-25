@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.AssociationOverride;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Inheritance;
@@ -51,14 +52,10 @@ import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
  *
  */
 @MappedSuperclass
-@Inheritance( strategy = InheritanceType.TABLE_PER_CLASS )
 @SuppressWarnings ( "rawtypes" )
 public abstract class Node<U extends Node, D extends Node> extends DefaultAccessibleAnnotatable
 {
-	@Transient
 	private Set<U> upstreamNodes = new HashSet<U> ();
-	
-	@Transient
 	private Set<D> downstreamNodes = new HashSet<D> ();
 
 	public Node () {
@@ -70,15 +67,15 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 		super ( acc );
 	}
 
-	
 	@Override
+	@Transient
 	public String getAcc ()
 	{
 		String acc = super.getAcc ();
 		return acc == null ? getId ().toString () : acc;
 	}
 
-
+	@Transient
 	public Set<U> getUpstreamNodes ()
 	{
 		return Collections.unmodifiableSet ( upstreamNodes );
@@ -114,7 +111,7 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 		return true;
 	}
 	
-	
+	@Transient
 	public Set<D> getDownstreamNodes ()
 	{
 		return Collections.unmodifiableSet ( downstreamNodes );

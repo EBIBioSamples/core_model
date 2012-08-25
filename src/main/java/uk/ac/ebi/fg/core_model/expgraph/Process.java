@@ -4,24 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.AssociationOverride;
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
+import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import uk.ac.ebi.fg.core_model.expgraph.Node;
-import uk.ac.ebi.fg.core_model.toplevel.Annotation;
-import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 
 /**
  * 
@@ -40,11 +34,13 @@ import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
  * @author Marco Brandizi
  *
  */
-@Table ( name = "process" )
+@Entity
 @Inheritance( strategy = InheritanceType.SINGLE_TABLE )
-@DiscriminatorColumn ( name = "process_type_class" )
+@Table ( name = "process" )
+@DiscriminatorColumn ( name = "process_type" )
 @DiscriminatorValue ( "generic" )
-public class Process<I extends Product, O extends Product> extends Node<I, O>
+@SuppressWarnings ( "rawtypes" )
+public abstract class Process<I extends Product, O extends Product> extends Node<I, O>
 {
 	@OneToMany
 	private List<ProtocolApplication> protocolApplications = new ArrayList<ProtocolApplication> ();
@@ -61,10 +57,16 @@ public class Process<I extends Product, O extends Product> extends Node<I, O>
 
 	/** 
 	 * This is implemented via {@link #getUpstreamNodes()}, i.e., the upstream nodes of a process are its inputs. See
-	 * {@link Product} for details. 
+	 * {@link Product} for details.
+	 * 
+	 * <p><b>PLEASE NOTE</b>: unfortunately we cannot define a JPA/Hibernate mapping at this level, cause JPA isn't able
+	 * to deal with generics. You have to deal with ORM the level of concrete implementations and where the I generic is
+	 * bound to a concrete class. See the subclasses below.</p>
 	 *  
 	 */
-	@ManyToMany ( mappedBy = "downstreamProcesses", cascade = CascadeType.ALL )
+	@ManyToMany ( targetEntity = Product.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
+	@JoinTable ( name = "process_input", 
+  	joinColumns = @JoinColumn ( name = "process_id" ), inverseJoinColumns = @JoinColumn ( name = "product_id" ) )
 	public Set<I> getInputs ()
 	{
 		return this.getUpstreamNodes ();
@@ -107,8 +109,14 @@ public class Process<I extends Product, O extends Product> extends Node<I, O>
 	/** 
 	 * This is implemented via {@link #getDownstreamNodes()}, i.e., the down-stream nodes of a process are its inputs.
 	 * See {@link Product} for details.
+	 * 
+	 * <p><b>PLEASE NOTE</b>: unfortunately we cannot define a JPA/Hibernate mapping at this level, cause JPA isn't able
+	 * to deal with generics. You have to deal with ORM the level of concrete implementations and where the I generic is
+	 * bound to a concrete class. See the subclasses below.</p>
 	 */
-	@ManyToMany ( mappedBy = "upstreamProcesses", cascade = CascadeType.ALL )
+	@ManyToMany ( targetEntity = Product.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
+	@JoinTable ( name = "process_output", 
+		joinColumns = @JoinColumn ( name = "process_id" ), inverseJoinColumns = @JoinColumn ( name = "product_id" ) )
 	public Set<O> getOutputs ()
 	{
 		return this.getDownstreamNodes ();
@@ -119,7 +127,7 @@ public class Process<I extends Product, O extends Product> extends Node<I, O>
 	 */
 	protected void setOutputs ( Set<O> outputs )
 	{
-		this.setOutputs ( outputs );
+		this.setDownstreamNodes ( outputs );
 	}
 	
 	/** 
@@ -142,6 +150,8 @@ public class Process<I extends Product, O extends Product> extends Node<I, O>
 		return this.removeDownstreamNode ( out );
 	}
 	
+	@OneToMany ( cascade = CascadeType.ALL, orphanRemoval = true )
+	@JoinColumn ( name = "process_id" )
 	public List<ProtocolApplication> getProtocolApplications ()
 	{
 		return protocolApplications;
