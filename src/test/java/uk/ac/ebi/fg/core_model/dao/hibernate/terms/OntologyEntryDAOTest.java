@@ -7,6 +7,7 @@ import static junit.framework.Assert.*;
 
 import javax.persistence.EntityManager;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -50,7 +51,12 @@ public class OntologyEntryDAOTest
 
 		oe = new OntologyEntry ( "tests.dao.foo-oe-4", src );
 		oe.setLabel ( "Test OE 4" );
-		
+	}
+
+	
+	@After
+	public void cleanUpDB ()
+	{
 		OntologyEntry oeDB = oeDao.find ( oe.getAcc (), oe.getSource ().getAcc (), oe.getSource ().getVersion () );
 		
 		if ( oeDB != null ) 
@@ -73,9 +79,9 @@ public class OntologyEntryDAOTest
 			tns.commit ();
 		}
 		
-		assertFalse ( "Old test source not deleted!", srcDao.contains ( src.getAcc (), src.getVersion () ) );
-
+		assertFalse ( "Old test source not deleted!", srcDao.contains ( src.getAcc (), src.getVersion () ) );		
 	}
+	
 	
 	@Test
 	public void testBasics ()

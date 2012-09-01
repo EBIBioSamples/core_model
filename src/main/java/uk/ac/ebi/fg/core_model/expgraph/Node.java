@@ -4,22 +4,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.AssociationOverride;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
-import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
-import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 
 /**
  * <p>An experimental workflow graph node. This may be things like Biomaterial, Processing/ProtocolApplication etc.
@@ -78,7 +66,8 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 	@Transient
 	public Set<U> getUpstreamNodes ()
 	{
-		return Collections.unmodifiableSet ( upstreamNodes );
+		//return Collections.unmodifiableSet ( upstreamNodes );
+		return upstreamNodes;
 	}
 
 	/**
@@ -114,7 +103,8 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 	@Transient
 	public Set<D> getDownstreamNodes ()
 	{
-		return Collections.unmodifiableSet ( downstreamNodes );
+		// return Collections.unmodifiableSet ( downstreamNodes );
+		return downstreamNodes;
 	}
 
 	/**

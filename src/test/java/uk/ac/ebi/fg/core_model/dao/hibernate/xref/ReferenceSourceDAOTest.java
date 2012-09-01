@@ -7,6 +7,7 @@ import static junit.framework.Assert.*;
 
 import javax.persistence.EntityManager;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,7 +43,11 @@ public class ReferenceSourceDAOTest
 		src = new ReferenceSource ( "tests.dao.foo-src-2", "v1.0" );
 		src.setDescription ( "The description of FOO-SRC-2" );
 		src.setUrl ( "http://tests.dao/foo-src-2/v1.0" );
-		
+	}
+	
+	@After
+	public void cleanUpDB ()
+	{
 		ReferenceSource srcDB = srcDao.find ( src.getAcc (), src.getVersion () );
 		
 		if ( srcDB != null ) 
@@ -55,6 +60,7 @@ public class ReferenceSourceDAOTest
 		
 		assertFalse ( "Old test source not deleted!", srcDao.contains ( src.getAcc (), src.getVersion () ) );
 	}
+	
 	
 	@Test
 	public void testBasics ()

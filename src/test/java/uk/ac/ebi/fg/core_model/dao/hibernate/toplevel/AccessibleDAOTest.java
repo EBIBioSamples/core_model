@@ -10,10 +10,10 @@ import static junit.framework.Assert.assertNotNull;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.perfectjpattern.jee.api.integration.dao.ITransaction;
 
 import uk.ac.ebi.fg.core_model.resources.Resources;
 import uk.ac.ebi.utils.test.junit.TestEntityMgrProvider;
@@ -40,6 +40,11 @@ public class AccessibleDAOTest
 	{
 		em = emProvider.getEntityManager ();
 		dao = new AccessibleDAO<MyAccessible> ( MyAccessible.class, em );
+	}
+
+	@After
+	public void cleanUpDb ()
+	{
 		MyAccessible accDB = dao.find ( testAcc );
 		if ( accDB != null ) {
 			EntityTransaction tns = em.getTransaction ();
@@ -49,7 +54,7 @@ public class AccessibleDAOTest
 		}
 		assertFalse ( "Test accessible not removed from the DB!", dao.contains ( testAcc ) );
 	}
-
+	
 	@Test
 	public void testBasicCreation ()
 	{

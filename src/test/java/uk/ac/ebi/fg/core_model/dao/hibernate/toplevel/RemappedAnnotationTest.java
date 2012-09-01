@@ -4,6 +4,7 @@
 package uk.ac.ebi.fg.core_model.dao.hibernate.toplevel;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -17,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -181,11 +183,22 @@ public class RemappedAnnotationTest
 		ann2 = new Annotation ( atype, "foo specific annotation 2" );
 		cnt.addAnnotation ( ann1 );
 		cnt.addAnnotation ( ann2 );
-		
-		
+	}
+	
+	@After
+	public void cleanUpDB ()
+	{
+		MyContact cntTpl = new MyContact ();
+		cnt.setFirstName ( "Mr Specific" ); cnt.setLastName ( "Contact Test" );
+
+		// You need to first retrieve the objets and their attached annotations and then go ahead with the transaction, 
+		// if you find and delete within the same transaction, you'll get 'A collection with cascade=”all-delete-orphan” 
+		// was no longer referenced by the owning entity instance'
+		// 
+		List<MyContact> cnts = cntDao.findByExample ( cntTpl );
 		ITransaction tns = cntDao.getTransaction ();
 		tns.begin ();
-		for ( MyContact cntDb: cntDao.findByExample ( cnt ) )
+		for ( MyContact cntDb: cnts )
 			cntDao.delete ( cntDb );
 		tns.commit ();
 		
@@ -203,8 +216,9 @@ public class RemappedAnnotationTest
 			annTypeDao.delete ( atypeDB );
 			tns.commit ();
 		}
-		assertFalse ( "Test Annotation Type not deleted!", annTypeDao.contains ( atype.getName () ) );
+		assertFalse ( "Test Annotation Type not deleted!", annTypeDao.contains ( atype.getName () ) );		
 	}
+	
 	
 	@Test
 	public void testMyContact () 

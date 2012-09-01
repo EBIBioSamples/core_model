@@ -69,7 +69,7 @@ public class ProtocolApplication extends Identifiable
 		return this.parameterValues.add ( pval );
 	}
 
-	@JoinColumn ( name = "application_order" )
+	@Column ( name = "application_order" )
 	public int getOrder ()
 	{
 		return order;

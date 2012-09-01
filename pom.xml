@@ -213,6 +213,25 @@
   	</profile>  
   	
   	<profile>
+  		<id>test.h2_file</id>
+  		<properties>
+				<test.jdbc.username>sa</test.jdbc.username>
+				<test.jdbc.password></test.jdbc.password>
+				<test.jdbc.url>jdbc:h2:target/database/testdb</test.jdbc.url>
+				<test.jdbc.driverClassName>org.h2.Driver</test.jdbc.driverClassName>
+        <test.hibernate.dialect>org.hibernate.dialect.H2Dialect</test.hibernate.dialect>
+				<test.hibernate.hbm2ddl.auto>update</test.hibernate.hbm2ddl.auto>
+  		</properties>
+  		<dependencies>
+				<dependency>
+					<groupId>com.h2database</groupId>
+					<artifactId>h2</artifactId>
+					<version>1.3.168</version>
+				</dependency>
+      </dependencies>
+  	</profile>    	  	
+  	
+  	<profile>
   		<id>test.mysql</id>
   		<properties>
 				<test.jdbc.username>test</test.jdbc.username>

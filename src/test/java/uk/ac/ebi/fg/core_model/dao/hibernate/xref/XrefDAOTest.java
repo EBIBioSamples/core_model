@@ -7,6 +7,7 @@ import static junit.framework.Assert.*;
 
 import javax.persistence.EntityManager;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -48,7 +49,11 @@ public class XrefDAOTest
 		src.setUrl ( "http://tests.dao/foo-src-3/v1.1" );
 
 		xref = new XRef ( "tests.dao.foo-xref-3", src );
-		
+	}
+	
+	@After
+	public void cleanUpDB ()
+	{
 		XRef xrefDB = xrefDao.find ( xref.getAcc (), xref.getSource ().getAcc (), xref.getSource ().getVersion () );
 		
 		if ( xrefDB != null ) 
@@ -72,8 +77,8 @@ public class XrefDAOTest
 		}
 		
 		assertFalse ( "Old test source not deleted!", srcDao.contains ( src.getAcc (), src.getVersion () ) );
-
 	}
+	
 	
 	@Test
 	public void testBasics ()

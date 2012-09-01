@@ -1,10 +1,19 @@
 package uk.ac.ebi.fg.core_model.utils.test;
 
+import java.lang.reflect.Field;
+import java.util.HashSet;
+
+import javax.persistence.EntityManager;
+
+import uk.ac.ebi.fg.core_model.dao.hibernate.toplevel.AccessibleDAO;
 import uk.ac.ebi.fg.core_model.expgraph.BioMaterial;
 import uk.ac.ebi.fg.core_model.expgraph.BioMaterialProcessing;
 import uk.ac.ebi.fg.core_model.expgraph.Data;
 import uk.ac.ebi.fg.core_model.expgraph.DataAcquisition;
 import uk.ac.ebi.fg.core_model.expgraph.DataProcessing;
+import uk.ac.ebi.fg.core_model.expgraph.Node;
+import uk.ac.ebi.fg.core_model.expgraph.Process;
+import uk.ac.ebi.fg.core_model.expgraph.Product;
 import uk.ac.ebi.fg.core_model.expgraph.properties.BioCharacteristicType;
 import uk.ac.ebi.fg.core_model.expgraph.properties.BioCharacteristicValue;
 import uk.ac.ebi.fg.core_model.expgraph.properties.DataPropertyType;
@@ -80,6 +89,7 @@ public class ProcessBasedTestModel
 		proc2.addDownstreamNode ( data1 );
 		data2.addUpstreamProcess ( proc2 );
 		data1.addDownstreamProcess ( proc3 );
+		proc3.addInput ( data2 );
 		// This doesn't change anything, it's the simmetric operation of the previous one
 		proc3.addUpstreamNode ( data1 );
 		proc3.addOutput ( data3 );
@@ -115,4 +125,38 @@ public class ProcessBasedTestModel
 		data1.addPropertyValue ( dpv1 );
 	}
 	
+	public void delete ( EntityManager em )
+	{
+		try
+		{
+			AccessibleDAO<Product> productDao = new AccessibleDAO<Product> ( Product.class, em );
+			AccessibleDAO<Process> procDao = new AccessibleDAO<Process> ( Process.class, em );
+			
+			for ( Field f: this.getClass ().getFields () ) 
+			{
+				Object o = f.get ( this );
+				if ( ! ( o instanceof Node ) ) continue;
+				
+				Node<Node, Node> node = (Node) o;
+				Node<Node, Node> nodeDB = node instanceof Product 
+					? productDao.find ( node.getAcc () )
+					: procDao.find ( node.getAcc () );
+				if ( nodeDB == null ) continue;
+				
+				for ( Node up: new HashSet<Node> ( nodeDB.getUpstreamNodes () ) )
+					nodeDB.removeUpstreamNode ( up );
+				for ( Node down: new HashSet<Node> ( nodeDB.getDownstreamNodes () ) )
+					nodeDB.removeDownstreamNode ( down );
+				
+				if ( nodeDB instanceof Product ) productDao.delete ( (Product) nodeDB ); 
+				else procDao.delete ( (Process) nodeDB );
+			}
+		}
+		catch (  IllegalArgumentException ex ) {
+			throw new RuntimeException ( "Error while deleting the process-based test model" );
+		}
+		catch (  IllegalAccessException ex ) {
+			throw new RuntimeException ( "Error while deleting the process-based test model" );
+		}
+	}
 }

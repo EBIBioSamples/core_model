@@ -10,6 +10,7 @@ import static junit.framework.Assert.assertNotNull;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,6 +43,11 @@ public class CVTermDAOTest
 	{
 		em = emProvider.getEntityManager ();
 		dao = new CVTermDAO<AnnotationType> ( AnnotationType.class, em );
+	}
+	
+	@After
+	public void cleanUpDB ()
+	{
 		AnnotationType cvDB = dao.find ( testName );
 		if ( cvDB != null ) {
 			EntityTransaction tns = em.getTransaction ();
@@ -50,7 +56,6 @@ public class CVTermDAOTest
 			tns.commit ();
 		}
 		assertFalse ( "Test cvterm not removed from the DB!", dao.contains ( testName ) );
-		
 	}
 
 	@Test

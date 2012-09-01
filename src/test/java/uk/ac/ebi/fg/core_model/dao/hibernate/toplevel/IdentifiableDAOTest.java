@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -59,6 +60,20 @@ public class IdentifiableDAOTest
 		srcDao = new IdentifiableDAO<ReferenceSource> ( ReferenceSource.class, em );
 		cntDao = new IdentifiableDAO<Contact> ( Contact.class, em );
 
+		cnt = new Contact ();
+		cnt.setFirstName ( "Mr" ); cnt.setLastName ( "Test" );
+		
+		atype = new AnnotationType ( "tests.dao.foo-ann-type-1" );
+
+		ann1 = new Annotation ( atype, "foo annotation 1" );
+		ann2 = new Annotation ( atype, "foo annotation 2" );
+		cnt.addAnnotation ( ann1 );
+		cnt.addAnnotation ( ann2 );
+	}
+
+	@After
+	public void cleanUpDB ()
+	{
 		ITransaction tns = xrefDao.getTransaction ();
 		tns.begin ();
 		
@@ -76,15 +91,6 @@ public class IdentifiableDAOTest
 		
 		tns = cntDao.getTransaction ();
 		tns.begin ();
-		cnt = new Contact ();
-		cnt.setFirstName ( "Mr" ); cnt.setLastName ( "Test" );
-		
-		atype = new AnnotationType ( "tests.dao.foo-ann-type-1" );
-		ann1 = new Annotation ( atype, "foo annotation 1" );
-		ann2 = new Annotation ( atype, "foo annotation 2" );
-		
-		cnt.addAnnotation ( ann1 );
-		cnt.addAnnotation ( ann2 );
 		
 		for ( Contact cntDb: cntDao.findByExample ( cnt, "annotations" ) )
 			cntDao.delete ( cntDb );
@@ -113,8 +119,9 @@ public class IdentifiableDAOTest
 			annTypeDao.delete ( atypeDB );
 			tns.commit ();
 		}
-		assertFalse ( "Test Annotation Type not deleted!", annTypeDao.contains ( atype.getName () ) );
+		assertFalse ( "Test Annotation Type not deleted!", annTypeDao.contains ( atype.getName () ) );		
 	}
+	
 	
 	@Test
 	public void testBasics () 
