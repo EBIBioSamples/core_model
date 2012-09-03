@@ -1,6 +1,5 @@
 package uk.ac.ebi.fg.core_model.expgraph;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 

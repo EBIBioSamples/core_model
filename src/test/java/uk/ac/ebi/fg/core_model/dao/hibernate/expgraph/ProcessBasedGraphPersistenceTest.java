@@ -16,7 +16,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.perfectjpattern.jee.api.integration.dao.ITransaction;
 
 import uk.ac.ebi.fg.core_model.dao.hibernate.toplevel.AccessibleDAO;
 import uk.ac.ebi.fg.core_model.expgraph.BioMaterial;
@@ -24,8 +23,7 @@ import uk.ac.ebi.fg.core_model.expgraph.Node;
 import uk.ac.ebi.fg.core_model.expgraph.Process;
 import uk.ac.ebi.fg.core_model.expgraph.Product;
 import uk.ac.ebi.fg.core_model.resources.Resources;
-import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
-import uk.ac.ebi.fg.core_model.utils.expgraph.ExpGraphDumper;
+import uk.ac.ebi.fg.core_model.utils.expgraph.ProcessBasedGraphDumper;
 import uk.ac.ebi.fg.core_model.utils.test.ProcessBasedTestModel;
 import uk.ac.ebi.utils.test.junit.TestEntityMgrProvider;
 
@@ -37,7 +35,7 @@ import uk.ac.ebi.utils.test.junit.TestEntityMgrProvider;
  *
  */
 @SuppressWarnings ( { "rawtypes", "unchecked" } )
-public class ExpGraphPersistenceTest
+public class ProcessBasedGraphPersistenceTest
 {
 	@Rule
 	public TestEntityMgrProvider emProvider = new TestEntityMgrProvider ( Resources.getInstance ().getEntityManagerFactory () );
@@ -61,7 +59,7 @@ public class ExpGraphPersistenceTest
 		for ( Field f: this.getClass ().getFields () ) 
 		{
 			Object o = f.get ( this );
-			if ( ! ( o instanceof Identifiable ) ) continue;
+			if ( ! ( o instanceof Node ) ) continue;
 			
 			Node<Node, Node> node = (Node) o;
 			Node<Node, Node> nodeDB = node instanceof Product 
@@ -118,13 +116,13 @@ public class ExpGraphPersistenceTest
 		tns.commit ();
 
 		out.println ( "Saved model:" );
-		ExpGraphDumper.dump ( out, model.bm1 );
+		ProcessBasedGraphDumper.dump ( out, model.bm1 );
 
 		Node bm1DB = biomaterialDao.findById ( model.bm1.getId () );
 		assertNotNull ( "Could not fetch bm1!", bm1DB  );
 		
 		out.println ( "\n\nReloaded model:" );
-		ExpGraphDumper.dump ( out, model.bm1 );
+		ProcessBasedGraphDumper.dump ( out, model.bm1 );
 
 		verifyTestModel ( model, true );
 	}

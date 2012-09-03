@@ -3,7 +3,7 @@ package uk.ac.ebi.fg.core_model.utils.expgraph;
 import uk.ac.ebi.fg.core_model.expgraph.Node;
 
 /** 
- * An action passed to {@link GraphVisitor}. Adapted from AE2 and BII. 
+ * An action passed to {@link ProcessBasedGraphVisitor}. Adapted from AE2 and BII. 
  *
  * <dl><dt>date</dt><dd>Aug 30, 2012</dd></dl>
  * @author Marco Brandizi
@@ -20,10 +20,10 @@ public interface GraphVisitAction
 	boolean execute ( Node<?, ?> node );
 	
 	/** 
-	 * This is called by {@link GraphVisitor#reset()} and can be used in case you want to reset the internal status of 
+	 * This is called by {@link ProcessBasedGraphVisitor#reset()} and can be used in case you want to reset the internal status of 
 	 * your action (eg: statistics data), without having to create a new one for that, which is relevant for performance. 
 	 * 
-	 * This is always be called by {@link GraphVisitor} only, so it has package access.
+	 * This is always be called by {@link ProcessBasedGraphVisitor} only, so it has package access.
 	 */
 	public void reset();
 }

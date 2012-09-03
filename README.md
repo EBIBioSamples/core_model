@@ -10,8 +10,7 @@ For the moment, there is a separated extension of this project (TODO: link), whi
 
 __ TODO __
 
-* JUnit tests to be written and run
-* Many DAOs
+* More JUnit tests to be written and run
 * Complete ORM (database indexes)
 * Use JAXB to map the model to XML (needed for things like web services)
 * Utilities (e.g., graph-walking, node searching, node's attribute searching)

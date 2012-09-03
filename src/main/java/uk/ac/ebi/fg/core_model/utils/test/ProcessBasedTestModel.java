@@ -44,17 +44,20 @@ public class ProcessBasedTestModel
 	public DataProcessing proc3;
 	public Data data3;
 	public Data data4;
-	private BioCharacteristicType ch1;
-	private BioCharacteristicValue cv1;
-	private BioCharacteristicType ch2;
-	private BioCharacteristicValue cv2;
-	private BioCharacteristicValue cv3;
-	private BioCharacteristicValue cv4;
-	private UnitDimension timeDim;
-	private Unit monthsUnit;
-	private DataPropertyType dp1;
-	private DataPropertyValue dpv1;
+	public BioCharacteristicType ch1;
+	public BioCharacteristicValue cv1;
+	public BioCharacteristicType ch2;
+	public BioCharacteristicValue cv2;
+	public BioCharacteristicValue cv3;
+	public BioCharacteristicValue cv4;
+	public UnitDimension timeDim;
+	public Unit monthsUnit;
+	public DataPropertyType dp1;
+	public DataPropertyValue dpv1;
 
+	/**
+	 * Calls {@link #ProcessBasedTestModel(String)} with "".
+	 */
 	public ProcessBasedTestModel () {
 		this ( "" );
 	}

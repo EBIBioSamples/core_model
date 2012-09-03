@@ -2,6 +2,7 @@ package uk.ac.ebi.fg.core_model.expgraph;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -54,8 +55,8 @@ import com.google.common.collect.ImmutableSet.Builder;
 @SuppressWarnings ( { "rawtypes", "unchecked" } )
 public abstract class Product<EP extends ExperimentalPropertyValue> extends Node<Process, Process>
 {
-	private Set<Product> derivedFrom; 
-	private Set<Product> derivedInto;
+	private Set<Product> derivedFrom = new HashSet<Product> (); 
+	private Set<Product> derivedInto = new HashSet<Product> ();
 	
 	private Collection<EP> propertyValues = new ArrayList<EP> ();
 

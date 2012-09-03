@@ -2,7 +2,7 @@ package uk.ac.ebi.fg.core_model.expgraph;
 
 import org.junit.Test;
 
-import uk.ac.ebi.fg.core_model.utils.expgraph.ExpGraphDumper;
+import uk.ac.ebi.fg.core_model.utils.expgraph.ProcessBasedGraphDumper;
 import uk.ac.ebi.fg.core_model.utils.test.ProcessBasedTestModel;
 
 import static java.lang.System.out;
@@ -15,12 +15,12 @@ import static java.lang.System.out;
  * @author Marco Brandizi
  *
  */
-public class ExpGraphBasicTest
+public class ProcessBasedGraphBasicTest
 {
 	@Test
 	public void testCreation()
 	{
 		ProcessBasedTestModel m = new ProcessBasedTestModel ();
-		ExpGraphDumper.dump ( out, m.bm1 );
+		ProcessBasedGraphDumper.dump ( out, m.bm1 );
 	}
 }

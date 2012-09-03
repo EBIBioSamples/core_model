@@ -14,6 +14,9 @@ import uk.ac.ebi.fg.core_model.expgraph.Node;
  * visited node memory (without need to recreate another instance), so that you can decide when the graph
  * or parts of it have to be revisited.</p>
  * 
+ * <p>This visitor considers {@link Node#getUpstreamNodes() upstream}/{@link Node#getDownstreamNodes() downstream} 
+ * relations, while {@link DirectDerivationGraphVisitor} works with direct-derivation relations.</p>.
+ * 
  * <p>This was adapted from AE2 and the <a href = "http://isatab.sourceforge.net">ISA Project</a>.</p>
  *
  * <dl><dt>date</dt><dd>Aug 30, 2012</dd></dl>
@@ -21,16 +24,16 @@ import uk.ac.ebi.fg.core_model.expgraph.Node;
  *
  */
 @SuppressWarnings ({ "rawtypes", "unchecked" })
-public class GraphVisitor
+public class ProcessBasedGraphVisitor
 {
 	private Set<Node> visitedNodes = new HashSet<Node> ();
 	private GraphVisitAction action;
 	
-	public GraphVisitor ( GraphVisitAction action ) {
+	public ProcessBasedGraphVisitor ( GraphVisitAction action ) {
 		this.action = action;
 	}
 	
-	public GraphVisitor () {
+	public ProcessBasedGraphVisitor () {
 	}
 	
 	/** 

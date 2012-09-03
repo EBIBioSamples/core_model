@@ -6,21 +6,27 @@ import java.util.Set;
 import uk.ac.ebi.fg.core_model.expgraph.Node;
 
 /**
- * Dumps the contents of an experimental graph. Useful for testing/debugging purposes. 
+ * <p>Dumps the contents of an experimental graph. Useful for testing/debugging purposes.</p>
+ * 
+ * <p>This dumper considers {@link Node#getUpstreamNodes() upstream}/{@link Node#getDownstreamNodes() downstream} 
+ * relations, while {@link DirectDerivationGraphDumper} works with direct-derivation relations.</p>.
+ * 
  * 
  * <dl><dt>date</dt><dd>Aug 30, 2012</dd></dl>
  * @author Marco Brandizi
  *
  */
 @SuppressWarnings ({ "rawtypes", "unchecked" })
-public class ExpGraphDumper
+public class ProcessBasedGraphDumper
 {
-	private ExpGraphDumper () {
+	private ProcessBasedGraphDumper () {
 	}
 
 	public static void dump ( final PrintStream out, Node<?, ?>... sources )
 	{
-		GraphVisitor visitor = new GraphVisitor ( new DefaultAbstractGraphVisitAction()
+		// Graph
+		//
+		ProcessBasedGraphVisitor visitor = new ProcessBasedGraphVisitor ( new DefaultAbstractGraphVisitAction()
 		{
 			@Override
 			public boolean execute ( Node node )
@@ -32,7 +38,9 @@ public class ExpGraphDumper
 		});
 		for ( Node node: sources ) visitor.visit ( node );
 
-		visitor = new GraphVisitor ( new DefaultAbstractGraphVisitAction()
+		// Attributes
+		//
+		visitor = new ProcessBasedGraphVisitor ( new DefaultAbstractGraphVisitAction()
 		{
 			@Override
 			public boolean execute ( Node node )
