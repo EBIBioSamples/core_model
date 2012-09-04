@@ -5,7 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
@@ -27,6 +30,7 @@ import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
  *
  */
 @Entity
+@Inheritance ( strategy = InheritanceType.TABLE_PER_CLASS )
 @Table( name = "submission" )
 public class Submission extends DefaultAccessibleAnnotatable
 {
@@ -92,6 +96,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 		this.formatVersion = formatVersion;
 	}
 
+	@Column ( name = "release_date" )
 	public Date getReleaseDate ()
 	{
 		return releaseDate;
@@ -102,6 +107,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 		this.releaseDate = releaseDate;
 	}
 	
+	@Column ( name = "update_date" )
 	public Date getUpdateDate ()
 	{
 		return updateDate;
@@ -112,6 +118,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 		this.updateDate = updateDate;
 	}
 	
+	@Column ( name = "submission_date" )
 	public Date getSubmissionDate ()
 	{
 		return submissionDate;
