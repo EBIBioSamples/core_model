@@ -3,6 +3,8 @@ package uk.ac.ebi.fg.core_model.expgraph;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
@@ -55,7 +57,7 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 	}
 
 	@Override
-	@Transient
+	@Transient // For some reason Hibernate gets confused by the overriding and this trick can fix it.
 	public String getAcc ()
 	{
 		String acc = super.getAcc ();
@@ -66,7 +68,9 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 	public Set<U> getUpstreamNodes ()
 	{
 		// TODO: this would be the ideal thing to expose internal collections, the problem is that Hibernate doesn't like
-		// this at all, we need for a different solutions.
+		// this at all, we need for a different solution. Field access would make it, but not sure one can mix access types
+		// and we can't afford to switch the whole existing hierarchy from property access.
+		//
 		
 		//return Collections.unmodifiableSet ( upstreamNodes );
 		return upstreamNodes;
@@ -133,6 +137,7 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 	/**
 	 * Remove 'this' from node.upstreamNodes too. True if the node were actually in the upstreams.
 	 */
+	@SuppressWarnings ( "unchecked" )
 	public boolean removeDownstreamNode ( D node )
 	{
 		if ( !this.downstreamNodes.remove ( node ) ) return false;

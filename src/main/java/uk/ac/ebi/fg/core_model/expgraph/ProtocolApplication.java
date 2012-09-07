@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -54,7 +55,8 @@ public class ProtocolApplication extends Identifiable
 	}
 
 	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true )
-	@JoinColumn ( name = "protocol_app_id" )
+	@JoinTable ( name = "protocol_app_pv", 
+		joinColumns = @JoinColumn ( name = "owner_id" ), inverseJoinColumns = @JoinColumn ( name = "pv_id" ) )
 	public Collection<ParameterValue> getParameterValues ()
 	{
 		return parameterValues;

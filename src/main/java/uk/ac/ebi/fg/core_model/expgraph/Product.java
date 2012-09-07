@@ -57,7 +57,6 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 {
 	private Set<Product> derivedFrom = new HashSet<Product> (); 
 	private Set<Product> derivedInto = new HashSet<Product> ();
-	
 	private Collection<EP> propertyValues = new ArrayList<EP> ();
 
 	public Product () {
@@ -264,7 +263,8 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	 * 
 	 */
 	@OneToMany ( targetEntity = ExperimentalPropertyValue.class, cascade = CascadeType.ALL, orphanRemoval = true )
-	@JoinColumn ( name = "owner_id" )
+	@JoinTable ( name = "pruduct_pv", 
+		joinColumns = @JoinColumn ( name = "owner_id" ), inverseJoinColumns = @JoinColumn ( name = "pv_id" ) )
 	public Collection<EP> getPropertyValues ()
 	{
 		return propertyValues;
