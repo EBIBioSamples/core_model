@@ -65,6 +65,9 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 	@Transient
 	public Set<U> getUpstreamNodes ()
 	{
+		// TODO: this would be the ideal thing to expose internal collections, the problem is that Hibernate doesn't like
+		// this at all, we need for a different solutions.
+		
 		//return Collections.unmodifiableSet ( upstreamNodes );
 		return upstreamNodes;
 	}
@@ -85,17 +88,18 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 	public boolean addUpstreamNode ( U node )
 	{
 		if ( !this.upstreamNodes.add ( node ) ) return false;
-		node.downstreamNodes.add ( this );
+		node.addDownstreamNode ( this );
 		return true;
 	}
 	
 	/**
 	 * Remove 'this' from node.upstreamNodes too. True if the node were actually in the upstreams.
 	 */
+	@SuppressWarnings ( "unchecked" )
 	public boolean removeUpstreamNode ( U node )
 	{
 		if ( !this.upstreamNodes.remove ( node ) ) return false;
-		node.downstreamNodes.remove ( this );
+		node.removeDownstreamNode ( this );
 		return true;
 	}
 	
@@ -122,7 +126,7 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 	public boolean addDownstreamNode ( D node )
 	{
 		if ( !this.downstreamNodes.add ( node ) ) return false;
-		node.upstreamNodes.add ( this );
+		node.addUpstreamNode ( this );
 		return true;
 	}
 	
@@ -132,7 +136,7 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 	public boolean removeDownstreamNode ( D node )
 	{
 		if ( !this.downstreamNodes.remove ( node ) ) return false;
-		node.upstreamNodes.remove ( this );
+		node.removeUpstreamNode ( this );
 		return true;
 	}
 

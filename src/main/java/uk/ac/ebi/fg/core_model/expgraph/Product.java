@@ -174,7 +174,7 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	public boolean addDerivedFrom ( Product product ) 
 	{
 		if ( !this.derivedFrom.add ( product ) ) return false;
-		product.derivedInto.add ( this );
+		product.addDerivedInto ( this );
 		return true;
 	}
 	
@@ -184,7 +184,7 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	public boolean removeDerivedFrom ( Product product )
 	{
 		if ( !this.derivedFrom.remove ( product ) ) return false;
-		product.derivedInto.remove ( this );
+		product.removeDerivedInto ( this );
 		return true;
 	}
 
@@ -216,7 +216,7 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	public boolean addDerivedInto ( Product product ) 
 	{
 		if ( !this.derivedInto.add ( product ) ) return false;
-		product.derivedFrom.add ( this );
+		product.addDerivedFrom ( this );
 		return true;
 	}
 	
@@ -226,7 +226,7 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	public boolean removeDerivedInto ( Product product )
 	{
 		if ( !this.derivedInto.remove ( product ) ) return false;
-		product.derivedFrom.remove ( this );
+		product.removeDerivedFrom ( this );
 		return true;
 	}
 
