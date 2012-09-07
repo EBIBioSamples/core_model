@@ -42,8 +42,8 @@ import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
 @SuppressWarnings ( "rawtypes" )
 public abstract class Node<U extends Node, D extends Node> extends DefaultAccessibleAnnotatable
 {
-	private Set<U> upstreamNodes = new HashSet<U> ();
-	private Set<D> downstreamNodes = new HashSet<D> ();
+	protected Set<U> upstreamNodes = new HashSet<U> ();
+	protected Set<D> downstreamNodes = new HashSet<D> ();
 
 	public Node () {
 		super ();
