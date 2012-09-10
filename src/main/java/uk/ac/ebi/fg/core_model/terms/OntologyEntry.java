@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
 import uk.ac.ebi.fg.core_model.toplevel.Accessible;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
@@ -58,6 +60,7 @@ public class OntologyEntry extends Identifiable
 		this.source = source;
 	}
 
+  @Index( name = "oe_acc" )
 	public String getAcc () {
 		return acc;
 	}
@@ -66,6 +69,7 @@ public class OntologyEntry extends Identifiable
 		this.acc = acc;
 	}
 
+  @Index( name = "oe_label" )
 	public String getLabel () {
 		return label;
 	}

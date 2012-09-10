@@ -9,6 +9,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Index;
+
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 
 /**
@@ -40,7 +42,7 @@ public abstract class FreeTextTerm extends Identifiable
 		this.termText = termText;
 	}
 
-
+  @Index( name = "pub_text" )
 	public String getTermText ()
 	{
 		return termText;

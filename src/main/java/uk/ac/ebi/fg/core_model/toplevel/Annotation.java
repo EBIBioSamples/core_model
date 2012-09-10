@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 import org.apache.commons.lang.StringUtils;
@@ -44,9 +45,7 @@ public class Annotation extends Identifiable
   }
 
 
-  
-	// TODO: BLOB?!
-	@Column ( name = "text", length = 4000 )
+  @Lob
   public String getText() {
     return text;
   }

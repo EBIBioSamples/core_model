@@ -11,9 +11,13 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 
 import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterType;
 import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterValue;
@@ -50,7 +54,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
   private ProtocolType type;
   private Collection<ParameterType> parameterTypes = new ArrayList<ParameterType>();
 
-  
+  @Index( name = "proto_name" )
 	public String getName ()
 	{
 		return name;
@@ -61,6 +65,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
 		this.name = name;
 	}
 
+  @Index( name = "proto_title" )
 	public String getTitle ()
 	{
 		return title;
@@ -71,6 +76,8 @@ public class Protocol extends DefaultAccessibleAnnotatable
 		this.title = title;
 	}
 
+	@Lob
+	@Index( name = "proto_description" )
 	public String getDescription ()
 	{
 		return description;
@@ -81,6 +88,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
 		this.description = description;
 	}
 
+	@Index ( name = "proto_hw" )
 	public String getHardware ()
 	{
 		return hardware;
@@ -91,6 +99,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
 		this.hardware = hardware;
 	}
 
+	@Index ( name = "proto_sw" )
 	public String getSoftware ()
 	{
 		return software;
@@ -101,6 +110,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
 		this.software = software;
 	}
 
+	@Index ( name = "proto_cnt" )
 	public String getContact ()
 	{
 		return contact;
@@ -111,6 +121,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
 		this.contact = contact;
 	}
 
+	@Index ( name = "proto_uri" )
 	public String getUri ()
 	{
 		return uri;

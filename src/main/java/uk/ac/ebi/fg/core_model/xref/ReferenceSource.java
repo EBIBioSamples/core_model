@@ -40,7 +40,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 @Table( name = "reference_source", uniqueConstraints = @UniqueConstraint ( columnNames = { "acc", "version" } ) )
 @org.hibernate.annotations.Table ( 
 	appliesTo = "reference_source", 
-	indexes = {	@Index ( name = "reference_source_av", columnNames = { "acc", "version" } ) }
+	indexes = {	@Index ( name = "refsrc_acc_ver", columnNames = { "acc", "version" } ) }
 )
 public class ReferenceSource extends Identifiable
 {
@@ -60,6 +60,7 @@ public class ReferenceSource extends Identifiable
   	this.version = version;
   }
 
+  @Index ( name = "refsrc_acc" )
 	public String getAcc ()
 	{
 		return acc;
@@ -70,6 +71,7 @@ public class ReferenceSource extends Identifiable
 		this.acc = acc;
 	}
 
+  @Index ( name = "refsrc_name" )
 	public String getName ()
 	{
 		return name;
@@ -80,6 +82,7 @@ public class ReferenceSource extends Identifiable
 		this.name = name;
 	}
 
+  @Index ( name = "refsrc_url" )
 	public String getUrl ()
 	{
 		return url;
@@ -90,6 +93,7 @@ public class ReferenceSource extends Identifiable
 		this.url = url;
 	}
 
+  @Index ( name = "refsrc_ver" )
 	public String getVersion ()
 	{
 		return version;
@@ -100,6 +104,7 @@ public class ReferenceSource extends Identifiable
 		this.version = version;
 	}
 
+  @Index ( name = "refsrc_descr" )
 	public String getDescription ()
 	{
 		return description;

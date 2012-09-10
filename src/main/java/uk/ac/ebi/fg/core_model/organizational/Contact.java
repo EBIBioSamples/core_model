@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Index;
+
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 
 /**
@@ -44,6 +46,7 @@ public class Contact extends DefaultAnnotatable
 
   private Set<ContactRole> contactRoles = new HashSet<ContactRole>();
   
+  @Index( name = "cnt_name" )
   public String getFirstName() {
     return firstName;
   }
@@ -52,6 +55,7 @@ public class Contact extends DefaultAnnotatable
     this.firstName = firstName;
   }
 
+  @Index( name = "cnt_surname" )
   public String getLastName() {
     return lastName;
   }
@@ -63,6 +67,7 @@ public class Contact extends DefaultAnnotatable
   /**
    * @see #setMidInitials(String)
    */
+  @Index( name = "cnt_mid" )
   public String getMidInitials() {
     return midInitials;
   }
@@ -81,6 +86,7 @@ public class Contact extends DefaultAnnotatable
   /**
    * @see #setEmail(String)
    */
+  @Index( name = "cnt_email" )
   public String getEmail() {
     return email;
   }
@@ -142,6 +148,7 @@ public class Contact extends DefaultAnnotatable
   /**
    * @see #setAffiliation(String) 
    */
+  @Index( name = "cnt_affiliation" )
   public String getAffiliation() {
     return affiliation;
   }
@@ -155,6 +162,7 @@ public class Contact extends DefaultAnnotatable
     this.affiliation = affiliation;
   }
 
+  @Index( name = "cnt_url" )
   public String getUrl() {
     return url;
   }
@@ -163,7 +171,7 @@ public class Contact extends DefaultAnnotatable
    * A web site associated to the person, such as his/her personal site or summary page.
    *    
    */
-  public void setUrl(String url) {
+  public void setUrl ( String url ) {
     this.url = url;
   }
 

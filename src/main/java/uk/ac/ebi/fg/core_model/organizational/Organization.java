@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Index;
+
 import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 
@@ -47,7 +49,7 @@ public class Organization extends DefaultAnnotatable
 
 	private Set<ContactRole> organizationRoles = new HashSet<ContactRole> ();
 	
-	
+  @Index( name = "org_name" )
   public String getName ()
 	{
 		return name;
@@ -58,6 +60,7 @@ public class Organization extends DefaultAnnotatable
 		this.name = name;
 	}
 
+  @Index( name = "org_descr" )
 	public String getDescription ()
 	{
 		return description;
@@ -78,6 +81,7 @@ public class Organization extends DefaultAnnotatable
 		this.address = address;
 	}
 
+  @Index( name = "org_url" )
 	public String getUrl ()
 	{
 		return url;
@@ -88,6 +92,7 @@ public class Organization extends DefaultAnnotatable
 		this.url = url;
 	}
 
+  @Index( name = "org_email" )
 	public String getEmail ()
 	{
 		return email;

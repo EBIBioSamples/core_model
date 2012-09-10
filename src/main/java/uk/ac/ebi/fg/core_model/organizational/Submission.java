@@ -11,10 +11,12 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.Index;
 
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
@@ -56,6 +58,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 
 
+	@Index ( name = "sub_title" )
 	public String getTitle ()
 	{
 		return title;
@@ -66,6 +69,8 @@ public class Submission extends DefaultAccessibleAnnotatable
 		this.title = title;
 	}
 	
+	@Lob
+	@Index( name = "sub_description" )
 	public String getDescription ()
 	{
 		return description;
@@ -97,6 +102,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 
 	@Column ( name = "release_date" )
+	@Index ( name = "sub_rel_date" )
 	public Date getReleaseDate ()
 	{
 		return releaseDate;
@@ -108,6 +114,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 	
 	@Column ( name = "update_date" )
+	@Index ( name = "sub_up_date" )
 	public Date getUpdateDate ()
 	{
 		return updateDate;
@@ -119,6 +126,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 	
 	@Column ( name = "submission_date" )
+	@Index ( name = "sub_sub_date" )
 	public Date getSubmissionDate ()
 	{
 		return submissionDate;

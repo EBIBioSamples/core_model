@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 import uk.ac.ebi.fg.core_model.xref.Referrer;
 import uk.ac.ebi.fg.core_model.xref.XRef;
@@ -73,7 +75,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 		this.pubmedId = pubmedId;
 	}
 
-
+  @Index( name = "pub_title" )
 	public String getTitle ()
 	{
 		return title;
@@ -86,6 +88,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	}
 
 
+	@Index( name = "pub_authors" )
 	public String getAuthorList ()
 	{
 		return authorList;
@@ -97,7 +100,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 		this.authorList = authorList;
 	}
 
-
+  @Index( name = "pub_doi" )
 	public String getDOI ()
 	{
 		return doi;
@@ -109,7 +112,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 		this.doi = doi;
 	}
 
-
+  @Index( name = "pub_pmid" )
 	public String getPubmedId ()
 	{
 		return pubmedId;
@@ -125,6 +128,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	/**
 	 * @see #setJournal(String)
 	 */
+  @Index( name = "pub_journal" )
 	public String getJournal ()
 	{
 		return journal;
@@ -138,7 +142,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 		this.journal = journal;
 	}
 
-
+  @Index( name = "pub_publisher" )
 	public String getPublisher ()
 	{
 		return publisher;
@@ -150,7 +154,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 		this.publisher = publisher;
 	}
 
-
+  @Index( name = "pub_editor" )
 	public String getEditor ()
 	{
 		return editor;
@@ -162,7 +166,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 		this.editor = editor;
 	}
 
-
+  @Index( name = "pub_year" )
 	public String getYear ()
 	{
 		return year;
@@ -210,7 +214,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 		this.pages = pages;
 	}
 
-
+  @Index( name = "pub_uri" )
 	public String getUri ()
 	{
 		return uri;

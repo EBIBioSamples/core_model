@@ -6,6 +6,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
 import uk.ac.ebi.fg.core_model.toplevel.Accessible;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 
@@ -36,7 +38,8 @@ public class XRef extends Identifiable
 		this.acc = acc;
 		this.source = source;
 	}
-	
+
+	@Index ( name = "xr_acc" )
 	public String getAcc () {
 		return this.acc;
 	}
