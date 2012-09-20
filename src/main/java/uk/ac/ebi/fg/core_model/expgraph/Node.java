@@ -3,8 +3,6 @@ package uk.ac.ebi.fg.core_model.expgraph;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
@@ -56,12 +54,21 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 		super ( acc );
 	}
 
+	/**
+	 * If the accession is null, attempts to use {@link #getId()} as accession, if this fail too, returns null, which is
+	 * cannot be stored in the database. 
+	 * 
+	 */
 	@Override
 	@Transient // For some reason Hibernate gets confused by the overriding and this trick can fix it.
 	public String getAcc ()
 	{
 		String acc = super.getAcc ();
-		return acc == null ? getId ().toString () : acc;
+		if ( acc == null ) {
+			Long id = getId ();
+			return id == null ? null : id.toString ();
+		}
+		return acc;
 	}
 
 	@Transient
