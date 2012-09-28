@@ -10,6 +10,9 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
+import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
 
 /**
@@ -50,6 +53,14 @@ public class ExperimentalPropertyType extends FreeTextTerm
 	public void setOrder ( int order )
 	{
 		this.order = order;
+	}
+	
+	@Override
+  @Index( name = "p_type_text" )
+  @Column ( length = Const.COL_LENGTH_L, name = "term_text" )
+	public String getTermText ()
+	{
+		return super.getTermText ();
 	}
 
 	@Override

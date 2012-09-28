@@ -4,6 +4,7 @@ package uk.ac.ebi.fg.core_model.toplevel;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.terms.OntologyEntry;
 import uk.ac.ebi.fg.core_model.xref.XRef;
 
@@ -27,6 +28,8 @@ import uk.ac.ebi.fg.core_model.xref.XRef;
 @MappedSuperclass
 public abstract class Accessible extends Identifiable 
 {
+  private String acc;
+
   protected Accessible () {
 		super ();
 	}
@@ -37,10 +40,7 @@ public abstract class Accessible extends Identifiable
 		this.acc = acc;
 	}
 
-
-  private String acc;
-
-	@Column( unique = true, nullable = false )
+	@Column( unique = true, nullable = false, length = Const.COL_LENGTH_S )
   public String getAcc() {
     return acc;
   }

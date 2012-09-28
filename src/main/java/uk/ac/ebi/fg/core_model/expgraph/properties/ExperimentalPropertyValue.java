@@ -1,15 +1,20 @@
 package uk.ac.ebi.fg.core_model.expgraph.properties;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
+import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
 
 /**
@@ -67,6 +72,17 @@ public class ExperimentalPropertyValue<PT extends ExperimentalPropertyType> exte
 	{
 		this.unit = unit;
 	}
+
+	/** Redefines the DB field to be a LOB, since this might be used for things like descriptions */
+  @Override
+  @Lob
+  @Index( name = "pv_text" )
+  @Column ( name = "term_text" )
+	public String getTermText ()
+	{
+		return super.getTermText ();
+	}
+
 	
 	@Override
 	public String toString ()

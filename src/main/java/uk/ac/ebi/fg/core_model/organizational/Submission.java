@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Index;
 
+import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 
@@ -59,6 +60,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 
 
 	@Index ( name = "sub_title" )
+  @Column ( length = Const.COL_LENGTH_L )
 	public String getTitle ()
 	{
 		return title;
@@ -81,6 +83,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 		this.description = description;
 	}
 	
+  @Column ( length = Const.COL_LENGTH_S )
 	public String getVersion ()
 	{
 		return version;
@@ -91,6 +94,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 		this.version = version;
 	}
 	
+  @Column ( length = Const.COL_LENGTH_S )
 	public String getFormatVersion ()
 	{
 		return formatVersion;

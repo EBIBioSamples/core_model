@@ -1,12 +1,15 @@
 package uk.ac.ebi.fg.core_model.expgraph.properties;
 
 import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorValue;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
+import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
 
 /**
@@ -43,6 +46,14 @@ public class Unit extends FreeTextTerm
 	public void setDimension ( UnitDimension dimension )
 	{
 		this.dimension = dimension;
+	}
+	
+	@Override
+  @Index( name = "unit_text" )
+  @Column ( length = Const.COL_LENGTH_L, name = "term_text" )
+	public String getTermText ()
+	{
+		return super.getTermText ();
 	}
 	
 	@Override

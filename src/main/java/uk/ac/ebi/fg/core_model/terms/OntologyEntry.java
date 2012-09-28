@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
 
+import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.toplevel.Accessible;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
@@ -61,6 +62,7 @@ public class OntologyEntry extends Identifiable
 	}
 
   @Index( name = "oe_acc" )
+  @Column ( length = Const.COL_LENGTH_S )
 	public String getAcc () {
 		return acc;
 	}
@@ -70,6 +72,7 @@ public class OntologyEntry extends Identifiable
 	}
 
   @Index( name = "oe_label" )
+  @Column ( length = Const.COL_LENGTH_M )
 	public String getLabel () {
 		return label;
 	}

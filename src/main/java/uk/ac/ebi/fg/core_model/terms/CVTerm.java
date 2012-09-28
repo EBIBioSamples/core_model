@@ -3,6 +3,7 @@ package uk.ac.ebi.fg.core_model.terms;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 
 
@@ -20,6 +21,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 @MappedSuperclass
 public abstract class CVTerm extends Identifiable 
 {
+	@Column ( length = Const.COL_LENGTH_L )
 	private String name;
 
 	protected CVTerm () {

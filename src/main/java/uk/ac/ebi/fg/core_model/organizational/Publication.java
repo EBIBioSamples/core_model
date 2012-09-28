@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
 
+import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 import uk.ac.ebi.fg.core_model.xref.Referrer;
 import uk.ac.ebi.fg.core_model.xref.XRef;
@@ -76,6 +78,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	}
 
   @Index( name = "pub_title" )
+  @Column ( length = Const.COL_LENGTH_L )
 	public String getTitle ()
 	{
 		return title;
@@ -89,6 +92,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 
 
 	@Index( name = "pub_authors" )
+  @Column ( length = Const.COL_LENGTH_L )
 	public String getAuthorList ()
 	{
 		return authorList;
@@ -101,6 +105,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	}
 
   @Index( name = "pub_doi" )
+  @Column ( length = Const.COL_LENGTH_S )
 	public String getDOI ()
 	{
 		return doi;
@@ -113,6 +118,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	}
 
   @Index( name = "pub_pmid" )
+  @Column ( length = Const.COL_LENGTH_S )
 	public String getPubmedId ()
 	{
 		return pubmedId;
@@ -129,6 +135,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	 * @see #setJournal(String)
 	 */
   @Index( name = "pub_journal" )
+  @Column ( length = Const.COL_LENGTH_M )
 	public String getJournal ()
 	{
 		return journal;
@@ -143,6 +150,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	}
 
   @Index( name = "pub_publisher" )
+  @Column ( length = Const.COL_LENGTH_M )
 	public String getPublisher ()
 	{
 		return publisher;
@@ -155,6 +163,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	}
 
   @Index( name = "pub_editor" )
+  @Column ( length = Const.COL_LENGTH_M )
 	public String getEditor ()
 	{
 		return editor;
@@ -167,6 +176,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	}
 
   @Index( name = "pub_year" )
+  @Column ( length = Const.COL_LENGTH_S )
 	public String getYear ()
 	{
 		return year;
@@ -178,7 +188,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 		this.year = year;
 	}
 
-
+  @Column ( length = Const.COL_LENGTH_S )
 	public String getVolume ()
 	{
 		return volume;
@@ -190,7 +200,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 		this.volume = volume;
 	}
 
-
+  @Column ( length = Const.COL_LENGTH_S )
 	public String getIssue ()
 	{
 		return issue;
@@ -202,7 +212,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 		this.issue = issue;
 	}
 
-
+  @Column ( length = Const.COL_LENGTH_S )
 	public String getPages ()
 	{
 		return pages;
@@ -215,6 +225,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	}
 
   @Index( name = "pub_uri" )
+  @Column ( length = 255 )
 	public String getUri ()
 	{
 		return uri;

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -22,6 +23,7 @@ import org.hibernate.annotations.Type;
 import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterType;
 import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterValue;
 import uk.ac.ebi.fg.core_model.expgraph.properties.ProtocolType;
+import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
@@ -55,6 +57,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
   private Collection<ParameterType> parameterTypes = new ArrayList<ParameterType>();
 
   @Index( name = "proto_name" )
+  @Column ( length = Const.COL_LENGTH_M )
 	public String getName ()
 	{
 		return name;
@@ -66,6 +69,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
 	}
 
   @Index( name = "proto_title" )
+  @Column ( length = Const.COL_LENGTH_L )
 	public String getTitle ()
 	{
 		return title;
@@ -89,6 +93,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
 	}
 
 	@Index ( name = "proto_hw" )
+  @Column ( length = Const.COL_LENGTH_XL )
 	public String getHardware ()
 	{
 		return hardware;
@@ -100,6 +105,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
 	}
 
 	@Index ( name = "proto_sw" )
+  @Column ( length = Const.COL_LENGTH_XL )
 	public String getSoftware ()
 	{
 		return software;
@@ -111,6 +117,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
 	}
 
 	@Index ( name = "proto_cnt" )
+  @Column ( length = Const.COL_LENGTH_XL )
 	public String getContact ()
 	{
 		return contact;
@@ -122,6 +129,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
 	}
 
 	@Index ( name = "proto_uri" )
+  @Column ( length = 255 )
 	public String getUri ()
 	{
 		return uri;

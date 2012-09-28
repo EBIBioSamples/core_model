@@ -10,6 +10,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Index;
 
+import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.terms.OntologyEntry;
 import uk.ac.ebi.fg.core_model.toplevel.Accessible;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
@@ -61,6 +62,7 @@ public class ReferenceSource extends Identifiable
   }
 
   @Index ( name = "refsrc_acc" )
+  @Column ( length = Const.COL_LENGTH_S )
 	public String getAcc ()
 	{
 		return acc;
@@ -72,6 +74,7 @@ public class ReferenceSource extends Identifiable
 	}
 
   @Index ( name = "refsrc_name" )
+  @Column ( length = Const.COL_LENGTH_M )
 	public String getName ()
 	{
 		return name;
@@ -83,6 +86,7 @@ public class ReferenceSource extends Identifiable
 	}
 
   @Index ( name = "refsrc_url" )
+  @Column ( length = 255 )
 	public String getUrl ()
 	{
 		return url;
@@ -94,6 +98,7 @@ public class ReferenceSource extends Identifiable
 	}
 
   @Index ( name = "refsrc_ver" )
+  @Column ( length = Const.COL_LENGTH_S )
 	public String getVersion ()
 	{
 		return version;
@@ -105,6 +110,7 @@ public class ReferenceSource extends Identifiable
 	}
 
   @Index ( name = "refsrc_descr" )
+  @Column ( length = Const.COL_LENGTH_XL )
 	public String getDescription ()
 	{
 		return description;

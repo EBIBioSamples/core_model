@@ -1,6 +1,7 @@
 package uk.ac.ebi.fg.core_model.xref;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -8,6 +9,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
 
+import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.toplevel.Accessible;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 
@@ -40,6 +42,7 @@ public class XRef extends Identifiable
 	}
 
 	@Index ( name = "xr_acc" )
+  @Column ( length = Const.COL_LENGTH_S )
 	public String getAcc () {
 		return this.acc;
 	}

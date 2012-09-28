@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -16,6 +17,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Index;
 
+import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 
@@ -50,6 +52,7 @@ public class Organization extends DefaultAnnotatable
 	private Set<ContactRole> organizationRoles = new HashSet<ContactRole> ();
 	
   @Index( name = "org_name" )
+  @Column ( length = Const.COL_LENGTH_M )
   public String getName ()
 	{
 		return name;
@@ -61,6 +64,7 @@ public class Organization extends DefaultAnnotatable
 	}
 
   @Index( name = "org_descr" )
+  @Column ( length = Const.COL_LENGTH_XL )
 	public String getDescription ()
 	{
 		return description;
@@ -71,6 +75,7 @@ public class Organization extends DefaultAnnotatable
 		this.description = description;
 	}
 
+  @Column ( length = Const.COL_LENGTH_XL )
 	public String getAddress ()
 	{
 		return address;
@@ -82,6 +87,7 @@ public class Organization extends DefaultAnnotatable
 	}
 
   @Index( name = "org_url" )
+  @Column ( length = 255 )
 	public String getUrl ()
 	{
 		return url;
@@ -93,6 +99,7 @@ public class Organization extends DefaultAnnotatable
 	}
 
   @Index( name = "org_email" )
+  @Column ( length = Const.COL_LENGTH_S )
 	public String getEmail ()
 	{
 		return email;
@@ -103,6 +110,7 @@ public class Organization extends DefaultAnnotatable
 		this.email = email;
 	}
 
+  @Column ( length = Const.COL_LENGTH_S )
 	public String getPhone ()
 	{
 		return phone;
@@ -113,6 +121,7 @@ public class Organization extends DefaultAnnotatable
 		this.phone = phone;
 	}
 
+  @Column ( length = Const.COL_LENGTH_S )
 	public String getFax ()
 	{
 		return fax;

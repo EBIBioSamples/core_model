@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -15,6 +16,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Index;
 
+import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 
 /**
@@ -47,6 +49,7 @@ public class Contact extends DefaultAnnotatable
   private Set<ContactRole> contactRoles = new HashSet<ContactRole>();
   
   @Index( name = "cnt_name" )
+  @Column ( length = Const.COL_LENGTH_M )
   public String getFirstName() {
     return firstName;
   }
@@ -56,6 +59,7 @@ public class Contact extends DefaultAnnotatable
   }
 
   @Index( name = "cnt_surname" )
+  @Column ( length = Const.COL_LENGTH_M )
   public String getLastName() {
     return lastName;
   }
@@ -68,6 +72,7 @@ public class Contact extends DefaultAnnotatable
    * @see #setMidInitials(String)
    */
   @Index( name = "cnt_mid" )
+  @Column ( length = Const.COL_LENGTH_S )
   public String getMidInitials() {
     return midInitials;
   }
@@ -86,6 +91,7 @@ public class Contact extends DefaultAnnotatable
   /**
    * @see #setEmail(String)
    */
+  @Column ( length = Const.COL_LENGTH_S )
   @Index( name = "cnt_email" )
   public String getEmail() {
     return email;
@@ -104,6 +110,7 @@ public class Contact extends DefaultAnnotatable
   /**
    * @see #setPhone(String)
    */
+  @Column ( length = Const.COL_LENGTH_S )
   public String getPhone() {
     return phone;
   }
@@ -120,6 +127,7 @@ public class Contact extends DefaultAnnotatable
   /**
    * @see #setFax(String)
    */
+  @Column ( length = Const.COL_LENGTH_S )
   public String getFax() {
     return fax;
   }
@@ -133,6 +141,7 @@ public class Contact extends DefaultAnnotatable
     this.fax = fax;
   }
 
+  @Column ( length = Const.COL_LENGTH_XL )
   public String getAddress() {
     return address;
   }
@@ -149,6 +158,7 @@ public class Contact extends DefaultAnnotatable
    * @see #setAffiliation(String) 
    */
   @Index( name = "cnt_affiliation" )
+  @Column ( length = Const.COL_LENGTH_L )
   public String getAffiliation() {
     return affiliation;
   }
@@ -163,6 +173,7 @@ public class Contact extends DefaultAnnotatable
   }
 
   @Index( name = "cnt_url" )
+  @Column ( length = 255 )
   public String getUrl() {
     return url;
   }
