@@ -1,7 +1,6 @@
 package uk.ac.ebi.fg.core_model.toplevel;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -16,7 +15,7 @@ import org.hibernate.annotations.FetchMode;
 import uk.ac.ebi.fg.core_model.terms.AnnotationType;
 
 /**
- * Used on a number of of entities to be able to attach them a set of generic typed properties (annotation). This class
+ * Used on a number of of entities to be able to attach them a set of generic typed properties (annotations). This class
  * goes in tandem with {@link Annotatable}. Also see the default implementation for it, {@link DefaultAnnotatable}, 
  * {@link DefaultAccessibleAnnotatable}.
  *

@@ -40,7 +40,7 @@ public abstract class FreeTextTerm extends Identifiable
 		this.termText = termText;
 	}
 
-  @Transient // This is to be mapped in the descendants, cause we want different field lenghts
+  @Transient // This is to be mapped in the descendants, cause we want different field lengths
 	public String getTermText ()
 	{
 		return termText;
