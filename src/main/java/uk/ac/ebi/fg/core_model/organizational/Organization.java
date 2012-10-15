@@ -149,7 +149,7 @@ public class Organization extends DefaultAnnotatable
   /**
    * @see #addOrganizationRole(ContactRole)
    */
-	protected void setOrganizationRoles ( Set<ContactRole> organizationRoles ) {
+	public void setOrganizationRoles ( Set<ContactRole> organizationRoles ) {
     this.organizationRoles = organizationRoles;
   }
 

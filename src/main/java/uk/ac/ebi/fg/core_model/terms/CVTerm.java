@@ -54,7 +54,7 @@ public abstract class CVTerm extends Identifiable
   		
     // Compare accessions if both are non-null, use identity otherwise
     CVTerm that = (CVTerm) o;
-    return this.getName () == null || that.getName () == null ? false : this.name.equals ( that.name );
+    return ( this.getName () == null || that.getName () == null ) ? false : this.name.equals ( that.name );
   }
   
   @Override
