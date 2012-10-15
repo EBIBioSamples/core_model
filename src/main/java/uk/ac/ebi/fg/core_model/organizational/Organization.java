@@ -4,10 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -18,7 +15,6 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Index;
 
 import uk.ac.ebi.fg.core_model.resources.Const;
-import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 
 
@@ -52,7 +48,7 @@ public class Organization extends DefaultAnnotatable
 	private Set<ContactRole> organizationRoles = new HashSet<ContactRole> ();
 	
   @Index( name = "org_name" )
-  @Column ( length = Const.COL_LENGTH_M )
+  @Column ( length = Const.COL_LENGTH_L )
   public String getName ()
 	{
 		return name;
