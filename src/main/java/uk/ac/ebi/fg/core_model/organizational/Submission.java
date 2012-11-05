@@ -25,7 +25,7 @@ import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 /**
  * The concept of data submission. What this exactly is depends on how the creation of new data is managed in your system. 
  * For instance, a set of files corresponding to one experiment is considered a submission in the context of the MAGE-TAB
- * format. A different set of files where multiple sample groups and samples are reported is a sunmission in the 
+ * format. A different set of files where multiple sample groups and samples are reported is a submission in the 
  * Sample-TAB format. You'll probably want to extend this class and make a custom version to suit your specific needs. 
  *
  * <dl><dt>date</dt><dd>Jul 17, 2012</dd></dl>
@@ -162,13 +162,11 @@ public class Submission extends DefaultAccessibleAnnotatable
 	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
 	@JoinTable ( name = "submission_organization", 
     joinColumns = @JoinColumn ( name = "submission_id" ), inverseJoinColumns = @JoinColumn ( name = "organization_id" ) )
-	public Set<Organization> getOrganizations ()
-	{
+	public Set<Organization> getOrganizations () {
 		return organizations;
 	}
 	
-	public void setOrganizations ( Set<Organization> organizations )
-	{
+	public void setOrganizations ( Set<Organization> organizations ) {
 		this.organizations = organizations;
 	}
 	
@@ -180,13 +178,11 @@ public class Submission extends DefaultAccessibleAnnotatable
 	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
 	@JoinTable ( name = "submission_publication", 
   	joinColumns = @JoinColumn ( name = "submission_id" ), inverseJoinColumns = @JoinColumn ( name = "publication_id" ) )
-	public Set<Publication> getPublications ()
-	{
+	public Set<Publication> getPublications () {
 		return publications;
 	}
 	
-	public void setPublications ( Set<Publication> publications )
-	{
+	public void setPublications ( Set<Publication> publications ) {
 		this.publications = publications;
 	}
 	
@@ -199,13 +195,11 @@ public class Submission extends DefaultAccessibleAnnotatable
 	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
 	@JoinTable ( name = "submission_ref_source", 
     joinColumns = @JoinColumn ( name = "submission_id" ), inverseJoinColumns = @JoinColumn ( name = "ref_id" ) )
-	public Set<ReferenceSource> getReferenceSources ()
-	{
+	public Set<ReferenceSource> getReferenceSources () {
 		return referenceSources;
 	}
 	
-	public void setReferenceSources ( Set<ReferenceSource> referenceSources )
-	{
+	public void setReferenceSources ( Set<ReferenceSource> referenceSources ) {
 		this.referenceSources = referenceSources;
 	}
 
