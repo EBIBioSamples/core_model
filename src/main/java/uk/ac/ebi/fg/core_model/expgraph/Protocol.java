@@ -2,13 +2,9 @@ package uk.ac.ebi.fg.core_model.expgraph;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -18,15 +14,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
-import org.hibernate.annotations.Type;
 
 import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterType;
 import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterValue;
 import uk.ac.ebi.fg.core_model.expgraph.properties.ProtocolType;
 import uk.ac.ebi.fg.core_model.resources.Const;
-import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
-import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 
 
 /**
@@ -81,7 +74,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
 	}
 
 	@Lob
-	@Index( name = "proto_description" )
+//	@Index( name = "proto_description" ) Oracle can't index LOBs
 	public String getDescription ()
 	{
 		return description;

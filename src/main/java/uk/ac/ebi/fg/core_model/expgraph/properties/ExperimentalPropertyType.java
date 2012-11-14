@@ -6,8 +6,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
@@ -26,7 +24,7 @@ import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
  *
  */
 @Entity
-@Table ( name = "exp_property_type" )
+@Table ( name = "exp_prop_typ" )
 @Inheritance ( strategy = InheritanceType.SINGLE_TABLE )
 @DiscriminatorColumn ( name = "category" )
 @DiscriminatorValue ( "generic" )

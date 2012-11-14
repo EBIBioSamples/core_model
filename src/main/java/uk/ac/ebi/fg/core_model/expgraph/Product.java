@@ -151,7 +151,7 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	 * 
 	 */
 	@ManyToMany ( targetEntity = Product.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
-	@JoinTable ( name = "product_direct_derivation", 
+	@JoinTable ( name = "product_direct_deriv", 
 	  joinColumns = @JoinColumn ( name = "to_id" ), inverseJoinColumns = @JoinColumn ( name = "from_id" ) )
 	public <P extends Product> Set<P> getDerivedFrom ()
 	{

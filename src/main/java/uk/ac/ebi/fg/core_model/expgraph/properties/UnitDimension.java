@@ -17,7 +17,7 @@ import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
  *
  */
 @Entity
-@Table ( name = "unit_dimension" )
+@Table ( name = "unit_dim" )
 public class UnitDimension extends FreeTextTerm
 {
 	public UnitDimension () {

@@ -39,10 +39,10 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 @Entity
 @Inheritance ( strategy = InheritanceType.TABLE_PER_CLASS )
 @Table( name = "reference_source", uniqueConstraints = @UniqueConstraint ( columnNames = { "acc", "version" } ) )
-@org.hibernate.annotations.Table ( 
-	appliesTo = "reference_source", 
-	indexes = {	@Index ( name = "refsrc_acc_ver", columnNames = { "acc", "version" } ) }
-)
+//@org.hibernate.annotations.Table (   We don't need it as JPA annotation does all what we need
+//	appliesTo = "reference_source", 
+//	indexes = {	@Index ( name = "refsrc_acc_ver", columnNames = { "acc", "version" } ) }
+//)
 public class ReferenceSource extends Identifiable
 {
 	@Column( unique = false, nullable = false )

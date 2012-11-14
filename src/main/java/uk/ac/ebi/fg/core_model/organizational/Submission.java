@@ -72,7 +72,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 	
 	@Lob
-	@Index( name = "sub_description" )
+//	@Index( name = "sub_description" ) Oracle can't index LOB columns
 	public String getDescription ()
 	{
 		return description;

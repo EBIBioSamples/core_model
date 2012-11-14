@@ -12,8 +12,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Index;
-
 import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
 
 /**
@@ -29,7 +27,7 @@ import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
  */
 @Entity
 @Inheritance ( strategy = InheritanceType.SINGLE_TABLE )
-@Table ( name = "exp_property_value" )
+@Table ( name = "exp_prop_val" )
 @DiscriminatorColumn ( name = "category" )
 @DiscriminatorValue ( "generic" )
 public class ExperimentalPropertyValue<PT extends ExperimentalPropertyType> extends FreeTextTerm
@@ -75,7 +73,7 @@ public class ExperimentalPropertyValue<PT extends ExperimentalPropertyType> exte
 	/** Redefines the DB field to be a LOB, since this might be used for things like descriptions */
   @Override
   @Lob
-  @Index( name = "pv_text" )
+//  @Index( name = "pv_text" ) Oracle can't index LOB columns
   @Column ( name = "term_text" )
 	public String getTermText ()
 	{
