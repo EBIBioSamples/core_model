@@ -26,7 +26,7 @@ import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
  *
  */
 @Entity
-@Table ( name = "exp_property_type" )
+@Table ( name = "exp_prop_type" )
 @Inheritance ( strategy = InheritanceType.SINGLE_TABLE )
 @DiscriminatorColumn ( name = "category" )
 @DiscriminatorValue ( "generic" )

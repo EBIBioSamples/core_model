@@ -36,11 +36,11 @@ import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
  * @date Jul 12, 2007, imported from the AE2 model in 2012
  */
 @Entity
-@Table( name = "ontology_entry" )
+@Table( name = "onto_entry" )
 @Inheritance ( strategy = InheritanceType.SINGLE_TABLE )
 @DiscriminatorColumn ( name = "term_category" )
 @DiscriminatorValue ( "generic" )
-@SequenceGenerator( name = "hibernate_seq", sequenceName = "ontology_entry_seq" )
+@SequenceGenerator( name = "hibernate_seq", sequenceName = "onto_entry_seq" )
 public class OntologyEntry extends Identifiable
 {
 	private String acc, label; 
