@@ -12,8 +12,6 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -75,7 +73,7 @@ public class RemappedAnnotationTest
 		 *
 		 */
 		@Entity
-		@Table ( name = "test_contact_annotation" )
+		@Table ( name = "test_contact_ann" )
 		public static class MyContactAnnotation extends Annotation
 		{
 			protected MyContactAnnotation () {
