@@ -73,7 +73,6 @@ public class ExperimentalPropertyValue<PT extends ExperimentalPropertyType> exte
 	/** Redefines the DB field to be a LOB, since this might be used for things like descriptions */
   @Override
   @Lob
-//  @Index( name = "pv_text" ) Oracle can't index LOB columns
   @Column ( name = "term_text" )
 	public String getTermText ()
 	{
