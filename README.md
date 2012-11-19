@@ -10,7 +10,7 @@ For the moment, there is a separated extension of this project, which realises t
 
 PLEASE NOTE THIS MODULE IS SHIPPED WITHOUT resources.xml. This is so because this core model is usually extended to
 some other model. You should include such Hibernate file in the extension. Probably you'll want to use the [JPA
-plug-in](https://github.com/ljnelson/jpa-maven-plugin) to auto-define all the classes from this module to be imported in your extension. 
+plug-in](http://github.com/ljnelson/jpa-maven-plugin) to auto-define all the classes from this module to be imported in your extension. 
 An example of that can be found in the BioSD model mentioned above.
 
 __ TODO __
