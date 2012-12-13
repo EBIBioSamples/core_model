@@ -129,7 +129,7 @@
 	</build>
 	
 	<scm>
-		<developerConnection>scm:git:https://marco-brandizi@github.com/EBIBioSamples/biosd_model_load.git</developerConnection>
+		<developerConnection>scm:git:https://github.com/EBIBioSamples/biosd_model_load.git</developerConnection>
 	</scm>	
 	
   <repositories>
