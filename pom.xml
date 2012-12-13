@@ -3,7 +3,7 @@
 
   <groupId>uk.ac.ebi.fg</groupId>
   <artifactId>core_model</artifactId>
-  <version>1.0</version>
+  <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
 	<dependencies>
