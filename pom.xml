@@ -3,7 +3,7 @@
 
   <groupId>uk.ac.ebi.fg</groupId>
   <artifactId>core_model</artifactId>
-  <version>1.0</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
 	<dependencies>
@@ -129,7 +129,7 @@
 	</build>
 	
 	<scm>
-		<developerConnection>scm:git:https://github.com/EBIBioSamples/biosd_model_load.git</developerConnection>
+		<developerConnection>scm:git:https://marco-brandizi@github.com/EBIBioSamples/biosd_model_load.git</developerConnection>
 	</scm>	
 	
   <repositories>
