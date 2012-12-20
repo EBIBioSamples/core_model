@@ -44,26 +44,22 @@ public class ProtocolApplication extends Identifiable
 
 	@ManyToOne ( cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} )
 	@JoinColumn ( name = "protocol_id" )
-	public Protocol getProtocol ()
-	{
+	public Protocol getProtocol () {
 		return protocol;
 	}
 
-	public void setProtocol ( Protocol protocol )
-	{
+	public void setProtocol ( Protocol protocol ) {
 		this.protocol = protocol;
 	}
 
 	@OneToMany( cascade = CascadeType.ALL, orphanRemoval = true )
 	@JoinTable ( name = "protocol_app_pv", 
 		joinColumns = @JoinColumn ( name = "owner_id" ), inverseJoinColumns = @JoinColumn ( name = "pv_id" ) )
-	public Collection<ParameterValue> getParameterValues ()
-	{
+	public Collection<ParameterValue> getParameterValues () {
 		return parameterValues;
 	}
 
-	public void setParameterValues ( Collection<ParameterValue> parameterValues )
-	{
+	public void setParameterValues ( Collection<ParameterValue> parameterValues ) {
 		this.parameterValues = parameterValues;
 	}
 	
@@ -72,14 +68,12 @@ public class ProtocolApplication extends Identifiable
 	}
 
 	@Column ( name = "application_order" )
-	public int getOrder ()
-	{
+	public int getOrder () {
 		return order;
 	}
 
 	@Column ( name = "protocol_order" ) // You need this change, cause order is an SQL keyword
-	public void setOrder ( int order )
-	{
+	public void setOrder ( int order ) {
 		this.order = order;
 	}
 	

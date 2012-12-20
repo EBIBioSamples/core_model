@@ -2,4 +2,4 @@
   - (To be confirmed and deployed)
 
 1.0
-  - First non-snapshot release deployed to EBI repository.
+  - First non-snapshot release deployed to the EBI repository.
