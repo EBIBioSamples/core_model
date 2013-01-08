@@ -67,6 +67,7 @@ public class XRef extends Identifiable
   @Override
   public boolean equals ( Object o ) 
   {
+  	if ( o == null ) return false;
   	if ( this == o ) return true;
   	if ( this.getClass () != o.getClass () ) return false;
   	

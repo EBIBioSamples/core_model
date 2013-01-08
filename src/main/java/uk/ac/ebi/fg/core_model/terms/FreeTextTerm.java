@@ -76,7 +76,7 @@ public abstract class FreeTextTerm extends Identifiable
   }
 
   public boolean containsOntologyTerm ( OntologyEntry term ) {
-  	return this.containsOntologyTerm ( term );
+  	return this.ontologyTerms.contains ( term );
   }
 
 	/**
@@ -85,6 +85,7 @@ public abstract class FreeTextTerm extends Identifiable
 	 * 
 	 */
 	@Transient
+	@SuppressWarnings ( "unchecked" )
 	public <OE extends OntologyEntry> OE getSingleOntologyTerm () 
 	{
 		Iterator<OntologyEntry> itr = getOntologyTerms ().iterator ();

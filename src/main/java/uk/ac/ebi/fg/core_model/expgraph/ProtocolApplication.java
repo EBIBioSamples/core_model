@@ -82,7 +82,7 @@ public class ProtocolApplication extends Identifiable
   public String toString() 
   {
   	return String.format ( 
-  		"type: %s {id: %d, acc: %s, order: %d, protocol: %s, parameters:\n  %s\n}", 
+  		"type: %s {id: %d, order: %d, protocol: %s, parameters:\n  %s\n}", 
   		this.getClass ().getSimpleName (), this.getId (), this.getOrder (), 
   		this.getProtocol () == null ? null : this.protocol.getAcc () + " (" + this.protocol.getName () + " )",
   		this.getParameterValues ()

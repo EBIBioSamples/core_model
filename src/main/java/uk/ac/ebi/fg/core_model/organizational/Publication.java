@@ -318,7 +318,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	public String toString ()
 	{
 		return String.format (
-			"%s { id: %id, title: '%s', authors: '%s', year: '%s', PMID: '%s', DOI: '%s', status: '%s', URI: '%s' }", 
+			"%s { id: %d, title: '%s', authors: '%s', year: '%s', PMID: '%s', DOI: '%s', status: '%s', URI: '%s' }", 
 			this.getClass ().getName (), this.getId (), this.getTitle (), this.getAuthorList (), this.getYear (), 
 			this.getPubmedId (), this.getDOI (), this.getStatus (), this.getUri ()
 		);
