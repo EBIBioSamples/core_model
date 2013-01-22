@@ -12,6 +12,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -191,9 +192,9 @@ public class Submission extends DefaultAccessibleAnnotatable
 
 	
 	
-	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
+	@ManyToMany ( cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} )
 	@JoinTable ( name = "submission_ref_source", 
-    joinColumns = @JoinColumn ( name = "submission_id" ), inverseJoinColumns = @JoinColumn ( name = "ref_id" ) )
+    joinColumns = @JoinColumn ( name = "msi_id" ), inverseJoinColumns = @JoinColumn ( name = "ref_src_id" ) )
 	public Set<ReferenceSource> getReferenceSources () {
 		return referenceSources;
 	}

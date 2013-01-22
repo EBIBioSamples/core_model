@@ -7,7 +7,7 @@ import java.util.Set;
 import org.junit.Test;
 import static junit.framework.Assert.*; 
 
-import uk.ac.ebi.fg.core_model.dao.hibernate.toplevel.MyAccessible;
+import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.MyAccessible;
 import uk.ac.ebi.fg.core_model.toplevel.Accessible;
 
 public class AccessibleTest

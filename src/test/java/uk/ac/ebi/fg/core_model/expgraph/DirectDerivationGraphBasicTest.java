@@ -3,7 +3,6 @@ package uk.ac.ebi.fg.core_model.expgraph;
 import org.junit.Test;
 
 import uk.ac.ebi.fg.core_model.utils.expgraph.DirectDerivationGraphDumper;
-import uk.ac.ebi.fg.core_model.utils.expgraph.ProcessBasedGraphDumper;
 import uk.ac.ebi.fg.core_model.utils.test.DirectDerivationTestModel;
 
 import static java.lang.System.out;
@@ -22,6 +21,6 @@ public class DirectDerivationGraphBasicTest
 	public void testCreation()
 	{
 		DirectDerivationTestModel m = new DirectDerivationTestModel ();
-		DirectDerivationGraphDumper.dump ( out, m.bm1 );
+		new DirectDerivationGraphDumper ().dump ( out, m.bm1 );
 	}
 }

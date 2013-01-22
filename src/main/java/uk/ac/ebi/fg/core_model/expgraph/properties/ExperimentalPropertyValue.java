@@ -12,6 +12,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DiscriminatorOptions;
+
 import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
 
 /**
@@ -30,6 +32,7 @@ import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
 @Table ( name = "exp_prop_val" )
 @DiscriminatorColumn ( name = "category" )
 @DiscriminatorValue ( "generic" )
+@DiscriminatorOptions ( force = true )
 public class ExperimentalPropertyValue<PT extends ExperimentalPropertyType> extends FreeTextTerm
 {
 	private PT type;
@@ -46,8 +49,10 @@ public class ExperimentalPropertyValue<PT extends ExperimentalPropertyType> exte
 	}
 
 	
-	@ManyToOne ( targetEntity = ExperimentalPropertyType.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH} )
-	@JoinColumn ( name = "type_id" )
+	@ManyToOne ( 
+		targetEntity = ExperimentalPropertyType.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}
+	)
+	@JoinColumn ( name = "type_id" )	
 	public PT getType ()
 	{
 		return type;

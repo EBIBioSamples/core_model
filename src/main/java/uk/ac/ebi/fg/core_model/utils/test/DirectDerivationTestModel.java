@@ -3,12 +3,13 @@
  */
 package uk.ac.ebi.fg.core_model.utils.test;
 
+import static java.lang.System.out;
+
 import java.lang.reflect.Field;
 import java.util.HashSet;
 
 import javax.persistence.EntityManager;
 
-import uk.ac.ebi.fg.core_model.dao.hibernate.toplevel.AccessibleDAO;
 import uk.ac.ebi.fg.core_model.expgraph.BioMaterial;
 import uk.ac.ebi.fg.core_model.expgraph.BioMaterialProcessing;
 import uk.ac.ebi.fg.core_model.expgraph.Data;
@@ -19,6 +20,7 @@ import uk.ac.ebi.fg.core_model.expgraph.properties.DataPropertyType;
 import uk.ac.ebi.fg.core_model.expgraph.properties.DataPropertyValue;
 import uk.ac.ebi.fg.core_model.expgraph.properties.Unit;
 import uk.ac.ebi.fg.core_model.expgraph.properties.UnitDimension;
+import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.AccessibleDAO;
 import uk.ac.ebi.fg.core_model.terms.OntologyEntry;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 
@@ -29,6 +31,7 @@ import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
  * @author Marco Brandizi
  *
  */
+@SuppressWarnings ( { "rawtypes", "unchecked" } )
 public class DirectDerivationTestModel
 {
 	public BioMaterial bm1;
@@ -148,4 +151,5 @@ public class DirectDerivationTestModel
 			throw new RuntimeException ( "Error while deleting the direct-approach test model" );
 		}
 	}	
+	
 }

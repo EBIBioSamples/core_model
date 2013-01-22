@@ -55,8 +55,8 @@ public abstract class Accessible extends Identifiable
   @Override
   public boolean equals ( Object o ) 
   {
-  	if ( this == o ) return true;
   	if ( o == null ) return false;
+  	if ( this == o ) return true;
   	if ( this.getClass () != o.getClass () ) return false;
   	
     // Compare accessions if both are non-null, use identity otherwise

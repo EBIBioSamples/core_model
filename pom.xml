@@ -43,16 +43,16 @@
 			<artifactId>jutils</artifactId>
 			<version>1.5</version>
 		</dependency>
-    
 
-		<!-- TEST -->
-
+		<!-- We need this with the compile scope, cause there is some test-utility stuff that refers to JUnit -->	    
 	  <dependency>
 	    <groupId>junit</groupId>
 	    <artifactId>junit</artifactId>
 	    <version>4.10</version>
-	    <scope>test</scope>
 	  </dependency>
+
+
+		<!-- TEST -->
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>

@@ -8,6 +8,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DiscriminatorOptions;
 import org.hibernate.annotations.Index;
 
 import uk.ac.ebi.fg.core_model.resources.Const;
@@ -28,6 +29,7 @@ import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
 @Inheritance ( strategy = InheritanceType.SINGLE_TABLE )
 @DiscriminatorColumn ( name = "category" )
 @DiscriminatorValue ( "generic" )
+@DiscriminatorOptions ( force = true )
 public class ExperimentalPropertyType extends FreeTextTerm
 {
 	private int order = 0;

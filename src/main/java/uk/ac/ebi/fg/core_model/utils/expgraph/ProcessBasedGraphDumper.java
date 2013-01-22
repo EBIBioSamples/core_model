@@ -1,6 +1,8 @@
 package uk.ac.ebi.fg.core_model.utils.expgraph;
 
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Set;
 
 import uk.ac.ebi.fg.core_model.expgraph.Node;
@@ -19,10 +21,14 @@ import uk.ac.ebi.fg.core_model.expgraph.Node;
 @SuppressWarnings ({ "rawtypes", "unchecked" })
 public class ProcessBasedGraphDumper
 {
-	private ProcessBasedGraphDumper () {
+	public ProcessBasedGraphDumper () {
+	}
+	
+	public <N extends Node<?,?>> void dump ( final PrintStream out, N... sources ) {
+		Arrays.asList ( sources );
 	}
 
-	public static void dump ( final PrintStream out, Node<?, ?>... sources )
+	public <N extends Node<?,?>> void dump ( final PrintStream out, Collection<N> sources )
 	{
 		// Graph
 		//
@@ -45,10 +51,18 @@ public class ProcessBasedGraphDumper
 			@Override
 			public boolean execute ( Node node )
 			{
-				out.println ( node );
+				dumpNode ( out, node );
 				return true;
 			}
 		});
 		for ( Node node: sources ) visitor.visit ( node );
+	}
+
+	/** 
+	 * Prints node.toString() by default. Customise this method if you want something else.
+	 */
+	public void dumpNode ( PrintStream out, Node node )
+	{
+		out.println ( node );
 	}
 }

@@ -1,4 +1,4 @@
-package uk.ac.ebi.fg.core_model.dao.hibernate.toplevel;
+package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel;
 
 import java.util.List;
 

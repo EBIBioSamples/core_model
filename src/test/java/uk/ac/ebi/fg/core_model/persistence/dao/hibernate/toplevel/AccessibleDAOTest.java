@@ -1,7 +1,7 @@
 /*
  * 
  */
-package uk.ac.ebi.fg.core_model.dao.hibernate.toplevel;
+package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.AccessibleDAO;
 import uk.ac.ebi.fg.core_model.resources.Resources;
 import uk.ac.ebi.utils.test.junit.TestEntityMgrProvider;
 

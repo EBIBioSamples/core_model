@@ -1,7 +1,7 @@
 /*
  * 
  */
-package uk.ac.ebi.fg.core_model.dao.hibernate.terms;
+package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.terms;
 
 import static junit.framework.Assert.*;
 
@@ -13,7 +13,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.perfectjpattern.jee.api.integration.dao.ITransaction;
 
-import uk.ac.ebi.fg.core_model.dao.hibernate.xref.ReferenceSourceDAO;
+import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.terms.OntologyEntryDAO;
+import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.xref.ReferenceSourceDAO;
 import uk.ac.ebi.fg.core_model.resources.Resources;
 import uk.ac.ebi.fg.core_model.terms.OntologyEntry;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;

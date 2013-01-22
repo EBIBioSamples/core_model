@@ -1,7 +1,7 @@
 /*
  * 
  */
-package uk.ac.ebi.fg.core_model.dao.hibernate.toplevel;
+package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

@@ -1,4 +1,4 @@
-package uk.ac.ebi.fg.core_model.dao.hibernate.terms;
+package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.terms;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang.Validate;
 
-import uk.ac.ebi.fg.core_model.dao.hibernate.toplevel.IdentifiableDAO;
+import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.IdentifiableDAO;
 import uk.ac.ebi.fg.core_model.terms.CVTerm;
 import uk.ac.ebi.fg.core_model.terms.OntologyEntry;
 

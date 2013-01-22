@@ -1,11 +1,13 @@
 package uk.ac.ebi.fg.core_model.utils.test;
 
+import static java.lang.System.out;
+import static org.junit.Assert.assertTrue;
+
 import java.lang.reflect.Field;
 import java.util.HashSet;
 
 import javax.persistence.EntityManager;
 
-import uk.ac.ebi.fg.core_model.dao.hibernate.toplevel.AccessibleDAO;
 import uk.ac.ebi.fg.core_model.expgraph.BioMaterial;
 import uk.ac.ebi.fg.core_model.expgraph.BioMaterialProcessing;
 import uk.ac.ebi.fg.core_model.expgraph.Data;
@@ -20,6 +22,7 @@ import uk.ac.ebi.fg.core_model.expgraph.properties.DataPropertyType;
 import uk.ac.ebi.fg.core_model.expgraph.properties.DataPropertyValue;
 import uk.ac.ebi.fg.core_model.expgraph.properties.Unit;
 import uk.ac.ebi.fg.core_model.expgraph.properties.UnitDimension;
+import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.AccessibleDAO;
 import uk.ac.ebi.fg.core_model.terms.OntologyEntry;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 
@@ -161,5 +164,45 @@ public class ProcessBasedTestModel
 		catch (  IllegalAccessException ex ) {
 			throw new RuntimeException ( "Error while deleting the process-based test model" );
 		}
+	}
+	
+	/**
+	 * Checks that the {@link Node nodes} in model are loaded/unloaded (depending on checkIsLoaded), issues warnings
+	 * and triggers a test failure in case not. 
+	 */
+	public static void verifyTestModel ( 
+		EntityManager em, Object model, boolean checkIsLoaded ) throws Exception
+	{
+		AccessibleDAO<Product> productDao = new AccessibleDAO<Product> ( Product.class, em );
+		AccessibleDAO<Process> procDao = new AccessibleDAO<Process> ( Process.class, em );
+		
+		boolean isOK = true;
+		
+		for ( Field f: model.getClass ().getFields () ) 
+		{
+			Object o = f.get ( model );
+			if ( ! ( o instanceof Node ) ) continue;
+			
+			Node<Node, Node> node = (Node) o;
+			Node<Node, Node> nodeDB = node instanceof Product 
+				? productDao.find ( node.getAcc () )
+				: procDao.find ( node.getAcc () );
+				
+			if ( checkIsLoaded )
+			{
+				if ( nodeDB == null ) {
+					out.println ( ">>>> Node '" + node.getAcc () + "' not found in the DB!" );
+					isOK = false;
+				}
+			}
+			else
+			{
+				if ( nodeDB != null ) {
+					out.println ( ">>>> Node '" + node.getAcc () + "' still in the DB!" );
+					isOK = false;
+				}
+			}
+			assertTrue ( (checkIsLoaded ? "Some test objects not in the DB!": "Some objects still in the DB!" ), isOK );
+		}		
 	}
 }

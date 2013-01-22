@@ -21,6 +21,6 @@ public class ProcessBasedGraphBasicTest
 	public void testCreation()
 	{
 		ProcessBasedTestModel m = new ProcessBasedTestModel ();
-		ProcessBasedGraphDumper.dump ( out, m.bm1 );
+		new ProcessBasedGraphDumper().dump ( out, m.bm1 );
 	}
 }

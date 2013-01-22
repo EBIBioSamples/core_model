@@ -1,7 +1,7 @@
 /*
  * 
  */
-package uk.ac.ebi.fg.core_model.dao.hibernate.toplevel;
+package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -18,8 +18,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.perfectjpattern.jee.api.integration.dao.ITransaction;
 
-import uk.ac.ebi.fg.core_model.dao.hibernate.terms.CVTermDAO;
 import uk.ac.ebi.fg.core_model.organizational.Contact;
+import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.terms.CVTermDAO;
+import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.IdentifiableDAO;
 import uk.ac.ebi.fg.core_model.resources.Resources;
 import uk.ac.ebi.fg.core_model.terms.AnnotationType;
 import uk.ac.ebi.fg.core_model.toplevel.Annotation;

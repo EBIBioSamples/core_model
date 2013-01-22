@@ -1,6 +1,8 @@
 package uk.ac.ebi.fg.core_model.utils.expgraph;
 
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Set;
 
 import uk.ac.ebi.fg.core_model.expgraph.Node;
@@ -19,10 +21,15 @@ import uk.ac.ebi.fg.core_model.expgraph.Product;
 @SuppressWarnings ({ "rawtypes", "unchecked" })
 public class DirectDerivationGraphDumper
 {
-	private DirectDerivationGraphDumper () {
+	public DirectDerivationGraphDumper () {
 	}
 
-	public static void dump ( final PrintStream out, Product<?>... sources )
+	public <P extends Product<?>> void dump ( final PrintStream out, P... sources )
+	{
+		dump ( out, Arrays.asList ( sources ) );
+	}
+
+	public <P extends Product<?>> void dump ( final PrintStream out, Collection<P> sources )
 	{
 		// Graph
 		//
@@ -45,10 +52,18 @@ public class DirectDerivationGraphDumper
 			@Override
 			public boolean execute ( Node node )
 			{
-				out.println ( node );
+				dumpProduct ( out, (Product<?>) node );
 				return true;
 			}
 		});
 		for ( Product<?> node: sources ) visitor.visit ( node );
+	}
+	
+	/** 
+	 * Prints node.toString() by default. Customise this method if you want something else.
+	 */
+	public void dumpProduct ( PrintStream out, Product<?> node )
+	{
+		out.println ( node );
 	}
 }

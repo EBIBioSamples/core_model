@@ -1,7 +1,7 @@
 /*
  * 
  */
-package uk.ac.ebi.fg.core_model.dao.hibernate.xref;
+package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.xref;
 
 import static junit.framework.Assert.*;
 
@@ -13,6 +13,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.perfectjpattern.jee.api.integration.dao.ITransaction;
 
+import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.xref.ReferenceSourceDAO;
+import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.xref.XRefDAO;
 import uk.ac.ebi.fg.core_model.resources.Resources;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 import uk.ac.ebi.fg.core_model.xref.XRef;
