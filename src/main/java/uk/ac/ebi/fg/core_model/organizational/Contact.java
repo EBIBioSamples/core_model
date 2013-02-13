@@ -91,7 +91,7 @@ public class Contact extends DefaultAnnotatable
   /**
    * @see #setEmail(String)
    */
-  @Column ( length = Const.COL_LENGTH_S )
+  @Column ( length = Const.COL_LENGTH_M )
   @Index( name = "cnt_email" )
   public String getEmail() {
     return email;

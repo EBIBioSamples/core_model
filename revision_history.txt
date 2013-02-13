@@ -1,4 +1,4 @@
-1.0.1 
+1.1 
   - (To be confirmed and deployed)
   - Some bug-fixing. 
 

@@ -51,7 +51,10 @@ public class XRef extends Identifiable
 		this.acc = acc;
 	}
 
-	@ManyToOne ( targetEntity = ReferenceSource.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
+	@ManyToOne ( 
+		targetEntity = ReferenceSource.class, 
+		cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } 
+	)
 	@JoinColumn ( name = "source_id" )
 	public ReferenceSource getSource () {
 		return this.source;
