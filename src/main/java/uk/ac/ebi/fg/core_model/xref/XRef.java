@@ -60,7 +60,7 @@ public class XRef extends Identifiable
 		return this.source;
 	}
 
-	public void setSource ( ReferenceSource source ) {
+	protected void setSource ( ReferenceSource source ) {
 		this.source = source;
 	}
 

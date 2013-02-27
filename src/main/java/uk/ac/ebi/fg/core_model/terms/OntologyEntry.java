@@ -60,7 +60,7 @@ public class OntologyEntry extends Identifiable
 	}
 
   @Index( name = "oe_acc" )
-  @Column ( length = Const.COL_LENGTH_S )
+  @Column ( length = Const.COL_LENGTH_S, nullable = false )
 	public String getAcc () {
 		return acc;
 	}

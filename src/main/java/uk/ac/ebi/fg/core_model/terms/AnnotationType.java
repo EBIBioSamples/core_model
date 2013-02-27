@@ -1,7 +1,6 @@
 package uk.ac.ebi.fg.core_model.terms;
 
 import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import uk.ac.ebi.fg.core_model.toplevel.Annotation;
