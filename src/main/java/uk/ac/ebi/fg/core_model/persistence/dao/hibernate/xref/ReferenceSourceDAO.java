@@ -28,14 +28,14 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	
 	/**
 	 * Tells whether a given source exists, based on its accession and version. Note that if the version is null it checks
-	 * that there is a record with null version. 
+	 * that there is a record with null version. Allows to select a specific subclass
 	 */
-	public boolean contains ( String accession, String version )
+	public boolean contains ( String accession, String version, Class<? extends S> targetClass )
 	{
 		Validate.notEmpty ( accession, "accession must not be empty" );
 		
 		// TODO: SQL-injection security
-		String hql = "SELECT s.id FROM " + this.getPersistentClass().getCanonicalName() + 
+		String hql = "SELECT s.id FROM " + targetClass.getCanonicalName() + 
 			" s WHERE s.acc = '" + accession + "' AND s.version " + ( version == null ? "IS NULL" : "= '" + version + "'" );
 				
 		Query query = getEntityManager ().createQuery( hql );
@@ -45,15 +45,21 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 		return !list.isEmpty ();
 	}
 	
+	/** Wraps {@link #contains(String, String, Class)} with the managed class */ 
+	public boolean contains ( String accession, String version ) {
+		return contains ( accession, version, getPersistentClass () ); 
+	}
+	
+	
 	/**
 	 * Works like {@link #contains(String, String)}, but don't check the version, i.e., returns true if there is any version
-	 * of the source with the given accession. 
+	 * of the source with the given accession. Allows to pick a specific class. 
 	 * 
 	 */
-	public boolean contains ( String accession ) 
+	public boolean contains ( String accession, Class<? extends S> targetClass ) 
 	{
 		// TODO: SQL-injection security
-		String hql = "SELECT s.id FROM " + this.getPersistentClass().getCanonicalName() + " s WHERE s.acc = '" + accession + "'";
+		String hql = "SELECT s.id FROM " + targetClass.getCanonicalName() + " s WHERE s.acc = '" + accession + "'";
 				
 		Query query = getEntityManager ().createQuery( hql );
 		
@@ -62,6 +68,12 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 		return !list.isEmpty ();
 	}
 
+	/** Wraps {@link #contains(String, Class)} with the managed class */
+	public boolean contains ( String accession ) {
+		return contains ( accession, getPersistentClass () );
+	} 
+
+	
 	/**
 	 * @return if the source's accession and version don't exist yet, returns the same entity, after having attached 
 	 * it to the persistence context. If the entity already exists in the DB, returns the copy given by the persistence 
@@ -85,13 +97,14 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 
 	/**
 	 * Finds a source by accession and version. version = null is matched against a record having a null version.
+	 * Allows to pick a specific subclass.
 	 */
-	public S find ( String accession, String version ) 
+	public S find ( String accession, String version, Class<? extends S> targetClass ) 
 	{
 	  Validate.notEmpty ( accession, "Database access error: cannot fetch an accessible with empty accession" );
 	  
 	  // TODO: SQL-injection security
-	  String hql = "SELECT s FROM " + this.getPersistentClass().getCanonicalName() + 
+	  String hql = "SELECT s FROM " + targetClass.getCanonicalName() + 
 	  	" s WHERE s.acc = '" + accession + "' AND s.version " + ( version == null ? "IS NULL" : "= '" + version + "'" );
 	
 	  Query query = getEntityManager ().createQuery ( hql );
@@ -100,22 +113,35 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 		List<S> result = query.getResultList();
 		return result.isEmpty () ? null : result.get ( 0 );
 	}
+	
+	/**
+	 * Wraps {@link #find(String, String, Class)} with the managed class.
+	 */
+	public S find ( String accession, String version ) {
+		return find ( accession, version, this.getPersistentClass () );
+	}
 
 
   /**
-   * Finds all the versions of a source having a given accession. 
+   * Finds all the versions of a source having a given accession. Allows to pick a specific sub-class. 
    * 
    */
 	@SuppressWarnings("unchecked")
-  public List<S> find ( String accession ) 
+  public List<S> find ( String accession, Class<? extends S> targetClass ) 
   {
     Validate.notEmpty ( accession, "Database access error: cannot fetch an empty accessible" );
     
-		String queryStr= "SELECT s FROM " + this.getPersistentClass().getCanonicalName () + " s WHERE s.acc = ?1";
+		String queryStr= "SELECT s FROM " + targetClass.getCanonicalName () + " s WHERE s.acc = ?1";
 		Query query = getEntityManager ().createQuery ( queryStr );
 		query.setParameter ( 1, accession );
 		
 		return query.getResultList();
   }
 
+	/**
+	 * Wraps {@link #find(String, Class)} with the managed class.
+	 */
+  public List<S> find ( String accession ) {
+	  return find ( accession, this.getPersistentClass () );
+  }
 }

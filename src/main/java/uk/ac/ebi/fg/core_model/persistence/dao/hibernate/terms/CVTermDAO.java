@@ -26,12 +26,19 @@ public class CVTermDAO<T extends CVTerm> extends IdentifiableDAO<T>
 		super ( managedClass, entityManager );
 	}
 
-	public boolean contains ( String name )
+	public boolean contains ( String name ) {
+		return contains ( name, this.getPersistentClass () );
+	}
+	
+	/**
+	 * Allows to lookup a specific subclass.
+	 */
+	public boolean contains ( String name, Class<? extends T> targetClass )
 	{
 		Validate.notEmpty ( name, "name must not be empty");
 		 
 		Query query = getEntityManager ().createQuery(
-			"SELECT t.id FROM " + this.getPersistentClass().getCanonicalName () + " t WHERE t.name = ?1");
+			"SELECT t.id FROM " + targetClass.getCanonicalName () + " t WHERE t.name = ?1");
 		query.setParameter ( 1, name );
 		
 		@SuppressWarnings ( "unchecked" )
@@ -60,19 +67,29 @@ public class CVTermDAO<T extends CVTerm> extends IdentifiableDAO<T>
 	  return cvtermDB;
 	}
 
+	
+	/**
+	 * Wraps {@link #find(String, Class)} with the managed class.
+	 * @param name
+	 * @return
+	 */
+  public T find ( String name ) {
+  	return find ( name, this.getPersistentClass () );
+  } 
+  
   /**
-   * Finds by name. 
+   * Finds by name, allows to find a sub-class.
    * 
    */
-  public T find ( String name ) 
+  @SuppressWarnings ( "unchecked" )
+	public T find ( String name, Class<? extends T> targetClass ) 
   {
     Validate.notEmpty ( name, "Database access error: cannot fetch a term with empty name" );
     
-		String queryStr= "SELECT t FROM " + this.getPersistentClass().getCanonicalName () + " t WHERE t.name = ?1";
+		String queryStr= "SELECT t FROM " + targetClass.getCanonicalName () + " t WHERE t.name = ?1";
 		Query query = getEntityManager ().createQuery ( queryStr );
 		query.setParameter ( 1, name );
 		
-		@SuppressWarnings("unchecked")
 		List<T> result = query.getResultList();
 		return result.isEmpty () ? null : result.get ( 0 );
   }
