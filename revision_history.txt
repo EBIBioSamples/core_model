@@ -1,7 +1,6 @@
-1.1 
-  - (To be confirmed and deployed)
-  - Some bug-fixing.
+1.0.1-SNAPSHOT
   - Some DAOs extended with a target subclass in find() and contains() 
+  - Some bug-fixing.
 
 1.0
   - First non-snapshot release deployed to the EBI repository.

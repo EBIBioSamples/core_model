@@ -105,7 +105,7 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	}
 
   @Index( name = "pub_doi" )
-  @Column ( length = Const.COL_LENGTH_M )
+  @Column ( length = 70 )
 	public String getDOI ()
 	{
 		return doi;
