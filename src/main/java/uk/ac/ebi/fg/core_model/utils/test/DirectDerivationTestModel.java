@@ -3,8 +3,6 @@
  */
 package uk.ac.ebi.fg.core_model.utils.test;
 
-import static java.lang.System.out;
-
 import java.lang.reflect.Field;
 import java.util.HashSet;
 
