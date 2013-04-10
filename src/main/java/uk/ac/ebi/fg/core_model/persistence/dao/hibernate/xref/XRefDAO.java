@@ -38,7 +38,7 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an x-ref with empty accession" );
 		
 		// TODO: SQL-injection security
-		String hql = "SELECT x.id FROM " + this.getPersistentClass().getCanonicalName() + 
+		String hql = "SELECT x.id FROM " + this.getManagedClass().getCanonicalName() + 
 			" x WHERE x.acc = '" + accession + "' AND x.source.acc = '" + srcAcc + "' AND x.source.version " + 
 			( srcVer == null ? "IS NULL" : "= '" + srcVer + "'" );
 				
@@ -58,7 +58,7 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an x-ref with empty accession" );
 		
 		// TODO: SQL-injection security
-		String hql = "SELECT x.id FROM " + this.getPersistentClass().getCanonicalName() 
+		String hql = "SELECT x.id FROM " + this.getManagedClass().getCanonicalName() 
 			+ " x WHERE x.acc = '" + accession + "' AND x.source.acc = '" + srcAcc + "'";
 				
 		Query query = getEntityManager ().createQuery( hql );
@@ -103,7 +103,7 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an x-ref with empty accession" );
 		
 		// TODO: SQL-injection security
-		String hql = "SELECT x FROM " + this.getPersistentClass().getCanonicalName() + 
+		String hql = "SELECT x FROM " + this.getManagedClass().getCanonicalName() + 
 			" x WHERE x.acc = '" + accession + "' AND x.source.acc = '" + srcAcc + "' AND x.source.version " + 
 			( srcVer == null ? "IS NULL" : "= '" + srcVer + "'" );
 				
@@ -125,7 +125,7 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an x-ref with empty accession" );
 		
 		// TODO: SQL-injection security
-		String hql = "SELECT x FROM " + this.getPersistentClass().getCanonicalName() + 
+		String hql = "SELECT x FROM " + this.getManagedClass().getCanonicalName() + 
 			" x WHERE x.acc = '" + accession + "' AND x.source.acc = '" + srcAcc + "'"; 
 				
 		Query query = getEntityManager ().createQuery( hql );

@@ -11,12 +11,12 @@ import static junit.framework.Assert.assertTrue;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.perfectjpattern.jee.api.integration.dao.ITransaction;
 
 import uk.ac.ebi.fg.core_model.organizational.Contact;
 import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.terms.CVTermDAO;
@@ -75,7 +75,7 @@ public class IdentifiableDAOTest
 	@After
 	public void cleanUpDB ()
 	{
-		ITransaction tns = xrefDao.getTransaction ();
+		EntityTransaction tns = em.getTransaction ();
 		tns.begin ();
 		
 		XRef xtpl = new XRef ( "tests.dao.foo-xref-1", null );
@@ -83,14 +83,14 @@ public class IdentifiableDAOTest
 			xrefDao.delete ( xdb );
 		tns.commit ();
 
-		tns = srcDao.getTransaction ();
+		tns = em.getTransaction ();
 		tns.begin ();
 		ReferenceSource srcTpl = new ReferenceSource ( "tests.dao.foo-src-1", null );
 		for ( ReferenceSource srcDb: srcDao.findByExample ( srcTpl ))
 			srcDao.delete ( srcDb );
 		tns.commit();
 		
-		tns = cntDao.getTransaction ();
+		tns = em.getTransaction ();
 		tns.begin ();
 		
 		for ( Contact cntDb: cntDao.findByExample ( cnt, "annotations" ) )
@@ -115,7 +115,7 @@ public class IdentifiableDAOTest
 		AnnotationType atypeDB = annTypeDao.find ( atype.getName () );
 		if ( atypeDB != null ) 
 		{
-			tns = annTypeDao.getTransaction ();
+			tns = em.getTransaction ();
 			tns.begin ();
 			annTypeDao.delete ( atypeDB );
 			tns.commit ();
@@ -134,7 +134,7 @@ public class IdentifiableDAOTest
 		
 		XRef xref = new XRef ( "tests.dao.foo-xref-1", src );
 		
-		ITransaction tns = xrefDao.getTransaction ();
+		EntityTransaction tns = em.getTransaction ();
 		tns.begin ();
 		
 		srcDao.create ( src );
@@ -151,7 +151,7 @@ public class IdentifiableDAOTest
 	@Test
 	public void testAnnotatable ()
 	{
-		ITransaction tns = cntDao.getTransaction ();
+		EntityTransaction tns = em.getTransaction ();
 
 		tns.begin ();
 		cntDao.create ( cnt );

@@ -6,12 +6,12 @@ package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.xref;
 import static junit.framework.Assert.*;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.perfectjpattern.jee.api.integration.dao.ITransaction;
 
 import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.xref.ReferenceSourceDAO;
 import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.xref.XRefDAO;
@@ -60,7 +60,7 @@ public class XrefDAOTest
 		
 		if ( xrefDB != null ) 
 		{
-			ITransaction tns = xrefDao.getTransaction ();
+			EntityTransaction tns = em.getTransaction ();
 			tns.begin ();
 			xrefDao.delete ( xrefDB );
 			tns.commit ();
@@ -72,7 +72,7 @@ public class XrefDAOTest
 		ReferenceSource srcDB = srcDao.find ( src.getAcc (), src.getVersion () );
 		if ( srcDB != null ) 
 		{
-			ITransaction tns = srcDao.getTransaction ();
+			EntityTransaction tns = em.getTransaction ();
 			tns.begin ();
 			srcDao.delete ( srcDB );
 			tns.commit ();
@@ -85,7 +85,7 @@ public class XrefDAOTest
 	@Test
 	public void testBasics ()
 	{
-		ITransaction tns = xrefDao.getTransaction ();
+		EntityTransaction tns = em.getTransaction ();
 		tns.begin ();
 		xrefDao.create ( xref );
 		tns.commit ();

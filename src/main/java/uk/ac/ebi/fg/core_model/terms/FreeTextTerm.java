@@ -59,11 +59,13 @@ public abstract class FreeTextTerm extends Identifiable
 	 */
 	@ManyToMany( targetEntity = OntologyEntry.class, 
 							 cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
+  @SuppressWarnings ( "unchecked" )
 	public <OE extends OntologyEntry> Set<OE> getOntologyTerms () {
   	return (Set<OE>) this.ontologyTerms;
   }
 
-  public <OE extends OntologyEntry> void setOntologyTerms ( Set<OE> ontologyTerms ) {
+  @SuppressWarnings ( "unchecked" )
+	public <OE extends OntologyEntry> void setOntologyTerms ( Set<OE> ontologyTerms ) {
   	this.ontologyTerms = (Set<OntologyEntry>) ontologyTerms;
   }
 

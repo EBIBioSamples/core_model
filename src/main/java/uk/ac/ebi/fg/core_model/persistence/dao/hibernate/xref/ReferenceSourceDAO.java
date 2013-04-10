@@ -47,7 +47,7 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	
 	/** Wraps {@link #contains(String, String, Class)} with the managed class */ 
 	public boolean contains ( String accession, String version ) {
-		return contains ( accession, version, getPersistentClass () ); 
+		return contains ( accession, version, getManagedClass () ); 
 	}
 	
 	
@@ -70,7 +70,7 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 
 	/** Wraps {@link #contains(String, Class)} with the managed class */
 	public boolean contains ( String accession ) {
-		return contains ( accession, getPersistentClass () );
+		return contains ( accession, getManagedClass () );
 	} 
 
 	
@@ -118,7 +118,7 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	 * Wraps {@link #find(String, String, Class)} with the managed class.
 	 */
 	public S find ( String accession, String version ) {
-		return find ( accession, version, this.getPersistentClass () );
+		return find ( accession, version, this.getManagedClass () );
 	}
 
 
@@ -142,6 +142,6 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	 * Wraps {@link #find(String, Class)} with the managed class.
 	 */
   public List<S> find ( String accession ) {
-	  return find ( accession, this.getPersistentClass () );
+	  return find ( accession, this.getManagedClass () );
   }
 }

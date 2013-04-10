@@ -43,10 +43,10 @@ public class AccessibleDAO<A extends Accessible> extends IdentifiableDAO<A>
 	}
 
   /**
-   * A wrapper of {@link #find(String, Class)} that uses {@link #getPersistentClass()}.
+   * A wrapper of {@link #find(String, Class)} that uses {@link #getManagedClass()}.
    */
 	public boolean contains ( String accession ) {
-		return contains ( accession, this.getPersistentClass () );
+		return contains ( accession, this.getManagedClass () );
 	}
 	
 	
@@ -88,10 +88,10 @@ public class AccessibleDAO<A extends Accessible> extends IdentifiableDAO<A>
   }
 
   /**
-   * A wrapper of {@link #find(String, Class)} that uses {@link #getPersistentClass()}.
+   * A wrapper of {@link #find(String, Class)} that uses {@link #getManagedClass()}.
    */
   public A find ( String accession ) {
-  	return find ( accession, this.getPersistentClass () );
+  	return find ( accession, this.getManagedClass () );
   } 
   
 }

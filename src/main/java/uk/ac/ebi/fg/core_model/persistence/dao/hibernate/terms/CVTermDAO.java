@@ -27,7 +27,7 @@ public class CVTermDAO<T extends CVTerm> extends IdentifiableDAO<T>
 	}
 
 	public boolean contains ( String name ) {
-		return contains ( name, this.getPersistentClass () );
+		return contains ( name, this.getManagedClass () );
 	}
 	
 	/**
@@ -74,7 +74,7 @@ public class CVTermDAO<T extends CVTerm> extends IdentifiableDAO<T>
 	 * @return
 	 */
   public T find ( String name ) {
-  	return find ( name, this.getPersistentClass () );
+  	return find ( name, this.getManagedClass () );
   } 
   
   /**

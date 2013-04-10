@@ -12,6 +12,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -20,7 +21,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.perfectjpattern.jee.api.integration.dao.ITransaction;
 
 import uk.ac.ebi.fg.core_model.organizational.Contact;
 import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.terms.CVTermDAO;
@@ -195,7 +195,7 @@ public class RemappedAnnotationTest
 		// was no longer referenced by the owning entity instance'
 		// 
 		List<MyContact> cnts = cntDao.findByExample ( cntTpl );
-		ITransaction tns = cntDao.getTransaction ();
+		EntityTransaction tns = em.getTransaction ();
 		tns.begin ();
 		for ( MyContact cntDb: cnts )
 			cntDao.delete ( cntDb );
@@ -210,7 +210,7 @@ public class RemappedAnnotationTest
 		AnnotationType atypeDB = annTypeDao.find ( atype.getName () );
 		if ( atypeDB != null ) 
 		{
-			tns = annTypeDao.getTransaction ();
+			tns = em.getTransaction ();
 			tns.begin ();
 			annTypeDao.delete ( atypeDB );
 			tns.commit ();
@@ -222,7 +222,7 @@ public class RemappedAnnotationTest
 	@Test
 	public void testMyContact () 
 	{
-		ITransaction tns = cntDao.getTransaction ();
+		EntityTransaction tns = em.getTransaction ();
 		
 		tns.begin ();
 		cntDao.create ( cnt );

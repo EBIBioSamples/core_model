@@ -3,17 +3,18 @@
  */
 package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.terms;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.perfectjpattern.jee.api.integration.dao.ITransaction;
 
-import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.terms.OntologyEntryDAO;
 import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.xref.ReferenceSourceDAO;
 import uk.ac.ebi.fg.core_model.resources.Resources;
 import uk.ac.ebi.fg.core_model.terms.OntologyEntry;
@@ -62,7 +63,7 @@ public class OntologyEntryDAOTest
 		
 		if ( oeDB != null ) 
 		{
-			ITransaction tns = oeDao.getTransaction ();
+			EntityTransaction tns = em.getTransaction ();
 			tns.begin ();
 			oeDao.delete ( oeDB );
 			tns.commit ();
@@ -74,7 +75,7 @@ public class OntologyEntryDAOTest
 		ReferenceSource srcDB = srcDao.find ( src.getAcc (), src.getVersion () );
 		if ( srcDB != null ) 
 		{
-			ITransaction tns = srcDao.getTransaction ();
+			EntityTransaction tns = em.getTransaction ();
 			tns.begin ();
 			srcDao.delete ( srcDB );
 			tns.commit ();
@@ -87,7 +88,7 @@ public class OntologyEntryDAOTest
 	@Test
 	public void testBasics ()
 	{
-		ITransaction tns = oeDao.getTransaction ();
+		EntityTransaction tns = em.getTransaction ();
 		tns.begin ();
 		oeDao.create ( oe );
 		tns.commit ();

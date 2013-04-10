@@ -38,11 +38,13 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends IdentifiableDAO<
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
 		
 		// TODO: SQL-injection security
-		String hql = "SELECT oe.id FROM " + this.getPersistentClass().getCanonicalName() + 
-			" oe WHERE oe.acc = '" + accession + "' AND oe.source.acc = '" + srcAcc + "' AND oe.source.version " + 
+		String hql = "SELECT oe.id FROM " + this.getManagedClass().getCanonicalName() + 
+			" oe WHERE oe.acc = :acc AND oe.source.acc = :srcAcc AND source.version " + 
 			( srcVer == null ? "IS NULL" : "= '" + srcVer + "'" );
 				
-		Query query = getEntityManager ().createQuery( hql );
+		Query query = getEntityManager ().createQuery( hql )
+			.setParameter ( "acc", accession )
+			.setParameter ( "srcAcc", srcAcc );
 		
 		@SuppressWarnings ( "unchecked" )
 		List<Long> list = query.getResultList();
@@ -58,7 +60,7 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends IdentifiableDAO<
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
 		
 		// TODO: SQL-injection security
-		String hql = "SELECT oe.id FROM " + this.getPersistentClass().getCanonicalName() 
+		String hql = "SELECT oe.id FROM " + this.getManagedClass().getCanonicalName() 
 			+ " oe WHERE oe.acc = '" + accession + "' AND oe.source.acc = '" + srcAcc + "'";
 				
 		Query query = getEntityManager ().createQuery( hql );
@@ -103,7 +105,7 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends IdentifiableDAO<
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
 		
 		// TODO: SQL-injection security
-		String hql = "SELECT oe FROM " + this.getPersistentClass().getCanonicalName() + 
+		String hql = "SELECT oe FROM " + this.getManagedClass().getCanonicalName() + 
 			" oe WHERE oe.acc = '" + accession + "' AND oe.source.acc = '" + srcAcc + "' AND oe.source.version " + 
 			( srcVer == null ? "IS NULL" : "= '" + srcVer + "'" );
 				
@@ -125,7 +127,7 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends IdentifiableDAO<
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
 		
 		// TODO: SQL-injection security
-		String hql = "SELECT oe FROM " + this.getPersistentClass().getCanonicalName() + 
+		String hql = "SELECT oe FROM " + this.getManagedClass().getCanonicalName() + 
 			" oe WHERE oe.acc = '" + accession + "' AND oe.source.acc = '" + srcAcc + "'"; 
 				
 		Query query = getEntityManager ().createQuery( hql );
