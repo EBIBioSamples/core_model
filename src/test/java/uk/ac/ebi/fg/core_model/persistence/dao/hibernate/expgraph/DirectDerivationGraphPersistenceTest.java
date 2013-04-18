@@ -75,7 +75,7 @@ public class DirectDerivationGraphPersistenceTest
 		out.println ( "Saved model:" );
 		new ProcessBasedGraphDumper().dump ( out, model.bm1 );
 
-		Node bm1DB = biomaterialDao.findById ( model.bm1.getId () );
+		Node bm1DB = biomaterialDao.find ( model.bm1.getId () );
 		assertNotNull ( "Could not fetch bm1!", bm1DB  );
 		
 		out.println ( "\n\nReloaded model:" );

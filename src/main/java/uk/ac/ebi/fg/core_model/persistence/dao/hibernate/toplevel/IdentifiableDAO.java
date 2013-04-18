@@ -3,6 +3,7 @@ package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.apache.commons.lang.Validate;
 import org.hibernate.CacheMode;
@@ -66,11 +67,36 @@ public class IdentifiableDAO<T extends Identifiable> // extends AbstractHibernat
     return true;
   }
   
-  
-  public T findById ( Long id )
+  /** Finds a arbitrary identifiable. */ 
+  public <T1 extends T> T1 find ( long id, Class<T1> targetClass )
   {
-  	return entityManager.find ( managedClass, id );
+  	return entityManager.find ( targetClass, id );
   }
+
+  /** Finds an identifiable instance of {@link #getManagedClass()}. */
+  public T find ( long id ) {
+  	return find ( id, this.getManagedClass () );
+  }
+
+  /** Finds a arbitrary identifiable, this is slightly more performant than {@link #find(long, Class)}. */ 
+  public <T1 extends T> boolean contains ( long id, Class<T1> targetClass )
+  {
+		Query query = getEntityManager ().createQuery(
+			"SELECT i.id FROM " + targetClass.getCanonicalName () + " i WHERE i.id = ?1");
+		query.setParameter ( 1, id );
+		
+		@SuppressWarnings ( "unchecked" )
+		List<Long> list = query.getResultList();
+		return !list.isEmpty ();
+  }
+  
+  /** Finds an identifiable instance of {@link #getManagedClass()}, this is slightly more performant than 
+   * {@link #find(long, Class)}. */ 
+  public boolean contains ( long id ) {
+  	return contains ( id, this.getManagedClass () );
+  }
+
+  
   
   /**
    * Queries by example, using {@link Example}. Method copied from PerfectJPattern.

@@ -228,7 +228,7 @@ public class RemappedAnnotationTest
 		cntDao.create ( cnt );
 		tns.commit ();
 		
-		cnt = cntDao.findById ( cnt.getId () );
+		cnt = cntDao.find ( cnt.getId () );
 		assertNotNull ( "MyContact not saved!", cnt );
 		assertEquals ( "My Annotations not saved!", 2, cnt.getAnnotations ().size () );
 	}
