@@ -1,5 +1,6 @@
 package uk.ac.ebi.fg.core_model.xref;
 
+import static java.lang.System.out;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -8,11 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
-
-import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
-import uk.ac.ebi.fg.core_model.xref.XRef;
-
-import static java.lang.System.out;
 
 public class XRefTest
 {

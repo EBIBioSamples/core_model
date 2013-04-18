@@ -3,6 +3,11 @@
  */
 package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,14 +29,11 @@ import org.junit.Test;
 
 import uk.ac.ebi.fg.core_model.organizational.Contact;
 import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.terms.CVTermDAO;
-import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.IdentifiableDAO;
 import uk.ac.ebi.fg.core_model.resources.Resources;
 import uk.ac.ebi.fg.core_model.terms.AnnotationType;
 import uk.ac.ebi.fg.core_model.toplevel.Annotatable;
 import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 import uk.ac.ebi.utils.test.junit.TestEntityMgrProvider;
-
-import static junit.framework.Assert.*;
 
 /**
  * <p>Show how you can create multiple tables for {@link Annotation}. This class is normally mapped into one table and 

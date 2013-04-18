@@ -3,17 +3,11 @@ package uk.ac.ebi.fg.core_model.toplevel;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.AssociationOverride;
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
-
-import uk.ac.ebi.fg.core_model.organizational.Contact;
 
 /**
  * 

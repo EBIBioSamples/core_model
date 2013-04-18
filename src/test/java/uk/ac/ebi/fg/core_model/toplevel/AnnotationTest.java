@@ -10,7 +10,6 @@ import java.util.Set;
 import org.junit.Test;
 
 import uk.ac.ebi.fg.core_model.terms.AnnotationType;
-import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 
 public class AnnotationTest
 {

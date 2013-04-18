@@ -1,6 +1,7 @@
 package uk.ac.ebi.fg.core_model.organizational;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import uk.ac.ebi.fg.core_model.terms.CVTerm;
 

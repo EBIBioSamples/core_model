@@ -1,11 +1,11 @@
 package uk.ac.ebi.fg.core_model.expgraph;
 
+import static java.lang.System.out;
+
 import org.junit.Test;
 
 import uk.ac.ebi.fg.core_model.utils.expgraph.DirectDerivationGraphDumper;
 import uk.ac.ebi.fg.core_model.utils.test.DirectDerivationTestModel;
-
-import static java.lang.System.out;
 
 /**
  * 
