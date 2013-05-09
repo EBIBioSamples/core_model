@@ -105,7 +105,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 		this.formatVersion = formatVersion;
 	}
 
-	@Column ( name = "release_date" )
+	@Column ( name = "release_date", nullable = true )
 	@Index ( name = "sub_rel_date" )
 	public Date getReleaseDate ()
 	{
@@ -207,6 +207,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 		return this.referenceSources.add ( ref );
 	}
 
+	
 	@Override
 	public String toString ()
 	{
