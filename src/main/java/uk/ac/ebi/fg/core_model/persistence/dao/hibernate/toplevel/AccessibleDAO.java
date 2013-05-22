@@ -54,23 +54,45 @@ public class AccessibleDAO<A extends Accessible> extends IdentifiableDAO<A>
 	 * @return if the entity's accession doesn't exist yet, returns the same entity, but after having attached it to 
 	 * the persistence context. If the entity already exists in the DB, returns the copy given by the persistence 
 	 * context (i.e., attached to it).
-	 *  
+	 * 
 	 */
-	public A getOrCreate ( A entity ) 
+	public A getOrCreate ( A accessible ) 
 	{
 	
-	  Validate.notNull ( entity, "Database access error: cannot fetch a null accessible" );
-	  Validate.notEmpty ( entity.getAcc(), "Database access error: cannot fetch an accessible with empty accession" );
+	  Validate.notNull ( accessible, "Database access error: cannot fetch a null accessible" );
+	  String acc = accessible.getAcc ();
+	  Validate.notEmpty ( acc, "Database access error: cannot fetch an accessible with empty accession" );
 	
-	  A accessible = find ( entity.getAcc() );
-	  if ( accessible == null ) 
+	  A accDB = find ( acc );
+	  if ( accDB == null ) 
 	  {
-	    create ( entity );
-	    accessible = entity;
+	    create ( accessible );
+	    accDB = accessible;
 	  }
-	  return accessible;
+	  return accDB;
 	}
 
+	/** 
+	 * Works like {@link IdentifiableDAO#mergeBean(uk.ac.ebi.fg.core_model.toplevel.Identifiable)}, but searches
+	 * by {@link #find(String) accession}.
+	 */
+	@Override
+  public A mergeBean ( A accessible )
+  {
+	  Validate.notNull ( accessible, "Database access error: cannot fetch a null accessible" );
+	  String acc = accessible.getAcc ();
+	  Validate.notNull ( acc, "Database access error: cannot fetch an entity with empty accessible" );
+
+	  A accDB = find ( acc );
+	  if ( accDB == null ) 
+	  {
+	    create ( accessible );
+	    return accessible;
+	  }
+	  
+	  return mergeBeanHelper ( accessible, accDB ); // we only need this, the rest will come with transaction's commit.
+  }
+	
   /**
    * Finds by accession, optionally allows for the search of a specific A's subclass. 
    */

@@ -74,6 +74,10 @@ public class IdentifiableDAOTest
 	@After
 	public void cleanUpDB ()
 	{
+		xrefDao.setEntityManager ( em = emProvider.newEntityManager () );
+		srcDao.setEntityManager ( em );
+		cntDao.setEntityManager ( em );
+		
 		EntityTransaction tns = em.getTransaction ();
 		tns.begin ();
 		
@@ -160,5 +164,52 @@ public class IdentifiableDAOTest
 		assertNotNull ( "Annotation not saved!", ann1.getId () );
 		assertNotNull ( "Annotation not saved!", ann2.getId () );
 		assertNotNull ( "Annotation Type not saved!", atype.getId () );
+	}
+	
+	@Test
+	public void testMergeBean ()
+	{
+		EntityTransaction tns = em.getTransaction ();
+		tns.begin ();
+		cntDao.create ( cnt );
+		tns.commit ();
+		
+		assertNotNull ( "Saved contact has null ID!", cnt.getId () );
+		assertNotNull ( "Annotation not saved!", ann1.getId () );
+		assertNotNull ( "Annotation not saved!", ann2.getId () );
+		assertNotNull ( "Annotation Type not saved!", atype.getId () );
+
+		Contact cnt1 = new Contact () {{ 
+			setId ( cnt.getId() ); 
+		}};
+		cnt1.setLastName ( "New Test" );
+		cnt1.setAffiliation ( "Affiliation added via mergeBean()" );
+		
+		cntDao.setEntityManager ( em = emProvider.newEntityManager () );
+		
+		tns = em.getTransaction ();
+		tns.begin ();
+			cntDao.mergeBean ( cnt1 );
+		tns.commit ();
+		
+		cntDao.setEntityManager ( em = emProvider.newEntityManager () );
+		
+		List<Contact> cntsDB = cntDao.findByExample ( cnt1 );
+		assertEquals ( "Merged contact not retrieved!", 1, cntsDB.size () );
+
+		Contact cntDB = cntsDB.get ( 0 );
+		assertEquals ( "Merged contact is not the same!", cnt.getId (), cntDB.getId () );
+		assertEquals ( "Merged contact's last-name is wrong!", cnt1.getLastName (), cntDB.getLastName () );
+		assertEquals ( "Merged contact's affiliation is wrong!", cnt1.getAffiliation (), cntDB.getAffiliation () );
+		assertEquals ( "Merged contact's first-name is wrong!", cnt.getFirstName (), cntDB.getFirstName () );
+		assertTrue ( "Merged contact's ann1 not saved!", cntDB.getAnnotations ().contains ( ann1 ) );
+		assertTrue ( "Merged contact's ann2 not saved!", cntDB.getAnnotations ().contains ( ann2 ) );
+		
+		
+		// cleanupDB() cannot deal with it anymore, it changed.
+		tns = em.getTransaction ();
+		tns.begin ();
+			cntDao.delete ( cntDB );
+	  tns.commit ();
 	}
 }

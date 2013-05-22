@@ -1,10 +1,15 @@
 package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.Validate;
 import org.hibernate.CacheMode;
 import org.hibernate.Criteria;
@@ -13,6 +18,7 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Projections;
 
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
+
 
 /**
  * The interface between the core model and the relational database it is mapped to is managed via the Data Access Object 
@@ -29,7 +35,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 public class IdentifiableDAO<T extends Identifiable> // extends AbstractHibernateManagedGenericDao<Long, D>
 {
 	private EntityManager entityManager; 
-	private final Class<T> managedClass; 
+	private final Class<T> managedClass;
 	
 	public IdentifiableDAO ( Class<T> managedClass, EntityManager entityManager ) 
 	{
@@ -42,7 +48,7 @@ public class IdentifiableDAO<T extends Identifiable> // extends AbstractHibernat
 		Criteria criteria = ((Session) entityManager.getDelegate ()).createCriteria ( getManagedClass() ).
 		setProjection ( Projections.rowCount() ).setCacheMode ( CacheMode.IGNORE );
 		
-		//JPA 2.0
+		// This is the JPA 2.0 way
 		Long value = (Long) criteria.list().get( 0 );
 		return value;
 	}
@@ -56,6 +62,32 @@ public class IdentifiableDAO<T extends Identifiable> // extends AbstractHibernat
     	entityManager.persist ( entity );
   }
 
+
+	/** 
+	 * First does a search of the entity, via {@link #find(long) ID}, then, if anything is found, merges all the non-null 
+	 * attributes into the database entity and saves the updated object. Note that this is different than a simple
+	 * {@link EntityManager#merge(Object)}, since here we ignore the bean properties in the parameter that have null values, 
+	 * we keep the values from the DB in such a case. 
+	 * 
+	 * @return the newly saved object.
+	 * 
+	 */
+  public T mergeBean ( T entity )
+  {
+	  Validate.notNull ( entity, "Database access error: cannot fetch a null accessible" );
+	  Validate.notNull ( entity.getId (), "Database access error: cannot fetch an entity with empty ID" );
+
+	  T entDB = find ( entity.getId () );
+	  if ( entDB == null ) 
+	  {
+	    create ( entity );
+	    return entity;
+	  }
+
+	  return mergeBeanHelper ( entity, entDB ); // we only need this, the rest will come with transaction's commit.
+  }
+  
+  
   /**
    * Deletes an entity using {@link #getEntityManager()}.remove() and returns true if it was there and actually deleted.
    */
@@ -151,5 +183,32 @@ public class IdentifiableDAO<T extends Identifiable> // extends AbstractHibernat
 	public void setEntityManager ( EntityManager entityManager )
 	{
 		this.entityManager = entityManager;
+	}
+	
+	/**
+	 * does the merge of src into dest, as explained in {@link #mergeBean(Identifiable)}. Put here, cause it
+	 * is needed in {@link AccessibleDAO} as well.
+	 * 
+	 */
+	public static <T extends Identifiable> T mergeBeanHelper ( T src, T dest )
+	{
+	  for ( PropertyDescriptor pd: PropertyUtils.getPropertyDescriptors ( src ) )
+	  {
+	  	RuntimeException theEx = null;
+	  	try {
+	  		Object pval = pd.getReadMethod ().invoke ( src );
+	  		if ( pval == null ) continue;
+	  		if ( pval instanceof Collection && ((Collection<?>) pval).isEmpty () ) continue;
+				BeanUtils.copyProperty ( dest, pd.getName (), pval );
+			} 
+	  	catch ( IllegalArgumentException ex ) { theEx = null; }
+			catch ( IllegalAccessException ex ) { theEx = null; }
+			catch ( InvocationTargetException ex ) { theEx = null; }
+	  	finally {
+	  		if ( theEx != null ) throw new RuntimeException ( "Internal error while saving to database: " + theEx.getMessage (), theEx );
+	  	}
+	  }
+		
+	  return dest;
 	}
 }
