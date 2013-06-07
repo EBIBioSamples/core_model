@@ -2,6 +2,8 @@ package uk.ac.ebi.fg.core_model.toplevel;
 
 import java.util.Set;
 
+import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.RemappedAnnotationTest;
+
 
 /**
  * An object that can receive a set of {@link Annotation annotations}.

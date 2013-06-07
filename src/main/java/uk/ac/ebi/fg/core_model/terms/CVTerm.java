@@ -21,7 +21,6 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 @MappedSuperclass
 public abstract class CVTerm extends Identifiable 
 {
-	@Column ( length = Const.COL_LENGTH_L )
 	private String name;
 
 	protected CVTerm () {
@@ -33,7 +32,7 @@ public abstract class CVTerm extends Identifiable
 		this.name = name;
 	}
 
-	@Column( unique = true, nullable = false )
+	@Column( unique = true, nullable = false, length = Const.COL_LENGTH_L )
 	public String getName() {
 		return name;
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 
 import uk.ac.ebi.fg.core_model.toplevel.Accessible;
@@ -116,4 +117,30 @@ public class AccessibleDAO<A extends Accessible> extends IdentifiableDAO<A>
   	return find ( accession, this.getManagedClass () );
   } 
   
+	/**
+	 * Like {@link #find(String)}, but fails if it doesn't find anything.
+	 */
+	public A findAndFail ( String accession, Class<? extends A> targetClass ) 
+	{
+		A result = find ( accession );
+		if ( result == null ) throw new IllegalArgumentException ( "'" + accession + "' not found" );
+		return result;
+	}
+
+	public A findAndFail ( String accession ) 
+	{
+		return findAndFail ( accession, this.getManagedClass () );
+	}
+
+	
+  public boolean delete ( String accession ) 
+  {
+  	accession = StringUtils.trimToNull ( accession );
+  	Validate.notNull ( "Cannot delete with a null accession" );
+  		
+  	A accessible = find ( accession );
+  	if ( accessible == null ) return false;
+  	
+  	return this.delete ( accessible );
+  }
 }

@@ -15,6 +15,7 @@ import org.hibernate.CacheMode;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
@@ -131,34 +132,43 @@ public class IdentifiableDAO<T extends Identifiable> // extends AbstractHibernat
   
   
   /**
-   * Queries by example, using {@link Example}. Method copied from PerfectJPattern.
+   * Queries by example, using {@link Example}. Method inspired to PerfectJPattern.
    * 
-   * @param example the entity-bean to be used as example, all its non-null properties that are not listed in  excludedProperties
+   * @param example: the entity-bean to be used as example, all its non-null properties that are not listed in  excludedProperties
    * are used as AND search facet.
    * 
-   * @param excludedProperties bean properties you want to ignore even if they're non-null. These must follow bean naming
+   * @param likeMode: if true, searches by wrapping all the included parameters with '%' and searches via LIKE, i.e., 
+   * searches partial strings.
+   * 
+   * @param excludedProperties: bean properties you want to ignore even if they're non-null. These must follow bean naming
    * conventions (e.g., "name" for "getName").
    * 
    */
 	@SuppressWarnings ( "unchecked" )
-	public List<T> findByExample ( T example, String ... excludedProperties)
+	public List<T> findByExample ( T example, boolean likeMode, String ... excludedProperties )
   {
 	  Validate.notNull ( example, "Internal error: findByExample() invoked with null parameter" );        
-	  Validate.notNull ( excludedProperties, "Internal error: findByExample() invoked with null exclusion list" );
 	  
-	  List<T> myElements = null;
-	  
-		Session mySession = (Session) entityManager.getDelegate ();            
+		Session session = (Session) entityManager.getDelegate ();            
 	    
-	  Criteria myCriteria = mySession.createCriteria( getManagedClass() );
-	  Example myExample = Example.create ( example );
-	  for ( String myPropertyName : excludedProperties )
-	  	myExample.excludeProperty ( myPropertyName );
+	  Example exCriterion = Example.create ( example );
+	  if ( likeMode ) exCriterion.enableLike ( MatchMode.ANYWHERE );
 	  
-	  myElements = myCriteria.add ( myExample ).list();
+	  if ( excludedProperties != null )
+	  	for ( String myPropertyName : excludedProperties )
+	  		exCriterion.excludeProperty ( myPropertyName );
 	  
-	  return myElements;            
+	  Criteria criteria = session.createCriteria( getManagedClass() );
+	  criteria.add ( exCriterion );
+	  
+	  return criteria.list ();            
   }
+	
+	/** Searches with enableLike = false */
+	public List<T> findByExample ( T example, String ... excludedProperties ) {
+		return findByExample ( example, false, excludedProperties );
+	}
+	
 	
 	/**
 	 * The class that this DAO manages, which was passed via the constructor.
@@ -186,7 +196,7 @@ public class IdentifiableDAO<T extends Identifiable> // extends AbstractHibernat
 	}
 	
 	/**
-	 * does the merge of src into dest, as explained in {@link #mergeBean(Identifiable)}. Put here, cause it
+	 * Does the merge of src into dest, as explained in {@link #mergeBean(Identifiable)}. Put here, cause it
 	 * is needed in {@link AccessibleDAO} as well.
 	 * 
 	 */

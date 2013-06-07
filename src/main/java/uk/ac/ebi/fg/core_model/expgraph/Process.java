@@ -41,7 +41,6 @@ import javax.persistence.Table;
 @SuppressWarnings ( "rawtypes" )
 public abstract class Process<I extends Product, O extends Product> extends Node<I, O>
 {
-	@OneToMany ( orphanRemoval = true )
 	private List<ProtocolApplication> protocolApplications = new ArrayList<ProtocolApplication> ();
 	
 	public Process ()

@@ -46,7 +46,6 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 )*/
 public class ReferenceSource extends Identifiable
 {
-	@Column( unique = false, nullable = false )
   private String acc;
 
   private String name;
@@ -63,7 +62,7 @@ public class ReferenceSource extends Identifiable
   }
 
   @Index ( name = "refsrc_acc" )
-  @Column ( length = Const.COL_LENGTH_S )
+	@Column( unique = false, nullable = false, length = Const.COL_LENGTH_S)
 	public String getAcc ()
 	{
 		return acc;
