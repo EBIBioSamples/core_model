@@ -172,7 +172,7 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	 */
 	public boolean addDerivedFrom ( Product product ) 
 	{
-		if ( !this.derivedFrom.add ( product ) ) return false;
+		if ( !this.getDerivedFrom ().add ( product ) ) return false;
 		product.addDerivedInto ( this );
 		return true;
 	}
@@ -182,7 +182,7 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	 */
 	public boolean removeDerivedFrom ( Product product )
 	{
-		if ( !this.derivedFrom.remove ( product ) ) return false;
+		if ( !this.getDerivedFrom ().remove ( product ) ) return false;
 		product.removeDerivedInto ( this );
 		return true;
 	}
@@ -214,7 +214,7 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	 */
 	public boolean addDerivedInto ( Product product ) 
 	{
-		if ( !this.derivedInto.add ( product ) ) return false;
+		if ( !this.getDerivedInto ().add ( product ) ) return false;
 		product.addDerivedFrom ( this );
 		return true;
 	}
@@ -224,7 +224,7 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	 */
 	public boolean removeDerivedInto ( Product product )
 	{
-		if ( !this.derivedInto.remove ( product ) ) return false;
+		if ( !this.getDerivedInto().remove ( product ) ) return false;
 		product.removeDerivedFrom ( this );
 		return true;
 	}
@@ -237,7 +237,7 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	public <P extends Product> Set<P> getAllDerivedFrom ()
 	{
 		Builder<P> builder = ImmutableSet.builder ();
-		builder.addAll ( (Set<P>) this.derivedFrom );
+		builder.addAll ( (Set<P>) this.getDerivedFrom () );
 		for ( Process proc: this.getUpstreamProcesses () )
 			builder.addAll ( proc.getInputs () );
 		return builder.build ();
@@ -251,7 +251,7 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	public <P extends Product> Set<P> getAllDerivedInto ()
 	{
 		Builder<P> builder = ImmutableSet.builder ();
-		builder.addAll ( (Set<P>) this.derivedInto );
+		builder.addAll ( (Set<P>) this.getDerivedInto () );
 		for ( Process proc: this.getDownstreamProcesses () )
 			builder.addAll ( proc.getOutputs () );
 		return builder.build ();
@@ -284,7 +284,7 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	 * are bound to the generic returned her in the sub-classes of this class. 
 	 */
 	public boolean addPropertyValue ( EP pval ) {
-		return this.propertyValues.add ( pval );
+		return this.getPropertyValues ().add ( pval );
 	}
 	
 

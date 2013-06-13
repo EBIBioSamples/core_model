@@ -159,21 +159,21 @@ public class Organization extends DefaultAnnotatable
    *  
    */
   public boolean addOrganizationRole ( ContactRole organizationRole ) {
-    return organizationRoles.add ( organizationRole );
+    return getOrganizationRoles ().add ( organizationRole );
   }
 
   /**
    * @see #addOrganizationRole(ContactRole)
    */
   public boolean removeOrganizationRole ( ContactRole organizationRole ) {
-    return organizationRoles.remove ( organizationRole );
+    return getOrganizationRoles ().remove ( organizationRole );
   }
 
   /**
    * @see #addOrganizationRole(ContactRole)
    */
   public boolean containsOrganizationRole ( ContactRole organizationRole ) {
-    return organizationRoles.contains ( organizationRole );
+    return getOrganizationRoles ().contains ( organizationRole );
   }
   
 

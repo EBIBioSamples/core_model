@@ -161,7 +161,7 @@ public abstract class Process<I extends Product, O extends Product> extends Node
 	}
 	
 	public boolean addProtocolApplication ( ProtocolApplication papp ) {
-		return this.protocolApplications.add ( papp );
+		return this.getProtocolApplications ().add ( papp );
 	}
 	
   @Override

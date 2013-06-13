@@ -74,7 +74,7 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 	@Transient
 	public Set<U> getUpstreamNodes ()
 	{
-		// TODO: this would be the ideal thing to expose internal collections, the problem is that Hibernate doesn't like
+		// TODO: the ideal thing to not expose internal collections, the problem is that Hibernate doesn't like
 		// this at all, we need for a different solution. Field access would make it, but not sure one can mix access types
 		// and we can't afford to switch the whole existing hierarchy from property access.
 		//
@@ -98,7 +98,7 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 	@SuppressWarnings ( "unchecked" )
 	public boolean addUpstreamNode ( U node )
 	{
-		if ( !this.upstreamNodes.add ( node ) ) return false;
+		if ( !this.getUpstreamNodes ().add ( node ) ) return false;
 		node.addDownstreamNode ( this );
 		return true;
 	}
@@ -109,7 +109,7 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 	@SuppressWarnings ( "unchecked" )
 	public boolean removeUpstreamNode ( U node )
 	{
-		if ( !this.upstreamNodes.remove ( node ) ) return false;
+		if ( !this.getUpstreamNodes ().remove ( node ) ) return false;
 		node.removeDownstreamNode ( this );
 		return true;
 	}
@@ -136,7 +136,7 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 	@SuppressWarnings ( "unchecked" )
 	public boolean addDownstreamNode ( D node )
 	{
-		if ( !this.downstreamNodes.add ( node ) ) return false;
+		if ( !this.getDownstreamNodes ().add ( node ) ) return false;
 		node.addUpstreamNode ( this );
 		return true;
 	}
@@ -147,7 +147,7 @@ public abstract class Node<U extends Node, D extends Node> extends DefaultAccess
 	@SuppressWarnings ( "unchecked" )
 	public boolean removeDownstreamNode ( D node )
 	{
-		if ( !this.downstreamNodes.remove ( node ) ) return false;
+		if ( !this.getDownstreamNodes ().remove ( node ) ) return false;
 		node.removeUpstreamNode ( this );
 		return true;
 	}

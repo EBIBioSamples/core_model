@@ -70,15 +70,15 @@ public abstract class FreeTextTerm extends Identifiable
   }
 
   public boolean addOntologyTerm ( OntologyEntry ontologyTerm ) {
-  	return this.ontologyTerms.add ( ontologyTerm );
+  	return this.getOntologyTerms ().add ( ontologyTerm );
   }
 
   public boolean removeOntologyTerm ( OntologyEntry ontologyTerm ) {
-  	return this.ontologyTerms.remove ( ontologyTerm );
+  	return this.getOntologyTerms ().remove ( ontologyTerm );
   }
 
   public boolean containsOntologyTerm ( OntologyEntry term ) {
-  	return this.ontologyTerms.contains ( term );
+  	return this.getOntologyTerms ().contains ( term );
   }
 
 	/**

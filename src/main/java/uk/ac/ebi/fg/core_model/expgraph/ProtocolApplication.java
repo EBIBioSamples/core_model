@@ -62,7 +62,7 @@ public class ProtocolApplication extends Identifiable
 	}
 	
 	public boolean addParameterValue ( ParameterValue pval ) {
-		return this.parameterValues.add ( pval );
+		return this.getParameterValues ().add ( pval );
 	}
 
 	@Column ( name = "application_order" )

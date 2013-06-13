@@ -220,21 +220,21 @@ public class Contact extends DefaultAnnotatable
    *  
    */
   public boolean addContactRole ( ContactRole contactRole ) {
-    return contactRoles.add ( contactRole );
+    return getContactRoles ().add ( contactRole );
   }
 
   /**
    * @see #addContactRole(ContactRole)
    */
   public boolean removeContactRole ( ContactRole contactRole ) {
-    return contactRoles.remove ( contactRole );
+    return getContactRoles ().remove ( contactRole );
   }
 
   /**
    * @see #addContactRole(ContactRole)
    */
   public boolean containsContactRole ( ContactRole contactRole ) {
-    return contactRoles.contains ( contactRole );
+    return getContactRoles ().contains ( contactRole );
   }
 
 

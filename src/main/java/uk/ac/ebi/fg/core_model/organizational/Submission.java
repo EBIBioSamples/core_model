@@ -155,7 +155,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 	
 	public boolean addContact ( Contact contact ) {
-		return this.contacts.add ( contact );
+		return this.getContacts ().add ( contact );
 	}
 	
 	
@@ -171,7 +171,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 	
 	public boolean addOrganization ( Organization org ) {
-		return this.organizations.add ( org );
+		return this.getOrganizations ().add ( org );
 	}
 
 	
@@ -187,7 +187,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 	
 	public boolean addPublication ( Publication pub ) {
-		return this.publications.add ( pub );
+		return this.getPublications ().add ( pub );
 	}
 
 	
@@ -204,7 +204,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 
 	public boolean addReferenceSource ( ReferenceSource ref ) {
-		return this.referenceSources.add ( ref );
+		return this.getReferenceSources ().add ( ref );
 	}
 
 	
