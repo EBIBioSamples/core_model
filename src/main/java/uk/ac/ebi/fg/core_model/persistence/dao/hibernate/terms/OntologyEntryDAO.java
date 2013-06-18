@@ -3,6 +3,8 @@
  */
 package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.terms;
 
+import static uk.ac.ebi.utils.sql.SqlUtils.parameterizedWithNullSql;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -15,7 +17,7 @@ import uk.ac.ebi.fg.core_model.terms.OntologyEntry;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 
 /**
- * TODO: Comment me!
+ * The DAO to access {@link OntologyEntry} entities.
  *
  * <dl><dt>date</dt><dd>Aug 22, 2012</dd></dl>
  * @author Marco Brandizi
@@ -37,14 +39,12 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends IdentifiableDAO<
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null ontology entry" );
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
 		
-		// TODO: SQL-injection security
 		String hql = "SELECT oe.id FROM " + this.getManagedClass().getCanonicalName() + 
-			" oe WHERE oe.acc = :acc AND oe.source.acc = :srcAcc AND source.version " + 
-			( srcVer == null ? "IS NULL" : "= '" + srcVer + "'" );
-				
+			" oe WHERE oe.acc = :acc AND oe.source.acc = :srcAcc AND "  + parameterizedWithNullSql ( "source.version", "srcVer" );				
 		Query query = getEntityManager ().createQuery( hql )
 			.setParameter ( "acc", accession )
-			.setParameter ( "srcAcc", srcAcc );
+			.setParameter ( "srcAcc", srcAcc )
+			.setParameter ( "srcVer", srcVer );
 		
 		@SuppressWarnings ( "unchecked" )
 		List<Long> list = query.getResultList();
@@ -59,11 +59,12 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends IdentifiableDAO<
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null ontology entry" );
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
 		
-		// TODO: SQL-injection security
 		String hql = "SELECT oe.id FROM " + this.getManagedClass().getCanonicalName() 
-			+ " oe WHERE oe.acc = '" + accession + "' AND oe.source.acc = '" + srcAcc + "'";
+			+ " oe WHERE oe.acc = :acc AND oe.source.acc = :srcAcc";
 				
-		Query query = getEntityManager ().createQuery( hql );
+		Query query = getEntityManager ().createQuery( hql )
+			.setParameter ( "acc", accession )
+			.setParameter ( "srcAcc", srcAcc );
 		
 		@SuppressWarnings ( "unchecked" )
 		List<Long> list = query.getResultList();
@@ -104,12 +105,13 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends IdentifiableDAO<
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null ontology entry" );
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
 		
-		// TODO: SQL-injection security
 		String hql = "SELECT oe FROM " + this.getManagedClass().getCanonicalName() + 
-			" oe WHERE oe.acc = '" + accession + "' AND oe.source.acc = '" + srcAcc + "' AND oe.source.version " + 
-			( srcVer == null ? "IS NULL" : "= '" + srcVer + "'" );
+			" oe WHERE oe.acc = :acc AND oe.source.acc = :srcAcc AND " + parameterizedWithNullSql ( "oe.source.version", "srcVer" );
 				
-		Query query = getEntityManager ().createQuery( hql );
+		Query query = getEntityManager ().createQuery( hql )
+			.setParameter ( "acc", accession )
+			.setParameter ( "srcAcc", srcAcc )
+			.setParameter ( "srcVer", srcVer );
 		
 		@SuppressWarnings("unchecked")
 		List<OE> result = query.getResultList();
@@ -126,11 +128,13 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends IdentifiableDAO<
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null ontology entry" );
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
 		
-		// TODO: SQL-injection security
 		String hql = "SELECT oe FROM " + this.getManagedClass().getCanonicalName() + 
-			" oe WHERE oe.acc = '" + accession + "' AND oe.source.acc = '" + srcAcc + "'"; 
+			" oe WHERE oe.acc = :acc AND " + parameterizedWithNullSql ( "oe.source.acc", "srcAcc" );
 				
-		Query query = getEntityManager ().createQuery( hql );
+		Query query = getEntityManager ().createQuery( hql )
+			.setParameter ( "acc", accession )
+			.setParameter ( "srcAcc", srcAcc );
+		
 		return query.getResultList();
 	}
 

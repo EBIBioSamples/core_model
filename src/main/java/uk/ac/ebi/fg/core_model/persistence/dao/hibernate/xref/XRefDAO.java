@@ -13,9 +13,10 @@ import org.apache.commons.lang.Validate;
 import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.IdentifiableDAO;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 import uk.ac.ebi.fg.core_model.xref.XRef;
+import uk.ac.ebi.utils.sql.SqlUtils;
 
 /**
- * TODO: Comment me!
+ * The DAO to access {@link XRef} entities.
  *
  * <dl><dt>date</dt><dd>Aug 10, 2012</dd></dl>
  * @author Marco Brandizi
@@ -37,12 +38,13 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null x-ref" );
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an x-ref with empty accession" );
 		
-		// TODO: SQL-injection security
 		String hql = "SELECT x.id FROM " + this.getManagedClass().getCanonicalName() + 
-			" x WHERE x.acc = '" + accession + "' AND x.source.acc = '" + srcAcc + "' AND x.source.version " + 
-			( srcVer == null ? "IS NULL" : "= '" + srcVer + "'" );
+			" x WHERE x.acc = :acc AND x.source.acc = :srcAcc AND " + SqlUtils.parameterizedWithNullSql ( "x.source.version", "srcVer" );
 				
-		Query query = getEntityManager ().createQuery( hql );
+		Query query = getEntityManager ().createQuery( hql )
+			.setParameter ( "acc", accession )
+			.setParameter ( "srcAcc", srcAcc )
+			.setParameter ( "srcVer", srcVer );
 		
 		@SuppressWarnings ( "unchecked" )
 		List<Long> list = query.getResultList();
@@ -59,9 +61,11 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 		
 		// TODO: SQL-injection security
 		String hql = "SELECT x.id FROM " + this.getManagedClass().getCanonicalName() 
-			+ " x WHERE x.acc = '" + accession + "' AND x.source.acc = '" + srcAcc + "'";
+			+ " x WHERE x.acc = :acc AND x.source.acc = :srcAcc";
 				
-		Query query = getEntityManager ().createQuery( hql );
+		Query query = getEntityManager ().createQuery( hql )
+			.setParameter ( "acc", accession )
+			.setParameter ( "srcAcc", srcAcc );
 		
 		@SuppressWarnings ( "unchecked" )
 		List<Long> list = query.getResultList();
@@ -104,10 +108,12 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 		
 		// TODO: SQL-injection security
 		String hql = "SELECT x FROM " + this.getManagedClass().getCanonicalName() + 
-			" x WHERE x.acc = '" + accession + "' AND x.source.acc = '" + srcAcc + "' AND x.source.version " + 
-			( srcVer == null ? "IS NULL" : "= '" + srcVer + "'" );
+			" x WHERE x.acc = :acc AND x.source.acc = :srcAcc AND " + SqlUtils.parameterizedWithNullSql ( "x.source.version", "srcVer" ); 
 				
-		Query query = getEntityManager ().createQuery( hql );
+		Query query = getEntityManager ().createQuery( hql )
+			.setParameter ( "acc", accession )
+			.setParameter ( "srcAcc", srcAcc )
+			.setParameter ( "srcVer", srcVer );
 		
 		@SuppressWarnings("unchecked")
 		List<X> result = query.getResultList();
@@ -124,11 +130,13 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null x-ref" );
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an x-ref with empty accession" );
 		
-		// TODO: SQL-injection security
 		String hql = "SELECT x FROM " + this.getManagedClass().getCanonicalName() + 
-			" x WHERE x.acc = '" + accession + "' AND x.source.acc = '" + srcAcc + "'"; 
+			" x WHERE x.acc = :acc AND x.source.acc = :srcAcc"; 
 				
-		Query query = getEntityManager ().createQuery( hql );
+		Query query = getEntityManager ().createQuery( hql )
+			.setParameter ( "acc", accession )
+			.setParameter ( "srcAcc", srcAcc );
+		
 		return query.getResultList();
 	}
 

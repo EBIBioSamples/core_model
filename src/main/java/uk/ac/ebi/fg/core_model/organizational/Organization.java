@@ -128,7 +128,7 @@ public class Organization extends DefaultAnnotatable
 		this.fax = fax;
 	}
 
-  @ManyToMany( targetEntity = ContactRole.class, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+  @ManyToMany( targetEntity = ContactRole.class, cascade = {CascadeType.PERSIST, CascadeType.REFRESH} )
   @JoinTable(
     name = "organization_roles", 
     joinColumns = {@JoinColumn( name = "organization_id" )}, inverseJoinColumns = @JoinColumn( name = "role_id" ))

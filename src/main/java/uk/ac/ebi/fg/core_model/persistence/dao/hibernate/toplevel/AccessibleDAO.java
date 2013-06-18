@@ -35,8 +35,8 @@ public class AccessibleDAO<A extends Accessible> extends IdentifiableDAO<A>
 		Validate.notEmpty ( accession, "accession must not be empty");
 		 
 		Query query = getEntityManager ().createQuery(
-			"SELECT a.id FROM " + targetClass.getCanonicalName () + " a WHERE a.acc = ?1");
-		query.setParameter ( 1, accession );
+			"SELECT a.id FROM " + targetClass.getCanonicalName () + " a WHERE a.acc = :acc");
+		query.setParameter ( "acc", accession );
 		
 		@SuppressWarnings ( "unchecked" )
 		List<Long> list = query.getResultList();
@@ -101,9 +101,9 @@ public class AccessibleDAO<A extends Accessible> extends IdentifiableDAO<A>
   {
     Validate.notEmpty ( accession, "Database access error: cannot fetch an empty accessible" );
     
-		String queryStr= "SELECT a FROM " + targetClass.getCanonicalName () + " a WHERE a.acc = ?1";
+		String queryStr= "SELECT a FROM " + targetClass.getCanonicalName () + " a WHERE a.acc = :acc";
 		Query query = getEntityManager ().createQuery ( queryStr );
-		query.setParameter ( 1, accession );
+		query.setParameter ( "acc", accession );
 		
 		@SuppressWarnings("unchecked")
 		List<A> result = query.getResultList();

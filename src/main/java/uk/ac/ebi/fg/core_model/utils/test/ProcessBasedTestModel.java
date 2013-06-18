@@ -16,6 +16,7 @@ import uk.ac.ebi.fg.core_model.expgraph.DataProcessing;
 import uk.ac.ebi.fg.core_model.expgraph.Node;
 import uk.ac.ebi.fg.core_model.expgraph.Process;
 import uk.ac.ebi.fg.core_model.expgraph.Product;
+import uk.ac.ebi.fg.core_model.expgraph.Protocol;
 import uk.ac.ebi.fg.core_model.expgraph.properties.BioCharacteristicType;
 import uk.ac.ebi.fg.core_model.expgraph.properties.BioCharacteristicValue;
 import uk.ac.ebi.fg.core_model.expgraph.properties.DataPropertyType;
@@ -28,7 +29,7 @@ import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 
 /**
  * 
- * TODO: Comment me!
+ * A test/mock-up model that uses {@link Process}, {@link Protocol} and the process-based modelling. 
  *
  * <dl><dt>date</dt><dd>Jul 12, 2012</dd></dl>
  * @author Marco Brandizi

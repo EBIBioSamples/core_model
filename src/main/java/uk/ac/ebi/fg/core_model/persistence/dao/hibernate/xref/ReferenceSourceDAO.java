@@ -1,7 +1,6 @@
-/*
- * 
- */
 package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.xref;
+
+import static uk.ac.ebi.utils.sql.SqlUtils.parameterizedWithNullSql;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.IdentifiableDA
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 
 /**
- * TODO: Comment me!
+ * The DAO to manage {@link ReferenceSource} entities.
  * 
  * <dl><dt>date</dt><dd>Aug 9, 2012</dd></dl>
  * @author Marco Brandizi
@@ -34,11 +33,12 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	{
 		Validate.notEmpty ( accession, "accession must not be empty" );
 		
-		// TODO: SQL-injection security
 		String hql = "SELECT s.id FROM " + targetClass.getCanonicalName() + 
-			" s WHERE s.acc = '" + accession + "' AND s.version " + ( version == null ? "IS NULL" : "= '" + version + "'" );
+			" s WHERE s.acc = :acc AND " + parameterizedWithNullSql ( "s.version", "ver" );
 				
-		Query query = getEntityManager ().createQuery( hql );
+		Query query = getEntityManager ().createQuery( hql )
+			.setParameter ( "acc", accession )
+			.setParameter ( "ver", version );
 		
 		@SuppressWarnings ( "unchecked" )
 		List<Long> list = query.getResultList();
@@ -59,9 +59,9 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	public boolean contains ( String accession, Class<? extends S> targetClass ) 
 	{
 		// TODO: SQL-injection security
-		String hql = "SELECT s.id FROM " + targetClass.getCanonicalName() + " s WHERE s.acc = '" + accession + "'";
+		String hql = "SELECT s.id FROM " + targetClass.getCanonicalName() + " s WHERE s.acc = :acc";
 				
-		Query query = getEntityManager ().createQuery( hql );
+		Query query = getEntityManager ().createQuery( hql ).setParameter ( "acc", accession );
 		
 		@SuppressWarnings ( "unchecked" )
 		List<Long> list = query.getResultList();
@@ -103,11 +103,12 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	{
 	  Validate.notEmpty ( accession, "Database access error: cannot fetch an accessible with empty accession" );
 	  
-	  // TODO: SQL-injection security
 	  String hql = "SELECT s FROM " + targetClass.getCanonicalName() + 
-	  	" s WHERE s.acc = '" + accession + "' AND s.version " + ( version == null ? "IS NULL" : "= '" + version + "'" );
+	  	" s WHERE s.acc = :acc AND " + parameterizedWithNullSql ( "s.version", "ver" );
 	
-	  Query query = getEntityManager ().createQuery ( hql );
+	  Query query = getEntityManager ().createQuery ( hql )
+	  	.setParameter ( "acc", accession )
+	  	.setParameter ( "ver", version );
 		
 		@SuppressWarnings("unchecked")
 		List<S> result = query.getResultList();
@@ -131,9 +132,9 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
   {
     Validate.notEmpty ( accession, "Database access error: cannot fetch an empty accessible" );
     
-		String queryStr= "SELECT s FROM " + targetClass.getCanonicalName () + " s WHERE s.acc = ?1";
+		String queryStr= "SELECT s FROM " + targetClass.getCanonicalName () + " s WHERE s.acc = :acc";
 		Query query = getEntityManager ().createQuery ( queryStr );
-		query.setParameter ( 1, accession );
+		query.setParameter ( "acc", accession );
 		
 		return query.getResultList();
   }
