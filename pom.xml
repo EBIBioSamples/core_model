@@ -147,11 +147,17 @@
 			<url>http://www.ebi.ac.uk/~maven/m2repo</url>
 		</repository>
 
-    <repository>
+		<repository>
+			<id>ebi-repo-old-snapshots</id>
+			<name>EBI repo</name>
+			<url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+		</repository>
+
+    <!-- TODO: remove repository>
       <id>perfectjpattern</id>
       <name>PerfectJPattern Releases</name>
       <url>http://perfectjpattern.sourceforge.net/m2repo</url>
-    </repository>
+    </repository -->
 
   </repositories>
 	
