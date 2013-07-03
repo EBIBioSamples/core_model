@@ -60,7 +60,7 @@ public class OntologyEntry extends Identifiable
 	}
 
   @Index( name = "oe_acc" )
-  @Column ( length = Const.COL_LENGTH_S, nullable = false )
+  @Column ( length = Const.COL_LENGTH_L, nullable = false ) // We need it long, cause it can contains URIs
 	public String getAcc () {
 		return acc;
 	}

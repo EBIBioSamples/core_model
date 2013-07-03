@@ -62,7 +62,7 @@ public class ReferenceSource extends Identifiable
   }
 
   @Index ( name = "refsrc_acc" )
-	@Column( unique = false, nullable = false, length = Const.COL_LENGTH_S)
+	@Column( unique = false, nullable = false, length = Const.COL_LENGTH_L) // We need it long, cause it can contains URIs
 	public String getAcc ()
 	{
 		return acc;
