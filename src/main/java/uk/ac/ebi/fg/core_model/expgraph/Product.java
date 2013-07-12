@@ -63,7 +63,7 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 {
 	private Set<Product> derivedFrom = new HashSet<Product> (); 
 	private Set<Product> derivedInto = new HashSet<Product> ();
-	private Collection<EP> propertyValues = new HashSet<EP> ();
+	private Collection<EP> propertyValues = new ArrayList<EP> ();
 
 	public Product () {
 		super ();
