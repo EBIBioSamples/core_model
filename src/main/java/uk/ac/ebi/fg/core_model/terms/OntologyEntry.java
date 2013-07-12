@@ -59,8 +59,8 @@ public class OntologyEntry extends Identifiable
 		this.source = source;
 	}
 
-  @Index( name = "oe_acc" )
   @Column ( length = Const.COL_LENGTH_L, nullable = false ) // We need it long, cause it can contains URIs
+  @Index( name = "oe_acc" )
 	public String getAcc () {
 		return acc;
 	}
@@ -69,8 +69,8 @@ public class OntologyEntry extends Identifiable
 		this.acc = acc;
 	}
 
-  @Index( name = "oe_label" )
   @Column ( length = Const.COL_LENGTH_M )
+  @Index( name = "oe_label" )
 	public String getLabel () {
 		return label;
 	}

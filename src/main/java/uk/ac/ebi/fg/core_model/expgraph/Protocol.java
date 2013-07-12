@@ -36,6 +36,9 @@ import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
  */
 @Entity
 @Table( name = "protocol" )
+@org.hibernate.annotations.Table ( appliesTo = "protocol", 
+	indexes = @Index ( name = "proto_acc", columnNames = "acc" ) 
+)
 public class Protocol extends DefaultAccessibleAnnotatable 
 {
   private String name;
@@ -49,8 +52,8 @@ public class Protocol extends DefaultAccessibleAnnotatable
   private ProtocolType type;
   private Collection<ParameterType> parameterTypes = new ArrayList<ParameterType>();
 
-  @Index( name = "proto_name" )
   @Column ( length = Const.COL_LENGTH_M )
+  @Index( name = "proto_name" )
 	public String getName ()
 	{
 		return name;
@@ -61,8 +64,8 @@ public class Protocol extends DefaultAccessibleAnnotatable
 		this.name = name;
 	}
 
-  @Index( name = "proto_title" )
   @Column ( length = Const.COL_LENGTH_L )
+  @Index( name = "proto_title" )
 	public String getTitle ()
 	{
 		return title;
@@ -74,7 +77,7 @@ public class Protocol extends DefaultAccessibleAnnotatable
 	}
 
 	@Lob
-//	@Index( name = "proto_description" ) Oracle can't index LOBs
+	//	@Index( name = "proto_description" ) Oracle can't index LOBs
 	public String getDescription ()
 	{
 		return description;
@@ -85,8 +88,8 @@ public class Protocol extends DefaultAccessibleAnnotatable
 		this.description = description;
 	}
 
-	@Index ( name = "proto_hw" )
   @Column ( length = Const.COL_LENGTH_XL )
+	@Index ( name = "proto_hw" )
 	public String getHardware ()
 	{
 		return hardware;
@@ -97,8 +100,8 @@ public class Protocol extends DefaultAccessibleAnnotatable
 		this.hardware = hardware;
 	}
 
-	@Index ( name = "proto_sw" )
   @Column ( length = Const.COL_LENGTH_XL )
+	@Index ( name = "proto_sw" )
 	public String getSoftware ()
 	{
 		return software;
@@ -109,8 +112,8 @@ public class Protocol extends DefaultAccessibleAnnotatable
 		this.software = software;
 	}
 
-	@Index ( name = "proto_cnt" )
   @Column ( length = Const.COL_LENGTH_XL )
+	@Index ( name = "proto_cnt" )
 	public String getContact ()
 	{
 		return contact;
@@ -121,8 +124,8 @@ public class Protocol extends DefaultAccessibleAnnotatable
 		this.contact = contact;
 	}
 
-	@Index ( name = "proto_uri" )
   @Column ( length = 255 )
+	@Index ( name = "proto_uri" )
 	public String getUri ()
 	{
 		return uri;

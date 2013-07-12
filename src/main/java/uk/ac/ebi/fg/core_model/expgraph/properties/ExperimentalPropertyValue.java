@@ -1,10 +1,12 @@
 package uk.ac.ebi.fg.core_model.expgraph.properties;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -50,7 +52,8 @@ public class ExperimentalPropertyValue<PT extends ExperimentalPropertyType> exte
 
 	
 	@ManyToOne ( 
-		targetEntity = ExperimentalPropertyType.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}
+		targetEntity = ExperimentalPropertyType.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+		fetch = FetchType.LAZY
 	)
 	@JoinColumn ( name = "type_id" )	
 	public PT getType ()
@@ -63,7 +66,7 @@ public class ExperimentalPropertyValue<PT extends ExperimentalPropertyType> exte
 		this.type = type;
 	}
 
-	@ManyToOne ( cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH} )
+	@ManyToOne ( cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY )
 	@JoinColumn ( name = "unit_id" )
 	public Unit getUnit ()
 	{

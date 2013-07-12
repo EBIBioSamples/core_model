@@ -36,6 +36,9 @@ import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 @Entity
 @Inheritance ( strategy = InheritanceType.TABLE_PER_CLASS )
 @Table( name = "submission" )
+@org.hibernate.annotations.Table ( appliesTo = "submission", 
+	indexes = @Index ( name = "submission_acc", columnNames = "acc" ) 
+)
 public class Submission extends DefaultAccessibleAnnotatable
 {
 	private String title;
@@ -60,8 +63,8 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 
 
-	@Index ( name = "sub_title" )
   @Column ( length = Const.COL_LENGTH_L )
+	@Index ( name = "sub_title" )
 	public String getTitle ()
 	{
 		return title;

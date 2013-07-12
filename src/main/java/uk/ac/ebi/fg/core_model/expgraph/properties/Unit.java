@@ -49,8 +49,8 @@ public class Unit extends FreeTextTerm
 	}
 	
 	@Override
-  @Index( name = "unit_text" )
   @Column ( length = Const.COL_LENGTH_L, name = "term_text" )
+  @Index( name = "unit_text" )
 	public String getTermText ()
 	{
 		return super.getTermText ();

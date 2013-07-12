@@ -41,8 +41,8 @@ public class XRef extends Identifiable
 		this.source = source;
 	}
 
-	@Index ( name = "xr_acc" )
   @Column ( length = Const.COL_LENGTH_S )
+	@Index ( name = "xr_acc" )
 	public String getAcc () {
 		return this.acc;
 	}

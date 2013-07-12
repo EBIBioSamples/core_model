@@ -47,8 +47,8 @@ public class Organization extends DefaultAnnotatable
 
 	private Set<ContactRole> organizationRoles = new HashSet<ContactRole> ();
 	
-  @Index( name = "org_name" )
   @Column ( length = Const.COL_LENGTH_L )
+  @Index( name = "org_name" )
   public String getName ()
 	{
 		return name;
@@ -59,8 +59,8 @@ public class Organization extends DefaultAnnotatable
 		this.name = name;
 	}
 
-  @Index( name = "org_descr" )
   @Column ( length = Const.COL_LENGTH_XL )
+  @Index( name = "org_descr" )
 	public String getDescription ()
 	{
 		return description;
@@ -94,8 +94,8 @@ public class Organization extends DefaultAnnotatable
 		this.url = url;
 	}
 
-  @Index( name = "org_email" )
   @Column ( length = Const.COL_LENGTH_S )
+  @Index( name = "org_email" )
 	public String getEmail ()
 	{
 		return email;

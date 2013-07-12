@@ -56,8 +56,8 @@ public class ExperimentalPropertyType extends FreeTextTerm
 	}
 	
 	@Override
-  @Index( name = "p_type_text" )
   @Column ( length = Const.COL_LENGTH_L, name = "term_text" )
+  @Index( name = "p_type_text" )
 	public String getTermText ()
 	{
 		return super.getTermText ();

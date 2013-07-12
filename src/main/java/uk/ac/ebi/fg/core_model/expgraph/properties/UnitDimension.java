@@ -29,8 +29,8 @@ public class UnitDimension extends FreeTextTerm
 	}
 	
 	@Override
-  @Index( name = "dimension_text" )
   @Column ( length = Const.COL_LENGTH_L, name = "term_text" )
+  @Index( name = "dimension_text" )
 	public String getTermText ()
 	{
 		return super.getTermText ();

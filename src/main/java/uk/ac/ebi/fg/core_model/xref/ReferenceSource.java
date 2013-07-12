@@ -85,8 +85,8 @@ public class ReferenceSource extends Identifiable
 		this.name = name;
 	}
 
-  @Index ( name = "refsrc_url" )
   @Column ( length = 255 )
+  @Index ( name = "refsrc_url" )
 	public String getUrl ()
 	{
 		return url;
@@ -97,8 +97,8 @@ public class ReferenceSource extends Identifiable
 		this.url = url;
 	}
 
-  @Index ( name = "refsrc_ver" )
   @Column ( length = Const.COL_LENGTH_S )
+  @Index ( name = "refsrc_ver" )
 	public String getVersion ()
 	{
 		return version;
@@ -109,8 +109,8 @@ public class ReferenceSource extends Identifiable
 		this.version = version;
 	}
 
-  @Index ( name = "refsrc_descr" )
   @Column ( length = Const.COL_LENGTH_XL )
+  @Index ( name = "refsrc_descr" )
 	public String getDescription ()
 	{
 		return description;

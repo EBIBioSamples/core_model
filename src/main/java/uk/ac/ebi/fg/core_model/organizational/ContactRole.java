@@ -3,6 +3,8 @@ package uk.ac.ebi.fg.core_model.organizational;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
 import uk.ac.ebi.fg.core_model.terms.CVTerm;
 
 /**
@@ -15,6 +17,9 @@ import uk.ac.ebi.fg.core_model.terms.CVTerm;
  */
 @Entity
 @Table ( name = "contact_role" )
+@org.hibernate.annotations.Table ( appliesTo = "contact_role", 
+	indexes = @Index ( name = "cnt_role_name", columnNames = "name" ) 
+)
 public class ContactRole extends CVTerm
 {
 	protected ContactRole ()

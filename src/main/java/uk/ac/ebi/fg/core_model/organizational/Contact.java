@@ -48,8 +48,8 @@ public class Contact extends DefaultAnnotatable
 
   private Set<ContactRole> contactRoles = new HashSet<ContactRole>();
   
-  @Index( name = "cnt_name" )
   @Column ( length = Const.COL_LENGTH_M )
+  @Index( name = "cnt_name" )
   public String getFirstName() {
     return firstName;
   }
@@ -58,8 +58,8 @@ public class Contact extends DefaultAnnotatable
     this.firstName = firstName;
   }
 
-  @Index( name = "cnt_surname" )
   @Column ( length = Const.COL_LENGTH_M )
+  @Index( name = "cnt_surname" )
   public String getLastName() {
     return lastName;
   }
@@ -71,8 +71,8 @@ public class Contact extends DefaultAnnotatable
   /**
    * @see #setMidInitials(String)
    */
-  @Index( name = "cnt_mid" )
   @Column ( length = Const.COL_LENGTH_S )
+  @Index( name = "cnt_mid" )
   public String getMidInitials() {
     return midInitials;
   }
@@ -157,8 +157,8 @@ public class Contact extends DefaultAnnotatable
   /**
    * @see #setAffiliation(String) 
    */
-  @Index( name = "cnt_affiliation" )
   @Column ( length = Const.COL_LENGTH_L )
+  @Index( name = "cnt_affiliation" )
   public String getAffiliation() {
     return affiliation;
   }
@@ -172,8 +172,8 @@ public class Contact extends DefaultAnnotatable
     this.affiliation = affiliation;
   }
 
-  @Index( name = "cnt_url" )
   @Column ( length = 255 )
+  @Index( name = "cnt_url" )
   public String getUrl() {
     return url;
   }

@@ -3,6 +3,8 @@ package uk.ac.ebi.fg.core_model.terms;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import org.hibernate.annotations.Index;
+
 import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 

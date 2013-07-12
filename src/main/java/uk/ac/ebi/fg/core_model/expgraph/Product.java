@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Index;
+
 import uk.ac.ebi.fg.core_model.expgraph.properties.ExperimentalPropertyValue;
 
 import com.google.common.collect.ImmutableSet;
@@ -52,12 +54,16 @@ import com.google.common.collect.ImmutableSet.Builder;
 @Inheritance( strategy = InheritanceType.SINGLE_TABLE )
 @DiscriminatorColumn ( name = "product_type" )
 @DiscriminatorValue ( "generic_bio_product" )
+@org.hibernate.annotations.Table ( appliesTo = "bio_product", indexes = 
+	{ @Index ( name = "bio_prod_acc", columnNames = "acc" ),
+	  @Index ( name = "bio_prod_prod_type", columnNames = "product_type" ) }
+)
 @SuppressWarnings ( { "rawtypes", "unchecked" } )
 public abstract class Product<EP extends ExperimentalPropertyValue> extends Node<Process, Process>
 {
 	private Set<Product> derivedFrom = new HashSet<Product> (); 
 	private Set<Product> derivedInto = new HashSet<Product> ();
-	private Collection<EP> propertyValues = new ArrayList<EP> ();
+	private Collection<EP> propertyValues = new HashSet<EP> ();
 
 	public Product () {
 		super ();
@@ -263,6 +269,7 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	 * 
 	 */
 	@OneToMany ( targetEntity = ExperimentalPropertyValue.class, cascade = CascadeType.ALL, orphanRemoval = true )
+	// TODO: SPELL ERROR!
 	@JoinTable ( name = "pruduct_pv", 
 		joinColumns = @JoinColumn ( name = "owner_id" ), inverseJoinColumns = @JoinColumn ( name = "pv_id" ) )
 	public Collection<EP> getPropertyValues ()

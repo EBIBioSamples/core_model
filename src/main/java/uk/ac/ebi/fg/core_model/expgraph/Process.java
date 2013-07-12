@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
 /**
  * 
  * <p>A process represent the activity that lead from an experimental {@link Product} to another. For instance, the treatment
@@ -38,6 +40,9 @@ import javax.persistence.Table;
 @Table ( name = "process" )
 @DiscriminatorColumn ( name = "process_type" )
 @DiscriminatorValue ( "generic" )
+@org.hibernate.annotations.Table ( appliesTo = "process", 
+	indexes = @Index ( name = "proc_acc", columnNames = "acc" ) 
+)
 @SuppressWarnings ( "rawtypes" )
 public abstract class Process<I extends Product, O extends Product> extends Node<I, O>
 {
