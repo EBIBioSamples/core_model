@@ -9,7 +9,8 @@ import uk.ac.ebi.fg.core_model.utils.test.DirectDerivationTestModel;
 
 /**
  * 
- * TODO: Comment me!
+ * Pseudo-test of {@link DirectDerivationTestModel}, a model based on the node direct provenance accounting between
+ * biological product.  
  *
  * <dl><dt>date</dt><dd>Jul 12, 2012</dd></dl>
  * @author Marco Brandizi

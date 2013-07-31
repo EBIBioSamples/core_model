@@ -59,7 +59,6 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null x-ref" );
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an x-ref with empty accession" );
 		
-		// TODO: SQL-injection security
 		String hql = "SELECT x.id FROM " + this.getManagedClass().getCanonicalName() 
 			+ " x WHERE x.acc = :acc AND x.source.acc = :srcAcc";
 				
@@ -106,7 +105,6 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null x-ref" );
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an x-ref with empty accession" );
 		
-		// TODO: SQL-injection security
 		String hql = "SELECT x FROM " + this.getManagedClass().getCanonicalName() + 
 			" x WHERE x.acc = :acc AND x.source.acc = :srcAcc AND " + SqlUtils.parameterizedWithNullSql ( "x.source.version", "srcVer" ); 
 				

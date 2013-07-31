@@ -269,8 +269,7 @@ public abstract class Product<EP extends ExperimentalPropertyValue> extends Node
 	 * 
 	 */
 	@OneToMany ( targetEntity = ExperimentalPropertyValue.class, cascade = CascadeType.ALL, orphanRemoval = true )
-	// TODO: SPELL ERROR!
-	@JoinTable ( name = "pruduct_pv", 
+	@JoinTable ( name = "product_pv", 
 		joinColumns = @JoinColumn ( name = "owner_id" ), inverseJoinColumns = @JoinColumn ( name = "pv_id" ) )
 	public Collection<EP> getPropertyValues ()
 	{

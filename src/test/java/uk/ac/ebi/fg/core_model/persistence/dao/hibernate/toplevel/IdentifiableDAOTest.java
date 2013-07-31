@@ -28,7 +28,7 @@ import uk.ac.ebi.fg.core_model.xref.XRef;
 import uk.ac.ebi.utils.test.junit.TestEntityMgrProvider;
 
 /**
- * TODO: Comment me!
+ * Tests about {@link IdentifiableDAO} and related classes.
  *
  * <dl><dt>date</dt><dd>Aug 2, 2012</dd></dl>
  * @author Marco Brandizi

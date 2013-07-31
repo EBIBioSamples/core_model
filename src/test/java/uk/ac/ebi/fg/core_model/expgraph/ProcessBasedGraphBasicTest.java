@@ -9,7 +9,7 @@ import uk.ac.ebi.fg.core_model.utils.test.ProcessBasedTestModel;
 
 /**
  * 
- * TODO: Comment me!
+ * Tests {@link ProcessBasedTestModel}, a mock model based on the process-mediated provenance between biological products. 
  *
  * <dl><dt>date</dt><dd>Jul 12, 2012</dd></dl>
  * @author Marco Brandizi

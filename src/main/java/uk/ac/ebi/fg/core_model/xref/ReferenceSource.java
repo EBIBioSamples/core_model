@@ -27,8 +27,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  * sources.  
  * 
  * TODO: this class has a version property, but, apart from that, it doesn't really support versioning. You cannot
- * define a version order and you cannot have two reference sources and the only mechanism you can use to refer to the
- * last version is give null as version value.   
+ * define a version order and the only mechanism you can use to refer to the last version is give null as version value.   
  *
  * <dl><dt>date</dt><dd>Jun 14, 2012, imported from the AE2 model</dd></dl>
  * 

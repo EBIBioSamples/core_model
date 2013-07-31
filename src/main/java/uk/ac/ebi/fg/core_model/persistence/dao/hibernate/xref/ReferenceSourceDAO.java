@@ -58,7 +58,6 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	 */
 	public boolean contains ( String accession, Class<? extends S> targetClass ) 
 	{
-		// TODO: SQL-injection security
 		String hql = "SELECT s.id FROM " + targetClass.getCanonicalName() + " s WHERE s.acc = :acc";
 				
 		Query query = getEntityManager ().createQuery( hql ).setParameter ( "acc", accession );

@@ -24,7 +24,7 @@ import uk.ac.ebi.fg.core_model.utils.test.ProcessBasedTestModel;
 import uk.ac.ebi.utils.test.junit.TestEntityMgrProvider;
 
 /**
- * TODO: Comment me!
+ * Test for persistence of direct-derivation mockup models.
  *
  * <dl><dt>date</dt><dd>Aug 23, 2012</dd></dl>
  * @author Marco Brandizi

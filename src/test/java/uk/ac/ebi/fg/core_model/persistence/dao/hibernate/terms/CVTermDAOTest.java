@@ -22,7 +22,7 @@ import uk.ac.ebi.utils.test.junit.TestEntityMgrProvider;
 
 /**
  * 
- * TODO: Comment me!
+ * Tests about {@link CVTermDAO}.
  *
  * <dl><dt>date</dt><dd>Aug 22, 2012</dd></dl>
  * @author Marco Brandizi

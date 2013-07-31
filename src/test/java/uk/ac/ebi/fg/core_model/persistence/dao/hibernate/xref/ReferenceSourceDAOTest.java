@@ -20,7 +20,7 @@ import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 import uk.ac.ebi.utils.test.junit.TestEntityMgrProvider;
 
 /**
- * TODO: Comment me!
+ * Tests about {@link ReferenceSourceDAO} and related classes.
  *
  * <dl><dt>date</dt><dd>Aug 10, 2012</dd></dl>
  * @author Marco Brandizi

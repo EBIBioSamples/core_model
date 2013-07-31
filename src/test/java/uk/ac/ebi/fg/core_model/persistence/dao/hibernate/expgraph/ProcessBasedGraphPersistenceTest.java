@@ -23,7 +23,7 @@ import uk.ac.ebi.fg.core_model.utils.test.ProcessBasedTestModel;
 import uk.ac.ebi.utils.test.junit.TestEntityMgrProvider;
 
 /**
- * TODO: Comment me!
+ * Persistence test of process-mediated mockup experimental workflows.
  *
  * <dl><dt>date</dt><dd>Aug 23, 2012</dd></dl>
  * @author Marco Brandizi
