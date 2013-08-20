@@ -8,7 +8,7 @@ The project defines both Java classes and their mapping to a relational model, b
 
 For the moment, there is a separated extension of this project, which realises the [BioSD model](http://github.com/EBIBioSamples/biosd_model).
 
-You find documentation about the BioSD/Core models [here](http://bar.ebi.ac.uk:8080/trac/wiki/ESD/NewFGObjectModel).
+You find documentation about the BioSD/Core models [here](/doc/core_and_biosd_object_model.zargo).
 
 PLEASE NOTE THIS MODULE IS SHIPPED WITHOUT resources.xml. This is so because this core model is usually extended to
 some other model. You should include such Hibernate file in the extension. Probably you'll want to use the [JPA
