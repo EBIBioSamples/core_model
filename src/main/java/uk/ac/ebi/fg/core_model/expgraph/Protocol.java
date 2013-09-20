@@ -36,9 +36,6 @@ import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
  */
 @Entity
 @Table( name = "protocol" )
-@org.hibernate.annotations.Table ( appliesTo = "protocol", 
-	indexes = @Index ( name = "proto_acc", columnNames = "acc" ) 
-)
 public class Protocol extends DefaultAccessibleAnnotatable 
 {
   private String name;

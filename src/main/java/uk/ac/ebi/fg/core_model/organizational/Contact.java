@@ -236,7 +236,7 @@ public class Contact extends DefaultAnnotatable
   public boolean containsContactRole ( ContactRole contactRole ) {
     return getContactRoles ().contains ( contactRole );
   }
-
+  
 
 	public String toString() 
   {

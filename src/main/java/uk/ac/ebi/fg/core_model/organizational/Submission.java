@@ -14,7 +14,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Index;
@@ -35,10 +34,7 @@ import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
  */
 @Entity
 @Inheritance ( strategy = InheritanceType.TABLE_PER_CLASS )
-@Table( name = "submission" )
-@org.hibernate.annotations.Table ( appliesTo = "submission", 
-	indexes = @Index ( name = "submission_acc", columnNames = "acc" ) 
-)
+@javax.persistence.Table ( name = "submission" )
 public class Submission extends DefaultAccessibleAnnotatable
 {
 	private String title;
@@ -62,8 +58,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 		super ( acc );
 	}
 
-
-  @Column ( length = Const.COL_LENGTH_L )
+	@Column ( length = Const.COL_LENGTH_L )
 	@Index ( name = "sub_title" )
 	public String getTitle ()
 	{
@@ -145,7 +140,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 	
 	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
-	@JoinTable ( name = "submission_contact", 
+	@JoinTable ( name = "submission2contact", 
 	  joinColumns = @JoinColumn ( name = "submission_id" ), inverseJoinColumns = @JoinColumn ( name = "contact_id" ) )
 	public Set<Contact> getContacts ()
 	{
@@ -163,7 +158,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	
 	
 	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
-	@JoinTable ( name = "submission_organization", 
+	@JoinTable ( name = "submission2organization", 
     joinColumns = @JoinColumn ( name = "submission_id" ), inverseJoinColumns = @JoinColumn ( name = "organization_id" ) )
 	public Set<Organization> getOrganizations () {
 		return organizations;
@@ -179,7 +174,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 
 	
 	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
-	@JoinTable ( name = "submission_publication", 
+	@JoinTable ( name = "submission2publication", 
   	joinColumns = @JoinColumn ( name = "submission_id" ), inverseJoinColumns = @JoinColumn ( name = "publication_id" ) )
 	public Set<Publication> getPublications () {
 		return publications;
@@ -196,7 +191,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	
 	
 	@ManyToMany ( cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} )
-	@JoinTable ( name = "submission_ref_source", 
+	@JoinTable ( name = "submission2ref_source", 
     joinColumns = @JoinColumn ( name = "msi_id" ), inverseJoinColumns = @JoinColumn ( name = "ref_src_id" ) )
 	public Set<ReferenceSource> getReferenceSources () {
 		return referenceSources;

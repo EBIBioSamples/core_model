@@ -1,6 +1,5 @@
 package uk.ac.ebi.fg.core_model.expgraph.properties;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;

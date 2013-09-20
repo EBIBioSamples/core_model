@@ -55,8 +55,7 @@ import com.google.common.collect.ImmutableSet.Builder;
 @DiscriminatorColumn ( name = "product_type" )
 @DiscriminatorValue ( "generic_bio_product" )
 @org.hibernate.annotations.Table ( appliesTo = "bio_product", indexes = 
-	{ @Index ( name = "bio_prod_acc", columnNames = "acc" ),
-	  @Index ( name = "bio_prod_prod_type", columnNames = "product_type" ) }
+	{ @Index ( name = "bio_prod_prod_type", columnNames = "product_type" ) }
 )
 @SuppressWarnings ( { "rawtypes", "unchecked" } )
 public abstract class Product<EP extends ExperimentalPropertyValue> extends Node<Process, Process>

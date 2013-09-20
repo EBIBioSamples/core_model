@@ -3,6 +3,8 @@ package uk.ac.ebi.fg.core_model.resources;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import uk.ac.ebi.fg.persistence.dao.hibernate.utils.DbSchemaEnhancer;
+
 /**
  * 
  * The resources used by this application, such as the {@link #getEntityManagerFactory() entity manager factory}, i.e., 
@@ -33,7 +35,12 @@ public class Resources
 	public EntityManagerFactory getEntityManagerFactory ()
 	{
 		if ( entityManagerFactory != null ) return entityManagerFactory;
-		return entityManagerFactory = Persistence.createEntityManagerFactory ( "defaultPersistenceUnit" );
+
+		entityManagerFactory = Persistence.createEntityManagerFactory ( "defaultPersistenceUnit" );
+		new DbSchemaEnhancer ().enhance ( entityManagerFactory );
+		return entityManagerFactory;
+		
+		// return entityManagerFactory = Persistence.createEntityManagerFactory ( "defaultPersistenceUnit" );
 	}
 
 	/**

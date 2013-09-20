@@ -1,11 +1,7 @@
 package uk.ac.ebi.fg.core_model.toplevel;
 
-
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-
-import org.hibernate.annotations.Index;
-
 import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.terms.OntologyEntry;
 import uk.ac.ebi.fg.core_model.xref.XRef;
@@ -42,12 +38,14 @@ public abstract class Accessible extends Identifiable
 		this.acc = acc;
 	}
 
+	// WARNING: unique = true ONLY WORKS WHEN hibernate.hbm2ddl.auto = create. IT DOES NOT WORK WHEN it is update 
+	// Many thanks bloody Hibernate for this shit and the night I had to spend debugging it :-/ @X*!!!!! 
 	@Column( unique = true, nullable = false, length = Const.COL_LENGTH_S )
   public String getAcc() {
     return acc;
   }
 
-  protected void setAcc(String acc) {
+  protected void setAcc ( String acc ) {
     this.acc = acc;
   }
 

@@ -16,7 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Index;
 
 /**
  * 
@@ -40,9 +39,6 @@ import org.hibernate.annotations.Index;
 @Table ( name = "process" )
 @DiscriminatorColumn ( name = "process_type" )
 @DiscriminatorValue ( "generic" )
-@org.hibernate.annotations.Table ( appliesTo = "process", 
-	indexes = @Index ( name = "proc_acc", columnNames = "acc" ) 
-)
 @SuppressWarnings ( "rawtypes" )
 public abstract class Process<I extends Product, O extends Product> extends Node<I, O>
 {
