@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
 import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterValue;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 
@@ -25,7 +27,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  *
  */
 @Entity
-@Table ( name = "protocol_application" )
+@Table ( name = "protocol_app" )
 public class ProtocolApplication extends Identifiable
 {
 	private Protocol protocol;

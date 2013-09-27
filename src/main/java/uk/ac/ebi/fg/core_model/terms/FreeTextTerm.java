@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
@@ -52,13 +54,13 @@ public abstract class FreeTextTerm extends Identifiable
 	}
 
 	/**
-	 * TODO: At the moment join table names are auto-generated with the '_ontology_entry' postfix. This sounds too long and
+	 * TODO: At the moment join table names are auto-generated with the '_onto_entry' postfix. This sounds too long and
 	 * probably it would be a good idea to override the association at subclass level and redefine the table names using the
 	 * _oe postfix.
 	 *
 	 */
-	@ManyToMany( targetEntity = OntologyEntry.class, 
-							 cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
+	@ManyToMany( targetEntity = OntologyEntry.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
+  @JoinTable ( joinColumns = @JoinColumn ( name = "owner_id" ), inverseJoinColumns = @JoinColumn ( name = "oe_id" ) )
   @SuppressWarnings ( "unchecked" )
 	public <OE extends OntologyEntry> Set<OE> getOntologyTerms () {
   	return (Set<OE>) this.ontologyTerms;

@@ -1,4 +1,5 @@
 1.0.1-SNAPSHOT
+  - Code to automatically add indices that Hibernate doesn't create
   - Some DAOs extended with a target subclass in find() and contains() 
   - Some bug-fixing.
 

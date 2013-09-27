@@ -74,7 +74,6 @@ public class Protocol extends DefaultAccessibleAnnotatable
 	}
 
 	@Lob
-	//	@Index( name = "proto_description" ) Oracle can't index LOBs
 	public String getDescription ()
 	{
 		return description;
@@ -146,7 +145,9 @@ public class Protocol extends DefaultAccessibleAnnotatable
 	}
 
   @OneToMany( cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval=true )
-  @JoinTable( name = "protocol_parameter_type", joinColumns = @JoinColumn ( name = "protocol_id" ) )
+  @JoinTable( name = "protocol_parameter_type", 
+  	joinColumns = @JoinColumn ( name = "protocol_id" ), inverseJoinColumns = @JoinColumn ( name = "param_type_id" )
+  )
 	public Collection<ParameterType> getParameterTypes ()
 	{
 		return parameterTypes;

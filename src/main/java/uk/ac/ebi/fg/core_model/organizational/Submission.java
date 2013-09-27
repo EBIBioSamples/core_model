@@ -6,13 +6,9 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
 import org.apache.commons.lang.StringUtils;
@@ -26,16 +22,15 @@ import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
  * The concept of data submission. What this exactly is depends on how the creation of new data is managed in your system. 
  * For instance, a set of files corresponding to one experiment is considered a submission in the context of the MAGE-TAB
  * format. A different set of files where multiple sample groups and samples are reported is a submission in the 
- * Sample-TAB format. You'll probably want to extend this class and make a custom version to suit your specific needs. 
+ * Sample-TAB format. Because what a submission is concretely varies greatly, this class is made abstract. 
+ * Extend it to suit your specific needs. 
  *
  * <dl><dt>date</dt><dd>Jul 17, 2012</dd></dl>
  * @author Marco Brandizi
  *
  */
-@Entity
-@Inheritance ( strategy = InheritanceType.TABLE_PER_CLASS )
-@javax.persistence.Table ( name = "submission" )
-public class Submission extends DefaultAccessibleAnnotatable
+@MappedSuperclass
+public abstract class Submission extends DefaultAccessibleAnnotatable
 {
 	private String title;
 	private String description;
@@ -59,7 +54,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 
 	@Column ( length = Const.COL_LENGTH_L )
-	@Index ( name = "sub_title" )
+	@Index ( name = "abstr_sub_title" )
 	public String getTitle ()
 	{
 		return title;
@@ -104,7 +99,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 
 	@Column ( name = "release_date", nullable = true )
-	@Index ( name = "sub_rel_date" )
+	@Index ( name = "abstr_sub_rel_date" )
 	public Date getReleaseDate ()
 	{
 		return releaseDate;
@@ -116,7 +111,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 	
 	@Column ( name = "update_date" )
-	@Index ( name = "sub_up_date" )
+	@Index ( name = "abstr_sub_up_date" )
 	public Date getUpdateDate ()
 	{
 		return updateDate;
@@ -128,7 +123,7 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 	
 	@Column ( name = "submission_date" )
-	@Index ( name = "sub_sub_date" )
+	@Index ( name = "abstr_sub_sub_date" )
 	public Date getSubmissionDate ()
 	{
 		return submissionDate;
@@ -140,8 +135,13 @@ public class Submission extends DefaultAccessibleAnnotatable
 	}
 	
 	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
-	@JoinTable ( name = "submission2contact", 
-	  joinColumns = @JoinColumn ( name = "submission_id" ), inverseJoinColumns = @JoinColumn ( name = "contact_id" ) )
+	/*
+	 * Leaving Hibernate to define this is much simpler, it avoids to re-dedefine it all
+	 * in subclasses.
+	 *  
+	 * JoinTable ( name = "submission_contact", 
+	 * joinColumns = @JoinColumn ( name = "submission_id" ), inverseJoinColumns = @JoinColumn ( name = "contact_id" ) )
+	 */
 	public Set<Contact> getContacts ()
 	{
 		return contacts;
@@ -158,8 +158,6 @@ public class Submission extends DefaultAccessibleAnnotatable
 	
 	
 	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
-	@JoinTable ( name = "submission2organization", 
-    joinColumns = @JoinColumn ( name = "submission_id" ), inverseJoinColumns = @JoinColumn ( name = "organization_id" ) )
 	public Set<Organization> getOrganizations () {
 		return organizations;
 	}
@@ -174,8 +172,6 @@ public class Submission extends DefaultAccessibleAnnotatable
 
 	
 	@OneToMany ( cascade = {CascadeType.ALL}, orphanRemoval = true )
-	@JoinTable ( name = "submission2publication", 
-  	joinColumns = @JoinColumn ( name = "submission_id" ), inverseJoinColumns = @JoinColumn ( name = "publication_id" ) )
 	public Set<Publication> getPublications () {
 		return publications;
 	}
@@ -191,8 +187,6 @@ public class Submission extends DefaultAccessibleAnnotatable
 	
 	
 	@ManyToMany ( cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} )
-	@JoinTable ( name = "submission2ref_source", 
-    joinColumns = @JoinColumn ( name = "msi_id" ), inverseJoinColumns = @JoinColumn ( name = "ref_src_id" ) )
 	public Set<ReferenceSource> getReferenceSources () {
 		return referenceSources;
 	}

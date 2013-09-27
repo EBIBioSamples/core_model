@@ -18,8 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Index;
-
 import uk.ac.ebi.fg.core_model.expgraph.properties.ExperimentalPropertyValue;
 
 import com.google.common.collect.ImmutableSet;
@@ -54,9 +52,6 @@ import com.google.common.collect.ImmutableSet.Builder;
 @Inheritance( strategy = InheritanceType.SINGLE_TABLE )
 @DiscriminatorColumn ( name = "product_type" )
 @DiscriminatorValue ( "generic_bio_product" )
-@org.hibernate.annotations.Table ( appliesTo = "bio_product", indexes = 
-	{ @Index ( name = "bio_prod_prod_type", columnNames = "product_type" ) }
-)
 @SuppressWarnings ( { "rawtypes", "unchecked" } )
 public abstract class Product<EP extends ExperimentalPropertyValue> extends Node<Process, Process>
 {

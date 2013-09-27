@@ -17,9 +17,6 @@ import uk.ac.ebi.fg.core_model.terms.CVTerm;
  */
 @Entity
 @Table ( name = "contact_role" )
-@org.hibernate.annotations.Table ( appliesTo = "contact_role", 
-	indexes = @Index ( name = "cnt_role_name", columnNames = "name" ) 
-)
 public class ContactRole extends CVTerm
 {
 	protected ContactRole ()

@@ -7,6 +7,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Fetch;
@@ -29,6 +30,7 @@ import uk.ac.ebi.fg.core_model.terms.AnnotationType;
  */
 @Entity
 @Inheritance ( strategy = InheritanceType.TABLE_PER_CLASS )
+@Table ( name = "annotation" )
 public class Annotation extends Identifiable 
 {
 	private AnnotationType type;
@@ -55,7 +57,7 @@ public class Annotation extends Identifiable
 
 	@ManyToOne( targetEntity = AnnotationType.class, cascade = { CascadeType.PERSIST, CascadeType.REFRESH } )
 	@Fetch( FetchMode.JOIN )
-	@JoinColumn( name = "type_id", nullable = false)
+	@JoinColumn( name = "type_id", nullable = false )
   public AnnotationType getType() {
     return type;
   }

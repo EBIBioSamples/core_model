@@ -251,7 +251,8 @@ public class Publication extends DefaultAnnotatable implements Referrer
 	}
 
   @OneToMany( cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true )
-  @JoinTable ( joinColumns = @JoinColumn ( name = "owner_id" ), inverseJoinColumns = @JoinColumn ( name = "xref_id" ) )
+  @JoinTable ( name = "publication_xref",
+  	joinColumns = @JoinColumn ( name = "owner_id" ), inverseJoinColumns = @JoinColumn ( name = "xref_id" ) )
 	public Set<XRef> getReferences ()
 	{
 		return this.references;

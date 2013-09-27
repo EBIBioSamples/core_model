@@ -3,7 +3,7 @@ package uk.ac.ebi.fg.core_model.resources;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import uk.ac.ebi.fg.persistence.dao.hibernate.utils.DbSchemaEnhancer;
+import uk.ac.ebi.fg.persistence.hibernate.schema_enhancer.DbSchemaEnhancerProcessor;
 
 /**
  * 
@@ -37,10 +37,12 @@ public class Resources
 		if ( entityManagerFactory != null ) return entityManagerFactory;
 
 		entityManagerFactory = Persistence.createEntityManagerFactory ( "defaultPersistenceUnit" );
-		new DbSchemaEnhancer ().enhance ( entityManagerFactory );
+		
+		// Add indices and other improvements to the database schema. See the code inside this class for details.
+		new DbSchemaEnhancerProcessor ( entityManagerFactory ).enhance ();
+		
 		return entityManagerFactory;
 		
-		// return entityManagerFactory = Persistence.createEntityManagerFactory ( "defaultPersistenceUnit" );
 	}
 
 	/**

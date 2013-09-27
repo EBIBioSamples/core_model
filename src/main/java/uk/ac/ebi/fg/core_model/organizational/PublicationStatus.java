@@ -17,9 +17,6 @@ import uk.ac.ebi.fg.core_model.terms.CVTerm;
  */
 @Entity
 @Table ( name = "publication_status" )
-@org.hibernate.annotations.Table ( appliesTo = "publication_status", 
-	indexes = @Index ( name = "pub_status_name", columnNames = "name" ) 
-)
 public class PublicationStatus extends CVTerm
 {
 	protected PublicationStatus ()
