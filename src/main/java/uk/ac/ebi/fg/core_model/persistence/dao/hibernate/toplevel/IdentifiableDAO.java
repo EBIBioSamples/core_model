@@ -59,10 +59,10 @@ public class IdentifiableDAO<T extends Identifiable> // extends AbstractHibernat
 	 */
   public void create ( T entity ) 
   {
-      Validate.notNull ( entity, "Internal error: 'entity' must not be null" );
-    	entityManager.persist ( entity );
+    Validate.notNull ( entity, "Internal error: 'entity' must not be null" );
+  	entityManager.persist ( entity );
   }
-
+  
 
 	/** 
 	 * First does a search of the entity, via {@link #find(long) ID}, then, if anything is found, merges all the non-null 
