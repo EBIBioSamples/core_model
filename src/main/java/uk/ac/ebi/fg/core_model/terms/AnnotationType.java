@@ -3,8 +3,6 @@ package uk.ac.ebi.fg.core_model.terms;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Index;
-
 import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 
 

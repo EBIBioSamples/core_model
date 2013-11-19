@@ -2,6 +2,7 @@ package uk.ac.ebi.fg.core_model.toplevel;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+
 import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.terms.OntologyEntry;
 import uk.ac.ebi.fg.core_model.xref.XRef;
