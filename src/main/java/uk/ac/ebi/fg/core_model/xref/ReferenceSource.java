@@ -134,9 +134,11 @@ public class ReferenceSource extends Identifiable
   	
     // Compare accessions if both are non-null, use identity otherwise
   	ReferenceSource that = (ReferenceSource) o;
-    if ( this.getAcc () == null || that.getAcc () == null || !this.version.equals ( that.acc ) ) 
-    	return false;
-    return this.getVersion () != null ? !this.version.equals ( that.getVersion () ) : that.getVersion () != null; 
+    	
+  	if ( this.getAcc() == null ) return false;
+  	if ( !this.acc.equals ( that.getAcc () ) ) return false;
+  	
+    return this.getVersion () != null ? this.version.equals ( that.getVersion () ) : that.getVersion () == null; 
   }
   
   @Override
