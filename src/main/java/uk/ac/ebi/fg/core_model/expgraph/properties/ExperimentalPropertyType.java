@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DiscriminatorOptions;
 import org.hibernate.annotations.Index;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
@@ -56,8 +57,7 @@ public class ExperimentalPropertyType extends FreeTextTerm
 	}
 	
 	@Override
-  @Column ( length = Const.COL_LENGTH_L, name = "term_text" )
-  @Index( name = "p_type_text" )
+  @Column ( length = Const.COL_LENGTH_L, name = "term_text" ) @Index( name = "p_type_text" ) @NotEmpty
 	public String getTermText ()
 	{
 		return super.getTermText ();

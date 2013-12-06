@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DiscriminatorOptions;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
 
@@ -79,8 +80,7 @@ public class ExperimentalPropertyValue<PT extends ExperimentalPropertyType> exte
 
 	/** Redefines the DB field to be a LOB, since this might be used for things like descriptions */
   @Override
-  @Lob
-  @Column ( name = "term_text" )
+  @Lob @Column ( name = "term_text" ) @NotEmpty
 	public String getTermText ()
 	{
 		return super.getTermText ();

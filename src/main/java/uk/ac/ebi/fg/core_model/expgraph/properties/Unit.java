@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
@@ -49,7 +50,7 @@ public class Unit extends FreeTextTerm
 	}
 	
 	@Override
-  @Column ( length = Const.COL_LENGTH_L, name = "term_text" )
+  @Column ( length = Const.COL_LENGTH_L, name = "term_text" ) @NotEmpty
   @Index( name = "unit_text" )
 	public String getTermText ()
 	{
