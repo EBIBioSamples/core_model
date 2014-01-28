@@ -84,7 +84,7 @@ public class ReferenceSource extends Identifiable
 		this.name = name;
 	}
 
-  @Column ( length = 255 )
+  @Column ( length = 2000 )
   @Index ( name = "refsrc_url" )
 	public String getUrl ()
 	{
