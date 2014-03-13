@@ -96,7 +96,7 @@
 	</build>
 	
 	<scm>
-		<developerConnection>git@github.com:EBIBioSamples/core_model.git</developerConnection>
+		<developerConnection>scm:git:git@github.com:EBIBioSamples/core_model.git</developerConnection>
 	</scm>	
   
   <repositories>
