@@ -96,7 +96,7 @@
 	</build>
 	
 	<scm>
-		<developerConnection>git@github.com:EBIBioSamples/biosd2rdf.git</developerConnection>
+		<developerConnection>git@github.com:EBIBioSamples/core_model.git</developerConnection>
 	</scm>	
   
   <repositories>
