@@ -99,4 +99,21 @@
 		<developerConnection>git@github.com:EBIBioSamples/biosd2rdf.git</developerConnection>
 	</scm>	
   
+  <repositories>
+
+		<repository>
+			<id>ebi-repo</id>
+			<name>EBI repo</name>
+			<url>http://www.ebi.ac.uk/~maven/m2repo</url>
+		</repository>
+		
+		<repository>
+			<id>ebi-repo-snapshots</id>
+			<name>EBI Repo Snapshots</name>
+			<url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+			<snapshots><enabled>true</enabled></snapshots>
+		</repository> 
+  
+  </repositories>
+    
 </project>
