@@ -24,7 +24,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  * 
  * Note that this class doesn't extend {@link Accessible}, because in general you need both an accession and a version 
  * to identify a source. It's up to the application to be such fine-grained or to assume unique accessions for reference
- * sources.  
+ * sources. We additionally checks the uniquess of the URLs  
  * 
  * TODO: this class has a version property, but, apart from that, it doesn't really support versioning. You cannot
  * define a version order and the only mechanism you can use to refer to the last version is give null as version value.   
@@ -37,7 +37,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  */
 @Entity
 @Inheritance ( strategy = InheritanceType.TABLE_PER_CLASS )
-@Table( name = "reference_source", uniqueConstraints = @UniqueConstraint ( columnNames = { "acc", "version" } ) )
+@Table( name = "reference_source", uniqueConstraints = @UniqueConstraint ( columnNames = { "acc", "version", "url" } ) )
 /* This is only needed when you remove the unique constraint above, otherwise the index it's created automatically 
 @org.hibernate.annotations.Table (   
 	appliesTo = "reference_source", 
@@ -56,8 +56,13 @@ public class ReferenceSource extends Identifiable
   }
 
   public ReferenceSource ( String acc, String version ) {
+  	this ( acc, version, null );
+  }
+
+  public ReferenceSource ( String acc, String version, String url ) {
   	this.acc = acc;
   	this.version = version;
+  	this.url = url;
   }
 
   @Index ( name = "refsrc_acc" )
@@ -136,16 +141,20 @@ public class ReferenceSource extends Identifiable
   	ReferenceSource that = (ReferenceSource) o;
   	if ( this.getAcc() == null ) return false;
   	if ( !this.acc.equals ( that.getAcc () ) ) return false;
-  	
-    return this.getVersion () != null ? this.version.equals ( that.getVersion () ) : that.getVersion () == null;
+
+  	// versions and URLs must be the same
+    if ( this.getVersion () != null ? !this.version.equals ( that.getVersion () ) : that.getVersion () != null ) return false;
+    return this.getUrl () != null ? this.url.equals ( that.getUrl () ) : that.getUrl () == null;
   }
   
   @Override
   public int hashCode() 
   {
-  	return this.getAcc () == null 
-  		? super.hashCode () 
-  		: this.acc.hashCode () * 31 + ( this.getVersion () == null ? 0 : this.version.hashCode () );
+  	if ( this.getAcc () == null ) return super.hashCode ();
+
+  	int result = this.acc.hashCode ();
+  	result = 31 * result + ( this.getVersion () == null ? 0 : this.version.hashCode () );
+  	return 31 * result + ( this.getUrl () == null ? 0 : this.url.hashCode () ); 
   }	
 	
 	

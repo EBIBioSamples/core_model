@@ -69,7 +69,7 @@ public class XrefDAOTest
 		assertFalse ( "Old test x-ref not deleted!", 
 			xrefDao.contains ( xref.getAcc (), xref.getSource ().getAcc (), xref.getSource ().getVersion () ) );
 		
-		ReferenceSource srcDB = srcDao.find ( src.getAcc (), src.getVersion () );
+		ReferenceSource srcDB = srcDao.find ( src.getAcc (), src.getVersion (), src.getUrl () );
 		if ( srcDB != null ) 
 		{
 			EntityTransaction tns = em.getTransaction ();
@@ -78,7 +78,7 @@ public class XrefDAOTest
 			tns.commit ();
 		}
 		
-		assertFalse ( "Old test source not deleted!", srcDao.contains ( src.getAcc (), src.getVersion () ) );
+		assertFalse ( "Old test source not deleted!", srcDao.contains ( src.getAcc (), src.getVersion (), src.getUrl () ) );
 	}
 	
 	
@@ -98,7 +98,7 @@ public class XrefDAOTest
 		
 		
 		assertTrue ( "Ref Source not stored!", srcDao.contains  ( xref.getSource ().getAcc (), xref.getSource ().getVersion () ));
-		ReferenceSource srcDB = srcDao.find ( xref.getSource ().getAcc (), xref.getSource ().getVersion () );
+		ReferenceSource srcDB = srcDao.find ( xref.getSource ().getAcc (), xref.getSource ().getVersion (), src.getUrl () );
 		assertEquals ( "Ref Source not stored correctly!", src, srcDB );
 	}
 }

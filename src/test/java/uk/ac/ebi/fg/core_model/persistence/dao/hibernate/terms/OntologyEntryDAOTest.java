@@ -59,7 +59,7 @@ public class OntologyEntryDAOTest
 	@After
 	public void cleanUpDB ()
 	{
-		OntologyEntry oeDB = oeDao.find ( oe.getAcc (), oe.getSource ().getAcc (), oe.getSource ().getVersion () );
+		OntologyEntry oeDB = oeDao.find ( oe.getAcc (), oe.getSource ().getAcc (), oe.getSource ().getVersion (), oe.getSource ().getUrl () );
 		
 		if ( oeDB != null ) 
 		{
@@ -72,7 +72,7 @@ public class OntologyEntryDAOTest
 		assertFalse ( "Old test OE not deleted!", 
 			oeDao.contains ( oe.getAcc (), oe.getSource ().getAcc (), oe.getSource ().getVersion () ) );
 		
-		ReferenceSource srcDB = srcDao.find ( src.getAcc (), src.getVersion () );
+		ReferenceSource srcDB = srcDao.find ( src.getAcc (), src.getVersion (), src.getUrl () );
 		if ( srcDB != null ) 
 		{
 			EntityTransaction tns = em.getTransaction ();
@@ -95,13 +95,13 @@ public class OntologyEntryDAOTest
 
 		assertTrue ( "OE not stored!", oeDao.contains ( 
 			oe.getAcc (), oe.getSource ().getAcc (), oe.getSource ().getVersion () ));
-		OntologyEntry oeDB = oeDao.find ( oe.getAcc (), oe.getSource ().getAcc (), oe.getSource ().getVersion () );
+		OntologyEntry oeDB = oeDao.find ( oe.getAcc (), oe.getSource ().getAcc (), oe.getSource ().getVersion (), oe.getSource ().getUrl () );
 		assertEquals ( "OE not stored correctly!", oe, oeDB );
 		assertTrue ( "Accession-only search doesn't work!", oeDao.contains ( oe.getAcc (), oe.getSource ().getAcc () ) );
 		
 		
 		assertTrue ( "Ref Source not stored!", srcDao.contains  ( oe.getSource ().getAcc (), oe.getSource ().getVersion () ));
-		ReferenceSource srcDB = srcDao.find ( oe.getSource ().getAcc (), oe.getSource ().getVersion () );
+		ReferenceSource srcDB = srcDao.find ( oe.getSource ().getAcc (), oe.getSource ().getVersion (), oe.getSource ().getUrl () );
 		assertEquals ( "Ref Source not stored correctly!", src, srcDB );
 	}
 }

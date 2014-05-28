@@ -26,15 +26,39 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	}
 	
 	/**
-	 * Tells whether a given source exists, based on its accession and version. Note that if the version is null it checks
+	 * Tells whether a given source exists, based on its accession, version, url. Note that if the version is null it checks
 	 * that there is a record with null version. Allows to select a specific subclass
 	 */
-	public boolean contains ( String accession, String version, Class<? extends S> targetClass )
+	public boolean contains ( String accession, String version, String url, Class<? extends S> targetClass )
 	{
 		Validate.notEmpty ( accession, "accession must not be empty" );
 		
 		String hql = "SELECT s.id FROM " + targetClass.getCanonicalName() + 
-			" s WHERE s.acc = :acc AND " + parameterizedWithNullSql ( "s.version", "ver" );
+			" s WHERE s.acc = :acc AND " + parameterizedWithNullSql ( "s.version", "ver" ) + " AND " 
+			+ parameterizedWithNullSql ( "s.url", "url" );
+				
+		Query query = getEntityManager ().createQuery( hql )
+			.setParameter ( "acc", accession )
+			.setParameter ( "ver", version )
+			.setParameter ( "url", url );
+		
+		@SuppressWarnings ( "unchecked" )
+		List<Long> list = query.getResultList();
+		return !list.isEmpty ();
+	}
+	
+	/** Wraps {@link #contains(String, String, Class)} with the managed class */ 
+	public boolean contains ( String accession, String version, String url ) {
+		return contains ( accession, version, url, getManagedClass () ); 
+	}
+	
+	/** Returns any ref source having this accession/version combination, no matter the URL */
+	public boolean contains ( String accession, String version, Class<? extends S> targetClass ) 
+	{
+		Validate.notEmpty ( accession, "accession must not be empty" );
+		
+		String hql = "SELECT s.id FROM " + targetClass.getCanonicalName() + 
+			" s WHERE s.acc = :acc AND " + parameterizedWithNullSql ( "s.version", "ver" ); 
 				
 		Query query = getEntityManager ().createQuery( hql )
 			.setParameter ( "acc", accession )
@@ -44,16 +68,14 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 		List<Long> list = query.getResultList();
 		return !list.isEmpty ();
 	}
-	
-	/** Wraps {@link #contains(String, String, Class)} with the managed class */ 
+
 	public boolean contains ( String accession, String version ) {
-		return contains ( accession, version, getManagedClass () ); 
+		return contains ( accession, version, getManagedClass () );
 	}
-	
+
 	
 	/**
-	 * Works like {@link #contains(String, String)}, but don't check the version, i.e., returns true if there is any version
-	 * of the source with the given accession. Allows to pick a specific class. 
+	 * Returns true if a record with this accession exists, no matter the version or the URL.
 	 * 
 	 */
 	public boolean contains ( String accession, Class<? extends S> targetClass ) 
@@ -85,7 +107,7 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	  Validate.notNull ( src, "Database access error: cannot fetch a null reference-source" );
 	  Validate.notEmpty ( src.getAcc(), "Database access error: cannot fetch a reference-source with empty accession" );
 	
-	  S srcDB = find ( src.getAcc(), src.getVersion () );
+	  S srcDB = find ( src.getAcc(), src.getVersion (), src.getUrl () );
 	  if ( srcDB == null ) 
 	  {
 	    create ( src );
@@ -98,16 +120,18 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	 * Finds a source by accession and version. version = null is matched against a record having a null version.
 	 * Allows to pick a specific subclass.
 	 */
-	public S find ( String accession, String version, Class<? extends S> targetClass ) 
+	public S find ( String accession, String version, String url, Class<? extends S> targetClass ) 
 	{
 	  Validate.notEmpty ( accession, "Database access error: cannot fetch an accessible with empty accession" );
 	  
 	  String hql = "SELECT s FROM " + targetClass.getCanonicalName() + 
-	  	" s WHERE s.acc = :acc AND " + parameterizedWithNullSql ( "s.version", "ver" );
+	  	" s WHERE s.acc = :acc AND " + parameterizedWithNullSql ( "s.version", "ver" )
+	  	+ " AND " + parameterizedWithNullSql ( "s.url", "url" );
 	
 	  Query query = getEntityManager ().createQuery ( hql )
 	  	.setParameter ( "acc", accession )
-	  	.setParameter ( "ver", version );
+	  	.setParameter ( "ver", version )
+	  	.setParameter ( "url", url );
 		
 		@SuppressWarnings("unchecked")
 		List<S> result = query.getResultList();
@@ -117,11 +141,33 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	/**
 	 * Wraps {@link #find(String, String, Class)} with the managed class.
 	 */
-	public S find ( String accession, String version ) {
-		return find ( accession, version, this.getManagedClass () );
+	public S find ( String accession, String version, String url ) {
+		return find ( accession, version, url, this.getManagedClass () );
 	}
 
+	/**
+	 * Finds anything with this accession+version, no matter the URL.
+	 */
+	@SuppressWarnings("unchecked")
+	public List<S> find ( String accession, String version, Class<? extends S> targetClass ) 
+	{
+	  Validate.notEmpty ( accession, "Database access error: cannot fetch an accessible with empty accession" );
+	  
+	  String hql = "SELECT s FROM " + targetClass.getCanonicalName() + 
+	  	" s WHERE s.acc = :acc AND " + parameterizedWithNullSql ( "s.version", "ver" );
+	
+	  Query query = getEntityManager ().createQuery ( hql )
+	  	.setParameter ( "acc", accession )
+	  	.setParameter ( "ver", version );
 
+		return query.getResultList();
+	} 
+
+	public List<S> find ( String accession, String version ) {
+		return find ( accession, version, getManagedClass () );
+	} 
+	
+	
   /**
    * Finds all the versions of a source having a given accession. Allows to pick a specific sub-class. 
    * 

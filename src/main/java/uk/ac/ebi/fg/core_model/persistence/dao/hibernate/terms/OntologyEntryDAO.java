@@ -31,28 +31,57 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends IdentifiableDAO<
 
 	/**
 	 * Checks for the existence of an OE by means of its accession and its source identifier. 
-	 * Note that a null version is matched against a null version in the database.
+	 * Note that a null version is matched against a null version in the database, including the srcUrl parameter
 	 *  
 	 */
-	public boolean contains ( String accession, String srcAcc, String srcVer ) 
+	public boolean contains ( String accession, String srcAcc, String srcVer, String srcUrl ) 
 	{
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null ontology entry" );
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
 		
 		String hql = "SELECT oe.id FROM " + this.getManagedClass().getCanonicalName() + 
-			" oe WHERE oe.acc = :acc AND oe.source.acc = :srcAcc AND "  + parameterizedWithNullSql ( "source.version", "srcVer" );				
+			" oe WHERE oe.acc = :acc AND oe.source.acc = :srcAcc AND "  + parameterizedWithNullSql ( "source.version", "srcVer" )
+			+ " AND " + parameterizedWithNullSql ( "source.url", "srcUrl" );
+		
 		Query query = getEntityManager ().createQuery( hql )
 			.setParameter ( "acc", accession )
 			.setParameter ( "srcAcc", srcAcc )
-			.setParameter ( "srcVer", srcVer );
+			.setParameter ( "srcVer", srcVer )
+			.setParameter ( "srcUrl", srcUrl );
+			
 		
 		@SuppressWarnings ( "unchecked" )
 		List<Long> list = query.getResultList();
 		return !list.isEmpty ();
 	}
 	
+	
 	/**
-	 * Same as {@link #contains(String, String, String)}, but checks any version.
+	 * Check for the existence of an OE, independently on the source URL
+	 */
+	public boolean contains ( String accession, String srcAcc, String srcVer  ) 
+	{
+	  Validate.notNull ( accession, "Database access error: cannot fetch a null ontology entry" );
+	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
+		
+		String hql = "SELECT oe.id FROM " + this.getManagedClass().getCanonicalName() + 
+			" oe WHERE oe.acc = :acc AND oe.source.acc = :srcAcc AND "  + parameterizedWithNullSql ( "source.version", "srcVer" );
+		
+		Query query = getEntityManager ().createQuery( hql )
+			.setParameter ( "acc", accession )
+			.setParameter ( "srcAcc", srcAcc )
+			.setParameter ( "srcVer", srcVer );
+			
+		
+		@SuppressWarnings ( "unchecked" )
+		List<Long> list = query.getResultList();
+		return !list.isEmpty ();
+	}
+	
+	
+	
+	/**
+	 * Same as {@link #contains(String, String, String)}, but checks any source version/URL.
 	 */
 	public boolean contains ( String accession, String srcAcc ) 
 	{
@@ -87,7 +116,7 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends IdentifiableDAO<
 	  Validate.notNull ( src, "Database access error: cannot fetch an ontology entry with null reference-source" );
 	  Validate.notEmpty ( src.getAcc(), "Database access error: cannot fetch an ontology entry with with an empty-accession ref source" );
 	  
-	  OE xdb = find ( oe.getAcc (), src.getAcc(), src.getVersion () );
+	  OE xdb = find ( oe.getAcc (), src.getAcc(), src.getVersion (), src.getUrl () );
 	  if ( xdb == null ) {
 	    create ( oe );
 	    xdb = oe;
@@ -97,10 +126,31 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends IdentifiableDAO<
 
 	/**
 	 * Finds an ontology entry by means of its accession and its source identifier. 
-	 * Note that a null version is matched against a null version in the database.
+	 * Note that a null version is matched against a null version in the database, the same for the source URL.
 	 *  
 	 */
-	public OE find ( String accession, String srcAcc, String srcVer ) 
+	public OE find ( String accession, String srcAcc, String srcVer, String srcUrl ) 
+	{
+	  Validate.notNull ( accession, "Database access error: cannot fetch a null ontology entry" );
+	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
+		
+		String hql = "SELECT oe FROM " + this.getManagedClass().getCanonicalName() + 
+			" oe WHERE oe.acc = :acc AND oe.source.acc = :srcAcc AND " + parameterizedWithNullSql ( "oe.source.version", "srcVer" )
+			+ " AND " + parameterizedWithNullSql ( "oe.source.url", "srcUrl" );
+				
+		Query query = getEntityManager ().createQuery( hql )
+			.setParameter ( "acc", accession )
+			.setParameter ( "srcAcc", srcAcc )
+			.setParameter ( "srcVer", srcVer )
+			.setParameter ( "srcUrl", srcUrl );
+		
+		@SuppressWarnings("unchecked")
+		List<OE> result = query.getResultList();
+		return result.isEmpty () ? null : result.get ( 0 );
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<OE> find ( String accession, String srcAcc, String srcVer ) 
 	{
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null ontology entry" );
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
@@ -113,11 +163,8 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends IdentifiableDAO<
 			.setParameter ( "srcAcc", srcAcc )
 			.setParameter ( "srcVer", srcVer );
 		
-		@SuppressWarnings("unchecked")
-		List<OE> result = query.getResultList();
-		return result.isEmpty () ? null : result.get ( 0 );
+		return query.getResultList();
 	}
-	
 	
 	/**
 	 * Same as {@link #find(String, String, String)} but finds any version.

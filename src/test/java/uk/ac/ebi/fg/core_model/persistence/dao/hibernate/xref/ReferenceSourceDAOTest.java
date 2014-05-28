@@ -50,7 +50,7 @@ public class ReferenceSourceDAOTest
 	@After
 	public void cleanUpDB ()
 	{
-		ReferenceSource srcDB = srcDao.find ( src.getAcc (), src.getVersion () );
+		ReferenceSource srcDB = srcDao.find ( src.getAcc (), src.getVersion (), src.getUrl () );
 		
 		if ( srcDB != null ) 
 		{
@@ -72,10 +72,27 @@ public class ReferenceSourceDAOTest
 		srcDao.create ( src );
 		tns.commit ();
 
-		assertTrue ( "Ref Source not stored!", srcDao.contains ( src.getAcc (), src.getVersion () ));
-		ReferenceSource srcDB = srcDao.find ( src.getAcc (), src.getVersion () );
+		assertTrue ( "Ref Source not stored!", srcDao.contains ( src.getAcc (), src.getVersion (), src.getUrl () ));
+		ReferenceSource srcDB = srcDao.find ( src.getAcc (), src.getVersion () ).get ( 0 );
 		assertEquals ( "Ref Source not stored correctly!", src, srcDB );
 		
 		assertTrue ( "Accession-only search doesn't work!", srcDao.contains ( src.getAcc () ) );
 	}
+
+
+	@Test
+	public void testURLSearches ()
+	{
+		EntityTransaction tns = em.getTransaction ();
+		tns.begin ();
+		srcDao.create ( src );
+		tns.commit ();
+
+		assertTrue ( "Ref Source not stored!", srcDao.contains ( src.getAcc (), src.getVersion (), src.getUrl () ));
+		ReferenceSource srcDB = srcDao.find ( src.getAcc (), src.getVersion (), src.getUrl () );
+		assertEquals ( "Ref Source not stored correctly!", src, srcDB );
+		
+		assertTrue ( "Accession-only search doesn't work!", srcDao.contains ( src.getAcc () ) );
+	}
+
 }
