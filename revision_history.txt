@@ -1,5 +1,8 @@
-2.0.1-SNAPSHOT
-  - Current dev. version
+2.1
+  - Making the Hibernate persistence unit name specific of FG/BioSD models (which required changes in Resources) 
+  - Minor bugfixing
+  - Addition of a common parent POM for all BioSD-related projects 
+  
   
 2.0
   - Code to automatically add indices that Hibernate doesn't create
