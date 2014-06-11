@@ -16,9 +16,9 @@ import org.hibernate.annotations.FetchMode;
 import uk.ac.ebi.fg.core_model.terms.AnnotationType;
 
 /**
- * Used on a number of of entities to be able to attach them a set of generic typed properties (annotations). This class
- * goes in tandem with {@link Annotatable}. Also see the default implementation for it, {@link DefaultAnnotatable}, 
- * {@link DefaultAccessibleAnnotatable}.
+ * Used on a number of of entities to be able to attach them a set of generic and typed properties (annotations). 
+ * This class goes in tandem with {@link Annotatable}. Also see the default implementation for it, 
+ * {@link DefaultAnnotatable}, {@link DefaultAccessibleAnnotatable}.
  *
  * <dl><dt>Date</dt><dd>Dec 20, 2007</dd></dl>
  *
