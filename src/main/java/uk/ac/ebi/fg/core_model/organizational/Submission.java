@@ -15,7 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Index;
 
 import uk.ac.ebi.fg.core_model.resources.Const;
-import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
+import uk.ac.ebi.fg.core_model.toplevel.Accessible;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 
 /**
@@ -30,7 +30,7 @@ import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
  *
  */
 @MappedSuperclass
-public abstract class Submission extends DefaultAccessibleAnnotatable
+public abstract class Submission extends Accessible
 {
 	private String title;
 	private String description;

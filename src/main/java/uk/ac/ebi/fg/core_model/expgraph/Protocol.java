@@ -19,7 +19,7 @@ import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterType;
 import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterValue;
 import uk.ac.ebi.fg.core_model.expgraph.properties.ProtocolType;
 import uk.ac.ebi.fg.core_model.resources.Const;
-import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
+import uk.ac.ebi.fg.core_model.toplevel.Accessible;
 
 
 /**
@@ -36,7 +36,7 @@ import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
  */
 @Entity
 @Table( name = "protocol" )
-public class Protocol extends DefaultAccessibleAnnotatable 
+public class Protocol extends Accessible 
 {
   private String name;
   private String title;

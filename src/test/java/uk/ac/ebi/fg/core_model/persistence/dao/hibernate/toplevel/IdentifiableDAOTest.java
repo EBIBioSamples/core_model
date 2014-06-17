@@ -42,7 +42,7 @@ public class IdentifiableDAOTest
 	private EntityManager em;
 	private IdentifiableDAO<XRef> xrefDao;
 	private IdentifiableDAO<ReferenceSource> srcDao;
-	private IdentifiableDAO<Contact> cntDao;
+	private AnnotatableDAO<Contact> cntDao;
 
 	private Contact cnt;
 	private Annotation ann1, ann2;
@@ -58,7 +58,7 @@ public class IdentifiableDAOTest
 		em = emProvider.getEntityManager ();
 		xrefDao = new IdentifiableDAO<XRef> ( XRef.class, em );
 		srcDao = new IdentifiableDAO<ReferenceSource> ( ReferenceSource.class, em );
-		cntDao = new IdentifiableDAO<Contact> ( Contact.class, em );
+		cntDao = new AnnotatableDAO<Contact> ( Contact.class, em );
 
 		cnt = new Contact ();
 		cnt.setFirstName ( "Mr" ); cnt.setLastName ( "Test" );
@@ -97,12 +97,13 @@ public class IdentifiableDAOTest
 		tns.begin ();
 		
 		for ( Contact cntDb: cntDao.findByExample ( cnt, "annotations" ) )
-			cntDao.delete ( cntDb );
+			cntDao.delete ( cntDb, true );
 		tns.commit ();
 
 		assertTrue ( "Test Contact not deleted!", cntDao.findByExample ( cnt ).isEmpty () );
 		
 		IdentifiableDAO<Annotation> annDao = new IdentifiableDAO<Annotation> ( Annotation.class, em );
+		
 		
 		/* DEBUG System.out.println ( "\n\n   _____________________ ANNOTATIONS NOT DELETED:" );
 		List<Annotation> anns = annDao.findByExample ( ann1 );
@@ -209,7 +210,7 @@ public class IdentifiableDAOTest
 		// cleanupDB() cannot deal with it anymore, it changed.
 		tns = em.getTransaction ();
 		tns.begin ();
-			cntDao.delete ( cntDB );
+			cntDao.delete ( cntDB, true );
 	  tns.commit ();
 	}
 }

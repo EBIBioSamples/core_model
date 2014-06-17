@@ -11,13 +11,14 @@ import org.hibernate.annotations.Index;
 
 import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.toplevel.Accessible;
-import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
+import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 
 /**
- * 
  * A cross reference is something like a publication or a database entry. In terms of the core model, it is an 
  * {@link #acc accession}, referring to the context of a {@link ReferenceSource}. This is not an {@link Accessible}, 
  * despite having an accession property, since the accession for an XRef is unique only within in its context.
+ * 
+ * We find natural to model this as a type of {@link Annotation}. 
  *
  * <dl><dt>date</dt><dd>Jun 14, 2012</dd></dl>
  * @author Marco Brandizi
@@ -25,7 +26,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  */
 @Entity
 @Table ( name = "xref" )
-public class XRef extends Identifiable
+public class XRef extends Annotation
 {
 	private String acc;
 

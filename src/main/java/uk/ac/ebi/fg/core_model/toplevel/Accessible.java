@@ -25,7 +25,7 @@ import uk.ac.ebi.fg.core_model.xref.XRef;
  * @author Marco Brandizi (migrated to AE2 and revised in 2012)
  */
 @MappedSuperclass
-public abstract class Accessible extends Identifiable 
+public abstract class Accessible extends Annotatable 
 {
   private String acc;
 
@@ -49,7 +49,8 @@ public abstract class Accessible extends Identifiable
   protected void setAcc ( String acc ) {
     this.acc = acc;
   }
-
+  
+  
   /**
    * If both accessions are non-null, compares them, else uses object identity. 
    */
