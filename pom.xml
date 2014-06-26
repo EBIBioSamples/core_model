@@ -9,7 +9,7 @@
   <parent>
 	  <groupId>uk.ac.ebi.fg.biosd</groupId>
 	  <artifactId>biosd_common</artifactId>
-	  <version>1.1</version>
+  	<version>1.1.1-SNAPSHOT</version>
 	</parent> 
   
   
@@ -60,6 +60,12 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 	    <scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>  

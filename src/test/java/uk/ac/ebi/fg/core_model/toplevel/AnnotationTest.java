@@ -18,11 +18,11 @@ public class AnnotationTest
 	{
 		AnnotationType annType1 = new AnnotationType ( "foo type 1" ), annType2 = new AnnotationType ( "foo type 2" );
 		
-		Annotation ann1 = new Annotation ( annType1, "foo ann 1" ), ann2 = new Annotation ( annType2, "foo ann 2" ), 
-							 ann3 = new Annotation ( annType1, "foo ann 1" ), ann4 = new Annotation ( null, "foo ann 1" ), 
-							 ann5 = new Annotation ( annType2, null ), ann6 = new Annotation ( null, null ), 
-							 ann7 = new Annotation ( annType2, null ), ann8 = new Annotation ( null, "foo ann 1" ), 
-							 ann9 = new Annotation ( null, null );
+		Annotation ann1 = new TextAnnotation ( annType1, "foo ann 1" ), ann2 = new TextAnnotation ( annType2, "foo ann 2" ), 
+							 ann3 = new TextAnnotation ( annType1, "foo ann 1" ), ann4 = new TextAnnotation ( null, "foo ann 1" ), 
+							 ann5 = new TextAnnotation ( annType2, null ), ann6 = new TextAnnotation ( null, null ), 
+							 ann7 = new TextAnnotation ( annType2, null ), ann8 = new TextAnnotation ( null, "foo ann 1" ), 
+							 ann9 = new TextAnnotation ( null, null );
 		
 		assertFalse ( "ann1.equals ( ann2 ) fails!", ann1.equals ( ann2 ) );
 		assertFalse ( "ann2.equals ( ann1 ) fails!", ann2.equals ( ann1 ) );
@@ -67,7 +67,7 @@ public class AnnotationTest
 		assertTrue ( "anns.contains ( ann7 ) fails!", anns.contains ( ann7 ) );
 		assertTrue ( "anns.contains ( ann8 ) fails!", anns.contains ( ann8 ) );
 		assertTrue ( "anns.contains ( ann9 ) fails!", anns.contains ( ann9 ) );
-		assertFalse ( "anns.contains ( annType1, 'new ann' ) fails!", anns.contains ( new Annotation ( annType1, "new ann" ) ) );
+		assertFalse ( "anns.contains ( annType1, 'new ann' ) fails!", anns.contains ( new TextAnnotation ( annType1, "new ann" ) ) );
 		
 		assertEquals ( "Set size is wrong!", 5, anns.size () );
 	}

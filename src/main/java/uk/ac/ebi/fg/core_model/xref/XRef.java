@@ -1,15 +1,20 @@
 package uk.ac.ebi.fg.core_model.xref;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Index;
 
 import uk.ac.ebi.fg.core_model.resources.Const;
+import uk.ac.ebi.fg.core_model.terms.AnnotationType;
+import uk.ac.ebi.fg.core_model.terms.CVTerm;
 import uk.ac.ebi.fg.core_model.toplevel.Accessible;
 import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 
@@ -25,7 +30,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Annotation;
  *
  */
 @Entity
-@Table ( name = "xref" )
+@DiscriminatorValue ( "xref" )
 public class XRef extends Annotation
 {
 	private String acc;
@@ -42,7 +47,7 @@ public class XRef extends Annotation
 		this.source = source;
 	}
 
-  @Column ( length = Const.COL_LENGTH_S )
+  @Column ( length = Const.COL_LENGTH_S, name = "xref_acc" )
 	@Index ( name = "xr_acc" )
 	public String getAcc () {
 		return this.acc;
@@ -56,7 +61,7 @@ public class XRef extends Annotation
 		targetEntity = ReferenceSource.class, 
 		cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } 
 	)
-	@JoinColumn ( name = "source_id" )
+	@JoinColumn ( name = "xref_source_id" )
 	public ReferenceSource getSource () {
 		return this.source;
 	}
@@ -65,6 +70,49 @@ public class XRef extends Annotation
 		this.source = source;
 	}
 
+	
+	
+	@Override
+	public void setType ( AnnotationType type )
+	{
+		super.setType ( type );
+	}
+
+	@Override
+	public void setProvenance ( CVTerm provenance )
+	{
+		super.setProvenance ( provenance );
+	}
+
+
+	@Override
+	public void setTimestamp ( Date timestamp )
+	{
+		super.setTimestamp ( timestamp );
+	}
+
+
+	@Override
+	public void setScore ( Double score )
+	{
+		super.setScore ( score );
+	}
+
+
+	@Override
+	public void setNotes ( String notes )
+	{
+		super.setNotes ( notes );
+	}
+
+
+	@Override
+	public void setInternalNotes ( String internalNotes )
+	{
+		super.setInternalNotes ( internalNotes );
+	}
+	
+	
   /**
    * If both accessions and reference sources are non-null, compares them, else uses object identity. 
    */
@@ -90,14 +138,15 @@ public class XRef extends Annotation
   		: this.source.hashCode () * 31 + this.acc.hashCode ();
   }  
   
+  @Override
 	public String toString () 
 	{
-		return String.format ( 
-			"%s { id: %d, acc: '%s', source: %s }" , 
-			this.getClass ().getSimpleName (), getId (), getAcc (), 
-			getSource () == null 
-			  ? null 
-			  : String.format ( "{ id: %d, '%s', ver: '%s' }", source.getId (), source.getAcc (), source.getVersion () ) 
-		);
+  	return String.format ( 
+  		" %s { id: %d, acc: '%s', source: %s, type: %s, timestamp: %tc, provenance: %s, score: %f, notes: '%s', internalNotes: '%s' }", 
+  		this.getClass ().getSimpleName (), this.getId (), this.getAcc (), this.getScore (), this.getType (),
+  		this.getTimestamp (), this.getProvenance (), this.getScore (), StringUtils.abbreviate ( this.getNotes (), 20 ), 
+  		StringUtils.abbreviate ( this.getInternalNotes (), 20 )
+  	);
 	}
+
 }

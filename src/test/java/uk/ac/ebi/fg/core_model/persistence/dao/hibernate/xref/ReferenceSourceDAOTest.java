@@ -1,6 +1,3 @@
-/*
- * 
- */
 package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.xref;
 
 import static junit.framework.Assert.assertEquals;
@@ -42,9 +39,8 @@ public class ReferenceSourceDAOTest
 		em = emProvider.getEntityManager ();
 		srcDao = new ReferenceSourceDAO<ReferenceSource> ( ReferenceSource.class, em );
 
-		src = new ReferenceSource ( "tests.dao.foo-src-2", "v1.0" );
+		src = new ReferenceSource ( "tests.dao.foo-src-2", "v1.0", "http://tests.dao/foo-src-2/v1.0" );
 		src.setDescription ( "The description of FOO-SRC-2" );
-		src.setUrl ( "http://tests.dao/foo-src-2/v1.0" );
 	}
 	
 	@After

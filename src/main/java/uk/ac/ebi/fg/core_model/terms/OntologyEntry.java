@@ -17,6 +17,7 @@ import org.hibernate.annotations.Index;
 
 import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.toplevel.Accessible;
+import uk.ac.ebi.fg.core_model.toplevel.Annotatable;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 
@@ -42,7 +43,7 @@ import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 @DiscriminatorColumn ( name = "term_category" )
 @DiscriminatorValue ( "generic" )
 @SequenceGenerator( name = "hibernate_seq", sequenceName = "onto_entry_seq" )
-public class OntologyEntry extends Identifiable
+public class OntologyEntry extends Annotatable
 {
 	private String acc, label; 
 	

@@ -1,6 +1,3 @@
-/*
- * 
- */
 package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel;
 
 import static junit.framework.Assert.assertEquals;
@@ -23,6 +20,7 @@ import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.terms.CVTermDAO;
 import uk.ac.ebi.fg.core_model.resources.Resources;
 import uk.ac.ebi.fg.core_model.terms.AnnotationType;
 import uk.ac.ebi.fg.core_model.toplevel.Annotation;
+import uk.ac.ebi.fg.core_model.toplevel.TextAnnotation;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 import uk.ac.ebi.fg.core_model.xref.XRef;
 import uk.ac.ebi.utils.test.junit.TestEntityMgrProvider;
@@ -65,8 +63,8 @@ public class IdentifiableDAOTest
 		
 		atype = new AnnotationType ( "tests.dao.foo-ann-type-1" );
 
-		ann1 = new Annotation ( atype, "foo annotation 1" );
-		ann2 = new Annotation ( atype, "foo annotation 2" );
+		ann1 = new TextAnnotation ( atype, "foo annotation 1" );
+		ann2 = new TextAnnotation ( atype, "foo annotation 2" );
 		cnt.addAnnotation ( ann1 );
 		cnt.addAnnotation ( ann2 );
 	}
@@ -132,9 +130,8 @@ public class IdentifiableDAOTest
 	public void testBasics () 
 	{
 		// Create a new Src/XRef, save, fetch.
-		ReferenceSource src = new ReferenceSource ( "tests.dao.foo-src-1", "v1.0" );
+		ReferenceSource src = new ReferenceSource ( "tests.dao.foo-src-1", "v1.0", "http://tests.dao/foo-src-1/v1.0" );
 		src.setDescription ( "The description of FOO-SRC-1" );
-		src.setUrl ( "http://tests.dao/foo-src-1/v1.0" );
 		
 		XRef xref = new XRef ( "tests.dao.foo-xref-1", src );
 		

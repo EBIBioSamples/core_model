@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterValue;
+import uk.ac.ebi.fg.core_model.toplevel.Annotatable;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 
 /**
@@ -26,7 +27,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  */
 @Entity
 @Table ( name = "protocol_app" )
-public class ProtocolApplication extends Identifiable
+public class ProtocolApplication extends Annotatable
 {
 	private Protocol protocol;
 	private Collection<ParameterValue> parameterValues;

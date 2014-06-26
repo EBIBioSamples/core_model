@@ -47,9 +47,8 @@ public class OntologyEntryDAOTest
 		oeDao = new OntologyEntryDAO<OntologyEntry> ( OntologyEntry.class, em );
 		srcDao = new ReferenceSourceDAO<ReferenceSource> ( ReferenceSource.class, em );
 
-		src = new ReferenceSource ( "tests.dao.foo-src-4", "v2.0" );
+		src = new ReferenceSource ( "tests.dao.foo-src-4", "v2.0", "http://tests.dao/foo-src-4/v2.0" );
 		src.setDescription ( "The description of FOO-SRC-4" );
-		src.setUrl ( "http://tests.dao/foo-src-4/v2.0" );
 
 		oe = new OntologyEntry ( "tests.dao.foo-oe-4", src );
 		oe.setLabel ( "Test OE 4" );
