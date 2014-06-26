@@ -43,7 +43,7 @@ public abstract class Annotation extends Identifiable
 {
 	private AnnotationType type;
 	private CVTerm provenance;
-	private Date timestamp = new Date ();
+	private Date timestamp;
 	private Double score;
 	private String notes;
 	private String internalNotes;

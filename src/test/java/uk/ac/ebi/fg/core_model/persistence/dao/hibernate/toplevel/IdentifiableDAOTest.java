@@ -5,6 +5,8 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -94,7 +96,7 @@ public class IdentifiableDAOTest
 		tns = em.getTransaction ();
 		tns.begin ();
 		
-		for ( Contact cntDb: cntDao.findByExample ( cnt, "annotations" ) )
+		for ( Contact cntDb: cntDao.findByExample ( cnt ) )
 			cntDao.delete ( cntDb, true );
 		tns.commit ();
 

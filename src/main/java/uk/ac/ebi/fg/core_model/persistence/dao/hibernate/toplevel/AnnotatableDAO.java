@@ -40,42 +40,15 @@ public class AnnotatableDAO<A extends Annotatable> extends IdentifiableDAO<A>
     
     EntityManager em = this.getEntityManager ();
     if ( !em.contains ( annotatable ) ) return false;
+
+    em.remove ( annotatable );
     
     if ( cascade ) em.createQuery ( 
-    		"DELETE FROM Annotation a WHERE a.id IN ( \n" +
-    		"  SELECT ja.id FROM " + getManagedClass ().getName ()  + " an JOIN an.annotations ja )"
-    	).executeUpdate ();
+  		"DELETE FROM Annotation a WHERE a.id NOT IN ( \n" +
+  		"  SELECT ja.id FROM " + getManagedClass ().getCanonicalName ()  + " an JOIN an.annotations ja )"
+  	).executeUpdate ();
     
-    em.remove ( annotatable );
     return true;
 	}
 	
-	/*public int purge ()
-	{
-		EntityManager em = this.getEntityManager ();
-		EntityManagerFactory emf = em.getEntityManagerFactory ();
-		SessionFactory sessionFact = ((HibernateEntityManagerFactory) emf).getSessionFactory ();
-
-		String hqlf = "DELETE FROM Annotation a WHERE a.id NOT IN ( " +
-			"  SELECT ja.id FROM %s an JOIN an.annotations ja)";
-		int result = 0;
-		for ( ClassMetadata cmeta: sessionFact.getAllClassMetadata ().values () )
-		{
-			Class<?> mappedClass = cmeta.getMappedClass ();
-			if ( !Annotatable.class.isAssignableFrom ( mappedClass ) ) continue;
-
-			result += em.createQuery ( String.format ( hqlf, mappedClass.getCanonicalName () ) ).executeUpdate ();
-		}
-		
-		return result;
-	}*/
-	
-	public int purge ()
-	{
-		EntityManager em = this.getEntityManager ();
-		int result = em.createQuery ( 
-			"DELETE FROM DataItem di WHERE di.id NOT IN (\n" +
-			"  SELECT jdi.id FROM ExperimentalPropertyValue pv JOIN pv.dataItems jdi )" ).executeUpdate ();
-		return result;
-	}
 }

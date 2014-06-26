@@ -1,7 +1,5 @@
 package uk.ac.ebi.fg.core_model.expgraph.properties.dataitems;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.*;
 
 import java.util.Arrays;
@@ -19,6 +17,7 @@ import org.junit.Test;
 
 import uk.ac.ebi.fg.core_model.expgraph.properties.BioCharacteristicValue;
 import uk.ac.ebi.fg.core_model.expgraph.properties.ExperimentalPropertyValue;
+import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.expgraph.properties.dataitems.DataItemDAO;
 import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.AnnotatableDAO;
 import uk.ac.ebi.fg.core_model.resources.Resources;
 import uk.ac.ebi.utils.test.junit.TestEntityMgrProvider;
@@ -115,7 +114,7 @@ public class DataItemTest
 		assertNotNull ( "n wasn't saved!", n );
 		assertNotNull ( "nr wasn't saved!", nr );
 		
-		AnnotatableDAO<DataItem> dataDao = new AnnotatableDAO<DataItem> ( DataItem.class, em );
+		DataItemDAO dataDao = new DataItemDAO ( DataItem.class, em );
 
 		long nid = n.getId (), nrid = nr.getId ();
 		ts = em.getTransaction ();
@@ -132,7 +131,7 @@ public class DataItemTest
 		int purgedItems = dataDao.purge ();
 		ts.commit ();
 
-		//assertTrue ( "data purge didn't work!", purgedItems > 0 );
+		assertTrue ( "data purge didn't work!", purgedItems > 0 );
 		assertNull ( "data purge didn't work!", dataDao.find ( nrid ) );
 	}
 	

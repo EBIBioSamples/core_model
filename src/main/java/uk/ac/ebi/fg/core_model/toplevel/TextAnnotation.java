@@ -24,6 +24,9 @@ public class TextAnnotation extends Annotation
 {
 	private String text;
 
+	protected TextAnnotation () {
+	}
+	
   public TextAnnotation ( AnnotationType type, String text ) 
   {
   	super();
