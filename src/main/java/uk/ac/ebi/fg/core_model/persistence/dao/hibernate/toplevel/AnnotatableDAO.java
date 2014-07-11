@@ -1,13 +1,8 @@
 package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 
 import org.apache.commons.lang.Validate;
-import org.hibernate.SessionFactory;
-import org.hibernate.ejb.HibernateEntityManagerFactory;
-import org.hibernate.metadata.ClassMetadata;
 
 import uk.ac.ebi.fg.core_model.toplevel.Annotatable;
 import uk.ac.ebi.fg.core_model.toplevel.Annotation;
