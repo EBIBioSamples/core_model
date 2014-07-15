@@ -1,7 +1,5 @@
 package uk.ac.ebi.fg.core_model.xref;
 
-import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -13,8 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Index;
 
 import uk.ac.ebi.fg.core_model.resources.Const;
-import uk.ac.ebi.fg.core_model.terms.AnnotationType;
-import uk.ac.ebi.fg.core_model.terms.CVTerm;
 import uk.ac.ebi.fg.core_model.toplevel.Accessible;
 import uk.ac.ebi.fg.core_model.toplevel.Annotation;
 
@@ -70,48 +66,6 @@ public class XRef extends Annotation
 		this.source = source;
 	}
 
-	
-	
-	@Override
-	public void setType ( AnnotationType type )
-	{
-		super.setType ( type );
-	}
-
-	@Override
-	public void setProvenance ( CVTerm provenance )
-	{
-		super.setProvenance ( provenance );
-	}
-
-
-	@Override
-	public void setTimestamp ( Date timestamp )
-	{
-		super.setTimestamp ( timestamp );
-	}
-
-
-	@Override
-	public void setScore ( Double score )
-	{
-		super.setScore ( score );
-	}
-
-
-	@Override
-	public void setNotes ( String notes )
-	{
-		super.setNotes ( notes );
-	}
-
-
-	@Override
-	public void setInternalNotes ( String internalNotes )
-	{
-		super.setInternalNotes ( internalNotes );
-	}
-	
 	
   /**
    * If both accessions and reference sources are non-null, compares them, else uses object identity. 

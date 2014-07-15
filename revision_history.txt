@@ -1,3 +1,6 @@
+3.0-SNAPSHOT
+  - annotation branch started 
+  
 2.1
   - Making the Hibernate persistence unit name specific of FG/BioSD models (which required changes in Resources) 
   - Minor bugfixing

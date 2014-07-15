@@ -10,7 +10,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -20,7 +19,6 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 
 import uk.ac.ebi.fg.core_model.terms.AnnotationType;
-import uk.ac.ebi.fg.core_model.terms.CVTerm;
 
 /**
  * TODO: Comment me again! 
@@ -42,7 +40,7 @@ import uk.ac.ebi.fg.core_model.terms.CVTerm;
 public abstract class Annotation extends Identifiable 
 {
 	private AnnotationType type;
-	private CVTerm provenance;
+	private AnnotationProvenance provenance;
 	private Date timestamp;
 	private Double score;
 	private String notes;
@@ -60,7 +58,7 @@ public abstract class Annotation extends Identifiable
     return type;
   }
 
-  protected void setType ( AnnotationType type ) {
+  public void setType ( AnnotationType type ) {
      this.type = type;
   }
   
@@ -70,12 +68,12 @@ public abstract class Annotation extends Identifiable
 	@ManyToOne( targetEntity = AnnotationType.class, cascade = { CascadeType.PERSIST, CascadeType.REFRESH } )
 	@Fetch( FetchMode.JOIN )
 	@JoinColumn( name = "prov_id", nullable = true )
-  public CVTerm getProvenance ()
+  public AnnotationProvenance getProvenance ()
 	{
 		return provenance;
 	}
 
-	protected void setProvenance ( CVTerm provenance )
+	public void setProvenance ( AnnotationProvenance provenance )
 	{
 		this.provenance = provenance;
 	}
@@ -89,7 +87,7 @@ public abstract class Annotation extends Identifiable
 		return timestamp;
 	}
 
-	protected void setTimestamp ( Date timestamp )
+	public void setTimestamp ( Date timestamp )
 	{
 		this.timestamp = timestamp;
 	}
@@ -107,7 +105,7 @@ public abstract class Annotation extends Identifiable
 		return score;
 	}
 
-	protected void setScore ( Double score )
+	public void setScore ( Double score )
 	{
 		this.score = score;
 	}
@@ -121,7 +119,7 @@ public abstract class Annotation extends Identifiable
 		return notes;
 	}
 
-	protected void setNotes ( String notes )
+	public void setNotes ( String notes )
 	{
 		this.notes = notes;
 	}
@@ -137,7 +135,7 @@ public abstract class Annotation extends Identifiable
 		return internalNotes;
 	}
 
-	protected void setInternalNotes ( String internalNotes )
+	public void setInternalNotes ( String internalNotes )
 	{
 		this.internalNotes = internalNotes;
 	}

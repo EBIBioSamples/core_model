@@ -1,7 +1,5 @@
 package uk.ac.ebi.fg.core_model.toplevel;
 
-import java.util.Date;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -9,7 +7,6 @@ import javax.persistence.Lob;
 import org.apache.commons.lang.StringUtils;
 
 import uk.ac.ebi.fg.core_model.terms.AnnotationType;
-import uk.ac.ebi.fg.core_model.terms.CVTerm;
 
 /**
  * TODO: Comment me!
@@ -43,42 +40,6 @@ public class TextAnnotation extends Annotation
   protected void setText(String text) {
     this.text = text;
   }
-   
-  
-  
-	@Override
-	public void setProvenance ( CVTerm provenance )
-	{
-		super.setProvenance ( provenance );
-	}
-
-
-	@Override
-	public void setTimestamp ( Date timestamp )
-	{
-		super.setTimestamp ( timestamp );
-	}
-
-
-	@Override
-	public void setScore ( Double score )
-	{
-		super.setScore ( score );
-	}
-
-
-	@Override
-	public void setNotes ( String notes )
-	{
-		super.setNotes ( notes );
-	}
-
-
-	@Override
-	public void setInternalNotes ( String internalNotes )
-	{
-		super.setInternalNotes ( internalNotes );
-	}
 
 
 	/**

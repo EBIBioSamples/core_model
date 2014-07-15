@@ -34,6 +34,7 @@ public class AnnotationDAO extends IdentifiableDAO<Annotation>
 
 		String hqlf = "DELETE FROM Annotation a WHERE a.id NOT IN ( " +
 			"  SELECT ja.id FROM %s an JOIN an.annotations ja)";
+		
 		int result = 0;
 		for ( ClassMetadata cmeta: sessionFact.getAllClassMetadata ().values () )
 		{
