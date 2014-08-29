@@ -3,8 +3,10 @@ package uk.ac.ebi.fg.core_model.toplevel;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import uk.ac.ebi.fg.core_model.terms.AnnotationType;
 
@@ -17,6 +19,16 @@ import uk.ac.ebi.fg.core_model.terms.AnnotationType;
  */
 @Entity
 @DiscriminatorValue ( "text" )
+@NamedQueries ({
+	// Finds the ontology terms annotated with certain parameters
+	// TODO: This is used by the BioSD feature annotator and should be moved there (but JPA makes it complicated)
+	@NamedQuery ( name = "findOntoAnnotations", 
+		query = "SELECT DISTINCT ot, ann.score FROM OntologyEntry ot JOIN ot.annotations ann\n"
+		+ "WHERE ann.provenance.name = :provenance AND ann.class = 'text'\n"
+		+ "  AND ann.text = :annotation\n"
+		+ "ORDER BY ann.score DESC" 
+	)
+})
 public class TextAnnotation extends Annotation
 {
 	private String text;

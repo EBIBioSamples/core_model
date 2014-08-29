@@ -17,10 +17,10 @@ import uk.ac.ebi.fg.core_model.toplevel.Annotation;
  * @author Marco Brandizi
  *
  */
-public class AnnotationDAO extends IdentifiableDAO<Annotation>
+public class AnnotationDAO<AN extends Annotation> extends IdentifiableDAO<AN>
 {
 	
-	public AnnotationDAO ( Class<Annotation> managedClass, EntityManager entityManager )
+	public AnnotationDAO ( Class<AN> managedClass, EntityManager entityManager )
 	{
 		super ( managedClass, entityManager );
 	}
@@ -32,19 +32,20 @@ public class AnnotationDAO extends IdentifiableDAO<Annotation>
 		EntityManagerFactory emf = em.getEntityManagerFactory ();
 		SessionFactory sessionFact = ((HibernateEntityManagerFactory) emf).getSessionFactory ();
 
-		String hqlf = "DELETE FROM Annotation a WHERE a.id NOT IN ( " +
-			"  SELECT ja.id FROM %s an JOIN an.annotations ja)";
-		
-		int result = 0;
+		String hql = "DELETE FROM Annotation a WHERE\n";
+		String exclf = "a NOT IN (SELECT ja.id FROM %s an JOIN an.annotations ja)\n";
+		String sep = "  ";
+				
 		for ( ClassMetadata cmeta: sessionFact.getAllClassMetadata ().values () )
 		{
 			Class<?> mappedClass = cmeta.getMappedClass ();
 			if ( !Annotatable.class.isAssignableFrom ( mappedClass ) ) continue;
 
-			result += em.createQuery ( String.format ( hqlf, mappedClass.getCanonicalName () ) ).executeUpdate ();
+			hql += sep + String.format ( exclf,  mappedClass.getCanonicalName () ) + "\n";
+			sep = "  AND ";
 		}
-		
-		return result;
+
+		return em.createQuery ( hql ).executeUpdate ();
 	}
 	
 }
