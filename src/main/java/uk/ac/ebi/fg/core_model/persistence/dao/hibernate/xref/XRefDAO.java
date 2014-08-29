@@ -3,17 +3,19 @@
  */
 package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.xref;
 
+import static uk.ac.ebi.utils.sql.HqlUtils.parameterizedWithNullHql;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.IdentifiableDAO;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 import uk.ac.ebi.fg.core_model.xref.XRef;
-import uk.ac.ebi.utils.sql.SqlUtils;
+import uk.ac.ebi.utils.sql.HqlUtils;
 
 /**
  * The DAO to access {@link XRef} entities.
@@ -39,7 +41,7 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an x-ref with empty accession" );
 		
 		String hql = "SELECT x.id FROM " + this.getManagedClass().getCanonicalName() + 
-			" x WHERE x.acc = :acc AND x.source.acc = :srcAcc AND " + SqlUtils.parameterizedWithNullSql ( "x.source.version", "srcVer" );
+			" x WHERE x.acc = :acc AND x.source.acc = :srcAcc AND " + parameterizedWithNullHql ( "x.source.version", "srcVer" );
 				
 		Query query = getEntityManager ().createQuery( hql )
 			.setParameter ( "acc", accession )
@@ -106,7 +108,7 @@ public class XRefDAO<X extends XRef> extends IdentifiableDAO<X>
 	  Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an x-ref with empty accession" );
 		
 		String hql = "SELECT x FROM " + this.getManagedClass().getCanonicalName() + 
-			" x WHERE x.acc = :acc AND x.source.acc = :srcAcc AND " + SqlUtils.parameterizedWithNullSql ( "x.source.version", "srcVer" ); 
+			" x WHERE x.acc = :acc AND x.source.acc = :srcAcc AND " + parameterizedWithNullHql ( "x.source.version", "srcVer" ); 
 				
 		Query query = getEntityManager ().createQuery( hql )
 			.setParameter ( "acc", accession )

@@ -2,7 +2,7 @@ package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel;
 
 import javax.persistence.EntityManager;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 import uk.ac.ebi.fg.core_model.toplevel.Annotatable;
 import uk.ac.ebi.fg.core_model.toplevel.Annotation;

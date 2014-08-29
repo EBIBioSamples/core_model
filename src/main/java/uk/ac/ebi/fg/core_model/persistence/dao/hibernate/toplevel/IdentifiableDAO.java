@@ -10,7 +10,7 @@ import javax.persistence.Query;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.hibernate.CacheMode;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
