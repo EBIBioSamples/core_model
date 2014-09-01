@@ -51,7 +51,7 @@ public abstract class Annotation extends Identifiable
 	}
 
 
-	@ManyToOne( targetEntity = AnnotationType.class, cascade = { CascadeType.PERSIST, CascadeType.REFRESH } )
+	@ManyToOne( cascade = { CascadeType.PERSIST, CascadeType.REFRESH } )
 	@Fetch( FetchMode.JOIN )
 	@JoinColumn( name = "type_id", nullable = true )
   public AnnotationType getType() {
@@ -65,7 +65,7 @@ public abstract class Annotation extends Identifiable
   /**
    * A person or a software component that generated this annotation. 
    */
-	@ManyToOne( targetEntity = AnnotationType.class, cascade = { CascadeType.PERSIST, CascadeType.REFRESH } )
+	@ManyToOne( cascade = { CascadeType.PERSIST, CascadeType.REFRESH } )
 	@Fetch( FetchMode.JOIN )
 	@JoinColumn( name = "prov_id", nullable = true )
   public AnnotationProvenance getProvenance ()
