@@ -3,6 +3,8 @@ package uk.ac.ebi.fg.core_model.terms;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 
@@ -32,6 +34,7 @@ public abstract class CVTerm extends Identifiable
 		this.name = name;
 	}
 
+	@NotEmpty
 	@Column( unique = true, nullable = false, length = Const.COL_LENGTH_L )
 	public String getName() {
 		return name;
@@ -53,7 +56,7 @@ public abstract class CVTerm extends Identifiable
   		
     // Compare accessions if both are non-null, use identity otherwise
     CVTerm that = (CVTerm) o;
-    return ( this.getName () == null || that.getName () == null ) ? false : this.name.equals ( that.name );
+    return ( this.getName () == null | that.getName () == null ) ? false : this.name.equals ( that.name );
   }
   
   @Override

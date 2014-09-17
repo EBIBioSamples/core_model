@@ -63,7 +63,7 @@ public abstract class Accessible extends Annotatable
   	
     // Compare accessions if both are non-null, use identity otherwise
     Accessible that = (Accessible) o;
-    return ( this.getAcc () == null || that.getAcc () == null ) ? false : this.acc.equals ( that.acc );
+    return ( this.getAcc () == null | that.getAcc () == null ) ? false : this.acc.equals ( that.acc );
   }
   
   @Override

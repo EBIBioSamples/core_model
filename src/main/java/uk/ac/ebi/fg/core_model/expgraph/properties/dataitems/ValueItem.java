@@ -49,7 +49,7 @@ public abstract class ValueItem<T> extends DataItem
   	
     // Compare accessions if both are non-null, use identity otherwise
   	ValueItem<?> that = (ValueItem<?>) o;
-    return ( this.getValue () == null || that.getValue () == null ) ? false : this.value.equals ( that.value );
+    return ( this.getValue () == null | that.getValue () == null ) ? false : this.value.equals ( that.value );
   }
   
   @Override

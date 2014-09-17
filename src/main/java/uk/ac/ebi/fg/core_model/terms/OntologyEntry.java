@@ -108,17 +108,19 @@ public class OntologyEntry extends Annotatable
   	
     // Compare accessions if both are non-null, use identity otherwise
   	OntologyEntry that = (OntologyEntry) o;
-    if ( this.getAcc () == null || that.getAcc () == null ) return false;
-    if ( this.getSource () == null || that.getSource () == null ) return false;
-    return this.acc.equals ( that.acc ) && this.source.equals ( that.source );
+    if ( this.getAcc () == null | that.getAcc () == null ) return false;
+    if ( this.getSource () == null ? that.getSource () != null : !this.source.equals ( that.getSource () ) ) return false;
+    return this.acc.equals ( that.acc );
   }
   
   @Override
   public int hashCode() 
   {
-  	return this.getAcc () == null || this.getSource () == null 
-  		? super.hashCode () 
-  		: this.source.hashCode () * 31 + this.acc.hashCode ();
+  	if ( this.getAcc () == null ) return super.hashCode ();
+  	
+  	int result = this.getSource () == null ? 0 : this.source.hashCode (); 
+  	result = result * 31 + this.acc.hashCode ();
+  	return result;
   }
 
   @Override

@@ -40,7 +40,7 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends AnnotatableDAO<O
 			" oe WHERE oe.acc = :acc\n";
 		
 		hql += srcAcc == null
-			? " AND oe.source = null"
+			? " AND oe.source IS NULL"
 			: " AND oe.source.acc = :srcAcc\n"
 	    	+ " AND " + parameterizedWithNullHql ( "oe.source.version", "srcVer" ) + "\n" 
 	    	+ " AND " + parameterizedWithNullHql ( "source.url", "srcUrl" ) + "\n";
@@ -71,7 +71,7 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends AnnotatableDAO<O
 		String hql = "SELECT oe.id FROM " + this.getManagedClass().getCanonicalName() + 
 			" oe WHERE oe.acc = :acc";
 		hql += srcAcc == null
-			? " AND oe.source = null"
+			? " AND oe.source IS NULL"
 			: " AND oe.source.acc = :srcAcc\n"
 	    	+ " AND " + parameterizedWithNullHql ( "oe.source.version", "srcVer" ) + "\n"; 
 		
@@ -102,7 +102,7 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends AnnotatableDAO<O
 			+ " oe WHERE oe.acc = :acc";
 		
 		hql += srcAcc == null
-			? " AND oe.source = null"
+			? " AND oe.source IS NULL"
 			: " AND oe.source.acc = :srcAcc\n";
 		
 		Query query = getEntityManager ().createQuery( hql )
@@ -173,7 +173,7 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends AnnotatableDAO<O
 			" oe WHERE oe.acc = :acc";
 		
 		hql += srcAcc == null
-			? " AND oe.source = null"
+			? " AND oe.source IS NULL"
 			: " AND oe.source.acc = :srcAcc\n"
 	    	+ " AND " + parameterizedWithNullHql ( "oe.source.version", "srcVer" ) + "\n" 
 	    	+ " AND " + parameterizedWithNullHql ( "source.url", "srcUrl" ) + "\n";
@@ -201,7 +201,7 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends AnnotatableDAO<O
 				" oe WHERE oe.acc = :acc";
 			
 		hql += srcAcc == null
-			? " AND oe.source = null"
+			? " AND oe.source IS NULL"
 			: " AND oe.source.acc = :srcAcc\n"
 	    	+ " AND " + parameterizedWithNullHql ( "oe.source.version", "srcVer" ) + "\n"; 
 		
@@ -228,7 +228,7 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends AnnotatableDAO<O
 			+ " oe WHERE oe.acc = :acc";
 		
 		hql += srcAcc == null
-			? " AND oe.source = null"
+			? " AND oe.source IS NULL"
 			: " AND oe.source.acc = :srcAcc\n";
 		
 		Query query = getEntityManager ().createQuery( hql )

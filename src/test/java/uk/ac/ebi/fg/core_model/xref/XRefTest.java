@@ -34,8 +34,8 @@ public class XRefTest
 		assertFalse ( "ref1.equals ( ref4 ) fails!", ref1.equals ( ref4 ) );
 		assertFalse ( "ref4.equals ( ref1 ) fails!", ref4.equals ( ref1 ) );
 
-		assertFalse ( "ref4.equals ( ref8 ) fails!", ref4.equals ( ref8 ) );
-		assertFalse ( "ref8.equals ( ref4 ) fails!", ref8.equals ( ref4 ) );
+		assertTrue ( "ref4.equals ( ref8 ) fails!", ref4.equals ( ref8 ) );
+		assertTrue ( "ref8.equals ( ref4 ) fails!", ref8.equals ( ref4 ) );
 		
 		assertFalse ( "ref5.equals ( ref7 ) fails!", ref5.equals ( ref7 ) );
 		assertFalse ( "ref7.equals ( ref5 ) fails!", ref7.equals ( ref5 ) );
