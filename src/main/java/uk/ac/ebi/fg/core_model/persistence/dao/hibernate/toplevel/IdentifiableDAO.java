@@ -204,16 +204,16 @@ public class IdentifiableDAO<T extends Identifiable> // extends AbstractHibernat
 	{
 	  for ( PropertyDescriptor pd: PropertyUtils.getPropertyDescriptors ( src ) )
 	  {
-	  	RuntimeException theEx = null;
+	  	Exception theEx = null;
 	  	try {
 	  		Object pval = pd.getReadMethod ().invoke ( src );
 	  		if ( pval == null ) continue;
 	  		if ( pval instanceof Collection && ((Collection<?>) pval).isEmpty () ) continue;
 				BeanUtils.copyProperty ( dest, pd.getName (), pval );
 			} 
-	  	catch ( IllegalArgumentException ex ) { theEx = null; }
-			catch ( IllegalAccessException ex ) { theEx = null; }
-			catch ( InvocationTargetException ex ) { theEx = null; }
+	  	catch ( IllegalArgumentException ex ) { theEx = ex; }
+			catch ( IllegalAccessException ex ) { theEx = ex; }
+			catch ( InvocationTargetException ex ) { theEx = ex; }
 	  	finally {
 	  		if ( theEx != null ) throw new RuntimeException ( "Internal error while saving to database: " + theEx.getMessage (), theEx );
 	  	}
