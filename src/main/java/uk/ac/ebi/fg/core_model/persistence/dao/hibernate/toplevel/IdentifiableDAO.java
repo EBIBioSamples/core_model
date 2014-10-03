@@ -2,6 +2,8 @@ package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.List;
 
@@ -207,6 +209,8 @@ public class IdentifiableDAO<T extends Identifiable> // extends AbstractHibernat
 	  	Exception theEx = null;
 	  	try {
 	  		Object pval = pd.getReadMethod ().invoke ( src );
+	  		Method setter = pd.getWriteMethod ();
+	  		if ( setter == null || ( setter.getModifiers () | Modifier.PUBLIC ) == 0 ) continue;
 	  		if ( pval == null ) continue;
 	  		if ( pval instanceof Collection && ((Collection<?>) pval).isEmpty () ) continue;
 				BeanUtils.copyProperty ( dest, pd.getName (), pval );
