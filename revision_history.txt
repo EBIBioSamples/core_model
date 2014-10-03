@@ -1,3 +1,9 @@
+2.2.1-SNAPSHOT
+  - Just started
+  
+2.2
+  - jUtils dependency upgraded and some incompatibilities introduced by that fixed. 
+  
 2.1
   - Making the Hibernate persistence unit name specific of FG/BioSD models (which required changes in Resources) 
   - Minor bugfixing

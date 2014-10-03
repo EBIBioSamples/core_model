@@ -1,13 +1,13 @@
 package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.xref;
 
-import static uk.ac.ebi.utils.sql.SqlUtils.parameterizedWithNullSql;
+import static uk.ac.ebi.utils.sql.HqlUtils.parameterizedWithNullHql;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.IdentifiableDAO;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
@@ -34,8 +34,8 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 		Validate.notEmpty ( accession, "accession must not be empty" );
 		
 		String hql = "SELECT s.id FROM " + targetClass.getCanonicalName() + 
-			" s WHERE s.acc = :acc AND " + parameterizedWithNullSql ( "s.version", "ver" ) + " AND " 
-			+ parameterizedWithNullSql ( "s.url", "url" );
+			" s WHERE s.acc = :acc AND " + parameterizedWithNullHql ( "s.version", "ver" ) + " AND " 
+			+ parameterizedWithNullHql ( "s.url", "url" );
 				
 		Query query = getEntityManager ().createQuery( hql )
 			.setParameter ( "acc", accession )
@@ -58,7 +58,7 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 		Validate.notEmpty ( accession, "accession must not be empty" );
 		
 		String hql = "SELECT s.id FROM " + targetClass.getCanonicalName() + 
-			" s WHERE s.acc = :acc AND " + parameterizedWithNullSql ( "s.version", "ver" ); 
+			" s WHERE s.acc = :acc AND " + parameterizedWithNullHql ( "s.version", "ver" ); 
 				
 		Query query = getEntityManager ().createQuery( hql )
 			.setParameter ( "acc", accession )
@@ -125,8 +125,8 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	  Validate.notEmpty ( accession, "Database access error: cannot fetch an accessible with empty accession" );
 	  
 	  String hql = "SELECT s FROM " + targetClass.getCanonicalName() + 
-	  	" s WHERE s.acc = :acc AND " + parameterizedWithNullSql ( "s.version", "ver" )
-	  	+ " AND " + parameterizedWithNullSql ( "s.url", "url" );
+	  	" s WHERE s.acc = :acc AND " + parameterizedWithNullHql ( "s.version", "ver" )
+	  	+ " AND " + parameterizedWithNullHql ( "s.url", "url" );
 	
 	  Query query = getEntityManager ().createQuery ( hql )
 	  	.setParameter ( "acc", accession )
@@ -154,7 +154,7 @@ public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableD
 	  Validate.notEmpty ( accession, "Database access error: cannot fetch an accessible with empty accession" );
 	  
 	  String hql = "SELECT s FROM " + targetClass.getCanonicalName() + 
-	  	" s WHERE s.acc = :acc AND " + parameterizedWithNullSql ( "s.version", "ver" );
+	  	" s WHERE s.acc = :acc AND " + parameterizedWithNullHql ( "s.version", "ver" );
 	
 	  Query query = getEntityManager ().createQuery ( hql )
 	  	.setParameter ( "acc", accession )
