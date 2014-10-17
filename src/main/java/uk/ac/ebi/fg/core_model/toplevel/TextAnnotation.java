@@ -22,10 +22,11 @@ import uk.ac.ebi.fg.core_model.terms.AnnotationType;
 @NamedQueries ({
 	// Finds the ontology terms annotated with certain parameters
 	// TODO: This is used by the BioSD feature annotator and should be moved there (but JPA makes it complicated)
+	// Note that Oracle doesn't like CLOBs used in SELECT DISTINCT
 	@NamedQuery ( name = "findOntoAnnotations", 
 		query = "SELECT DISTINCT ot, ann.score FROM OntologyEntry ot JOIN ot.annotations ann\n"
 		+ "WHERE ann.provenance.name = :provenance AND ann.class = 'text'\n"
-		+ "  AND ann.text = :annotation\n"
+		+ "  AND STR ( ann.text ) = :annotation\n"
 		+ "ORDER BY ann.score DESC" 
 	)
 })
