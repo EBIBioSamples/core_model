@@ -28,6 +28,15 @@ import uk.ac.ebi.fg.core_model.terms.AnnotationType;
 		+ "WHERE ann.provenance.name = :provenance AND ann.class = 'text'\n"
 		+ "  AND STR ( ann.text ) = :annotation\n"
 		+ "ORDER BY ann.score DESC" 
+	),
+	
+	@NamedQuery ( name = "findOe2BePurged", 
+		query = "FROM OntologyEntry oe WHERE\n"
+		+ "oe IN ( SELECT oe1.id FROM OntologyEntry oe1 JOIN oe1.annotations ann WHERE ann.id = :annId )\n"
+		+ "AND oe NOT IN ( "
+		+ "  SELECT oe1.id FROM OntologyEntry oe1 JOIN oe1.annotations ann1 JOIN ann1.type AS atype1 JOIN ann1.provenance AS prov1"
+		+ "    WHERE atype1.name <> :atype OR prov1.name <> :prov OR ann1.timestamp < :startTime OR ann1.timestamp > :endTime"
+		+ ")"	
 	)
 })
 public class TextAnnotation extends Annotation
