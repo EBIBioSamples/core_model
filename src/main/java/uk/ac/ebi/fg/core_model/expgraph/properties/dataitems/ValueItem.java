@@ -59,7 +59,7 @@ public abstract class ValueItem<T> extends DataItem
 
   @Override
   public String toString() {
-    return this.getClass ().getSimpleName () + "{ id: " + getId() + ", acc: '" + getValue () + "' }";
+    return this.getClass ().getSimpleName () + "{ id: " + getId() + ", value: '" + getValue () + "' }";
   }
 
 }

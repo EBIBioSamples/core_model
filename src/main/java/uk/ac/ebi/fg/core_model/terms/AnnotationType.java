@@ -16,7 +16,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Annotation;
  */
 @Entity
 @Table ( name = "annotation_type" )
-public final class AnnotationType extends CVTerm 
+public class AnnotationType extends CVTerm 
 {
 	protected AnnotationType () {
 		super ();
