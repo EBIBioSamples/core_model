@@ -46,6 +46,7 @@ public class ExperimentalPropertyType extends FreeTextTerm
 	
 	
 	@Column ( name = "property_order" ) // you cannot define it as 'order', it's an SQL keyword
+	@Index ( name = "p_type_order" )
 	public int getOrder ()
 	{
 		return order;

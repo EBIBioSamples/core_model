@@ -27,7 +27,7 @@ public class NumberItem extends ValueItem<Double>
 	}
 
 	
-	@Column ( name = "number" )
+	@Column ( name = "number_val" )
 	@Index ( name = "number_item_value" )
 	@Override
 	public Double getValue ()

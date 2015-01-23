@@ -27,7 +27,7 @@ public class DateItem extends ValueItem<Date>
 		super ( value );
 	}
 
-	@Column ( name = "date" )
+	@Column ( name = "date_val" )
 	@Index ( name = "date_item_value" )
 	@Override
 	public Date getValue ()

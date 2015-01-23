@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -34,7 +35,11 @@ public class Annotatable extends Identifiable
 
   @ManyToMany ( cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
   // By not mentioning the table, one new join table is created per new mapping table
-  @JoinTable ( joinColumns = @JoinColumn ( name = "owner_id" ), inverseJoinColumns = @JoinColumn ( name = "annotation_id" ) )
+  @JoinTable ( 
+  	joinColumns = @JoinColumn ( name = "owner_id" ), 
+  	inverseJoinColumns = @JoinColumn ( name = "annotation_id" ), 
+  	indexes = { @Index ( columnList = "owner_id" ), @Index ( columnList = "annotation_id" ) }
+  )
   public Set<Annotation> getAnnotations() {
   	return annotations;
   }

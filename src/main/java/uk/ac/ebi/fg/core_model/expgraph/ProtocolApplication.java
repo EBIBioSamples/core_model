@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
 import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterValue;
 import uk.ac.ebi.fg.core_model.toplevel.Annotatable;
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
@@ -67,6 +69,7 @@ public class ProtocolApplication extends Annotatable
 	}
 
 	@Column ( name = "application_order" )
+	@Index ( name = "protocol_app_order" )
 	public int getOrder () {
 		return order;
 	}

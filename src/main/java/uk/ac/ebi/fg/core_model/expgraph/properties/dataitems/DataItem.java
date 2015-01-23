@@ -1,12 +1,9 @@
 package uk.ac.ebi.fg.core_model.expgraph.properties.dataitems;
 
 import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import uk.ac.ebi.fg.core_model.toplevel.Annotatable;
