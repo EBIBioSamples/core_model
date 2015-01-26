@@ -96,7 +96,7 @@ public class ReferenceSource extends Annotatable
 		return url;
 	}
 
-	protected void setUrl ( String url )
+  public void setUrl ( String url )
 	{
 		this.url = url;
 	}

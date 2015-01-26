@@ -12,7 +12,6 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 import uk.ac.ebi.fg.core_model.toplevel.Annotatable;
-import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 
 /**
  * A free-text annotation that can optionally be linked to existing ontology terms. An example of where this is useful

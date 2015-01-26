@@ -34,7 +34,6 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends AnnotatableDAO<O
 	public boolean contains ( String accession, String srcAcc, String srcVer, String srcUrl ) 
 	{
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null ontology entry" );
-	  //TODO remove Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
 		
 		String hql = "SELECT oe.id FROM " + this.getManagedClass().getCanonicalName() + 
 			" oe WHERE oe.acc = :acc\n";
@@ -66,10 +65,10 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends AnnotatableDAO<O
 	public boolean contains ( String accession, String srcAcc, String srcVer  ) 
 	{
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null ontology entry" );
-	  //TODO remove Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
 		
 		String hql = "SELECT oe.id FROM " + this.getManagedClass().getCanonicalName() + 
 			" oe WHERE oe.acc = :acc";
+	
 		hql += srcAcc == null
 			? " AND oe.source IS NULL"
 			: " AND oe.source.acc = :srcAcc\n"
@@ -96,7 +95,6 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends AnnotatableDAO<O
 	public boolean contains ( String accession, String srcAcc ) 
 	{
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null ontology entry" );
-	//TODO remove Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
 		
 		String hql = "SELECT oe.id FROM " + this.getManagedClass().getCanonicalName() 
 			+ " oe WHERE oe.acc = :acc";
@@ -222,7 +220,6 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends AnnotatableDAO<O
 	public List<OE> find ( String accession, String srcAcc ) 
 	{
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null ontology entry" );
-	//TODO remove Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
 		
 		String hql = "SELECT oe FROM " + this.getManagedClass().getCanonicalName() 
 			+ " oe WHERE oe.acc = :acc";
@@ -244,7 +241,6 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends AnnotatableDAO<O
 	public List<OE> find ( String accession ) 
 	{
 	  Validate.notNull ( accession, "Database access error: cannot fetch a null ontology entry" );
-	//TODO remove Validate.notEmpty ( srcAcc, "Database access error: cannot fetch an ontology entry with empty accession" );
 		
 		String hql = "SELECT oe FROM " + this.getManagedClass().getCanonicalName() 
 			+ " oe WHERE oe.acc = :acc";
