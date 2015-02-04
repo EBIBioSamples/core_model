@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 
 import org.hibernate.annotations.Index;
 
@@ -17,6 +18,10 @@ import org.hibernate.annotations.Index;
  */
 @Entity
 @DiscriminatorValue ( "date" )
+@NamedQuery ( 
+	name = "dateItem.find", 
+	query = "FROM DateItem d WHERE d.value = :value" 
+)
 public class DateItem extends ValueItem<Date>
 {
 	protected DateItem () {

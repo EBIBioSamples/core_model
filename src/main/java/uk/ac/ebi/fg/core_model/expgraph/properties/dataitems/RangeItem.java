@@ -1,7 +1,9 @@
 package uk.ac.ebi.fg.core_model.expgraph.properties.dataitems;
 
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
+
 
 
 /**

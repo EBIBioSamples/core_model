@@ -3,6 +3,7 @@ package uk.ac.ebi.fg.core_model.expgraph.properties.dataitems;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 
 import org.hibernate.annotations.Index;
 
@@ -15,6 +16,10 @@ import org.hibernate.annotations.Index;
  */
 @Entity
 @DiscriminatorValue ( "number" )
+@NamedQuery ( 
+	name = "numberItem.find", 
+	query = "FROM NumberItem d WHERE d.value = :value" 
+)
 public class NumberItem extends ValueItem<Double>
 {
 
