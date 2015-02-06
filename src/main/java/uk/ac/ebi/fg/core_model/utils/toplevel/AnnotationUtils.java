@@ -23,7 +23,9 @@ public class AnnotationUtils
 	/**
 	 * TODO: NEVER TESTED
 	 */
-	public static List<Annotation> find ( Collection<Annotation> annotations, String value, String type, boolean isCaseSensitive, boolean onlyFirst )
+	public static List<Annotation> find ( 
+		Collection<Annotation> annotations, String value, String type, boolean isCaseSensitive, boolean onlyFirst 
+	)
 	{
 		List<Annotation> result = new ArrayList<Annotation> ();
 		
@@ -41,7 +43,12 @@ public class AnnotationUtils
 					continue;
 			}
 			
-			if ( value == null ) continue;
+			if ( value == null ) 
+			{
+				result.add ( ann );
+				if ( onlyFirst ) break;
+				continue;
+			}
 			
 			String aval = ann instanceof TextAnnotation 
 				? ((TextAnnotation) ann ).getText ()
@@ -55,7 +62,6 @@ public class AnnotationUtils
 				continue;
 			
 			result.add ( ann );
-			
 			if ( onlyFirst ) break;
 		}
 		
