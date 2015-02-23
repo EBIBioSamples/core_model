@@ -3,13 +3,13 @@
  
 	<groupId>uk.ac.ebi.fg</groupId>
   <artifactId>core_model</artifactId>
-  <version>2.2.1-SNAPSHOT</version>
+  <version>3.0-SNAPSHOT</version>
   <packaging>jar</packaging> 
   
   <parent>
 	  <groupId>uk.ac.ebi.fg.biosd</groupId>
 	  <artifactId>biosd_common</artifactId>
-	  <version>1.2</version>
+  	<version>1.2.1-SNAPSHOT</version>
 	</parent> 
   
   
@@ -33,8 +33,17 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-		</dependency>            
-
+		</dependency>         
+		
+		<dependency>
+		 <groupId>org.springframework</groupId>
+		 <artifactId>spring-context</artifactId>
+		</dependency> 
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>	  	
 		
 		<dependency>
 			<groupId>commons-beanutils</groupId>
@@ -60,6 +69,12 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 	    <scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>  

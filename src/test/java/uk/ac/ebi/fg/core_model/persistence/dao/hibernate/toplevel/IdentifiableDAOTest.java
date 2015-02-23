@@ -1,6 +1,3 @@
-/*
- * 
- */
 package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel;
 
 import static junit.framework.Assert.assertEquals;
@@ -8,6 +5,8 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -23,6 +22,7 @@ import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.terms.CVTermDAO;
 import uk.ac.ebi.fg.core_model.resources.Resources;
 import uk.ac.ebi.fg.core_model.terms.AnnotationType;
 import uk.ac.ebi.fg.core_model.toplevel.Annotation;
+import uk.ac.ebi.fg.core_model.toplevel.TextAnnotation;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 import uk.ac.ebi.fg.core_model.xref.XRef;
 import uk.ac.ebi.utils.test.junit.TestEntityMgrProvider;
@@ -42,7 +42,7 @@ public class IdentifiableDAOTest
 	private EntityManager em;
 	private IdentifiableDAO<XRef> xrefDao;
 	private IdentifiableDAO<ReferenceSource> srcDao;
-	private IdentifiableDAO<Contact> cntDao;
+	private AnnotatableDAO<Contact> cntDao;
 
 	private Contact cnt;
 	private Annotation ann1, ann2;
@@ -58,15 +58,15 @@ public class IdentifiableDAOTest
 		em = emProvider.getEntityManager ();
 		xrefDao = new IdentifiableDAO<XRef> ( XRef.class, em );
 		srcDao = new IdentifiableDAO<ReferenceSource> ( ReferenceSource.class, em );
-		cntDao = new IdentifiableDAO<Contact> ( Contact.class, em );
+		cntDao = new AnnotatableDAO<Contact> ( Contact.class, em );
 
 		cnt = new Contact ();
 		cnt.setFirstName ( "Mr" ); cnt.setLastName ( "Test" );
 		
 		atype = new AnnotationType ( "tests.dao.foo-ann-type-1" );
 
-		ann1 = new Annotation ( atype, "foo annotation 1" );
-		ann2 = new Annotation ( atype, "foo annotation 2" );
+		ann1 = new TextAnnotation ( atype, "foo annotation 1" );
+		ann2 = new TextAnnotation ( atype, "foo annotation 2" );
 		cnt.addAnnotation ( ann1 );
 		cnt.addAnnotation ( ann2 );
 	}
@@ -96,13 +96,14 @@ public class IdentifiableDAOTest
 		tns = em.getTransaction ();
 		tns.begin ();
 		
-		for ( Contact cntDb: cntDao.findByExample ( cnt, "annotations" ) )
-			cntDao.delete ( cntDb );
+		for ( Contact cntDb: cntDao.findByExample ( cnt ) )
+			cntDao.delete ( cntDb, true );
 		tns.commit ();
 
 		assertTrue ( "Test Contact not deleted!", cntDao.findByExample ( cnt ).isEmpty () );
 		
 		IdentifiableDAO<Annotation> annDao = new IdentifiableDAO<Annotation> ( Annotation.class, em );
+		
 		
 		/* DEBUG System.out.println ( "\n\n   _____________________ ANNOTATIONS NOT DELETED:" );
 		List<Annotation> anns = annDao.findByExample ( ann1 );
@@ -131,9 +132,8 @@ public class IdentifiableDAOTest
 	public void testBasics () 
 	{
 		// Create a new Src/XRef, save, fetch.
-		ReferenceSource src = new ReferenceSource ( "tests.dao.foo-src-1", "v1.0" );
+		ReferenceSource src = new ReferenceSource ( "tests.dao.foo-src-1", "v1.0", "http://tests.dao/foo-src-1/v1.0" );
 		src.setDescription ( "The description of FOO-SRC-1" );
-		src.setUrl ( "http://tests.dao/foo-src-1/v1.0" );
 		
 		XRef xref = new XRef ( "tests.dao.foo-xref-1", src );
 		
@@ -209,7 +209,7 @@ public class IdentifiableDAOTest
 		// cleanupDB() cannot deal with it anymore, it changed.
 		tns = em.getTransaction ();
 		tns.begin ();
-			cntDao.delete ( cntDB );
+			cntDao.delete ( cntDB, true );
 	  tns.commit ();
 	}
 }

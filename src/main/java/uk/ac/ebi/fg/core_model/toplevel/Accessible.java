@@ -25,7 +25,7 @@ import uk.ac.ebi.fg.core_model.xref.XRef;
  * @author Marco Brandizi (migrated to AE2 and revised in 2012)
  */
 @MappedSuperclass
-public abstract class Accessible extends Identifiable 
+public abstract class Accessible extends Annotatable 
 {
   private String acc;
 
@@ -49,7 +49,8 @@ public abstract class Accessible extends Identifiable
   protected void setAcc ( String acc ) {
     this.acc = acc;
   }
-
+  
+  
   /**
    * If both accessions are non-null, compares them, else uses object identity. 
    */
@@ -62,7 +63,7 @@ public abstract class Accessible extends Identifiable
   	
     // Compare accessions if both are non-null, use identity otherwise
     Accessible that = (Accessible) o;
-    return ( this.getAcc () == null || that.getAcc () == null ) ? false : this.acc.equals ( that.acc );
+    return ( this.getAcc () == null | that.getAcc () == null ) ? false : this.acc.equals ( that.acc );
   }
   
   @Override

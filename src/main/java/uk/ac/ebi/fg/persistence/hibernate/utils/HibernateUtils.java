@@ -4,11 +4,12 @@ import java.util.Collections;
 
 import javax.persistence.EntityManager;
 
-import org.hibernate.ejb.EntityManagerFactoryImpl;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory;
 import org.hibernate.hql.spi.QueryTranslator;
 import org.hibernate.hql.spi.QueryTranslatorFactory;
+import org.hibernate.jpa.internal.EntityManagerFactoryImpl;
+
 
 
 /**
@@ -32,7 +33,7 @@ public class HibernateUtils
 	{
 		SessionFactoryImplementor sf = ((EntityManagerFactoryImpl) em.getEntityManagerFactory ()).getSessionFactory();
 		QueryTranslatorFactory translatorFactory = new ASTQueryTranslatorFactory();			
-		QueryTranslator translator = translatorFactory.createQueryTranslator ( hql, hql, Collections.emptyMap (), sf );
+		QueryTranslator translator = translatorFactory.createQueryTranslator ( hql, hql, Collections.emptyMap (), sf, null );
 		translator.compile ( Collections.emptyMap (), isShallowSelect );
 		return translator.getSQLString (); 
 	}

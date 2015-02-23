@@ -7,16 +7,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
 
 import uk.ac.ebi.fg.core_model.resources.Const;
-import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
-import uk.ac.ebi.fg.core_model.xref.Referrer;
+import uk.ac.ebi.fg.core_model.toplevel.Annotatable;
 import uk.ac.ebi.fg.core_model.xref.XRef;
 
 
@@ -36,7 +33,7 @@ import uk.ac.ebi.fg.core_model.xref.XRef;
 
 @Entity
 @Table(name = "publication")
-public class Publication extends DefaultAnnotatable implements Referrer
+public class Publication extends Annotatable
 {
   private String title;
   private String authorList;
@@ -51,7 +48,6 @@ public class Publication extends DefaultAnnotatable implements Referrer
   private String pages;
   private String uri;
 
-	private Set<XRef> references = new HashSet<XRef> ();
   private PublicationStatus status;
   
   
@@ -250,25 +246,6 @@ public class Publication extends DefaultAnnotatable implements Referrer
 		this.status = status;
 	}
 
-  @OneToMany( cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true )
-  @JoinTable ( name = "publication_xref",
-  	joinColumns = @JoinColumn ( name = "owner_id" ), inverseJoinColumns = @JoinColumn ( name = "xref_id" ) )
-	public Set<XRef> getReferences ()
-	{
-		return this.references;
-	}
-
-	@Override
-	public void setReferences ( Set<XRef> xrefs )
-	{
-		this.references = xrefs;
-	}
-
-	@Override
-	public void addReference ( XRef xref )
-	{
-		this.references.add ( xref );
-	}
 	
 	
 	/**

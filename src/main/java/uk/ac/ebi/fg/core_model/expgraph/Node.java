@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
-import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
+import uk.ac.ebi.fg.core_model.toplevel.Accessible;
 
 /**
  * <p>An experimental workflow graph node. This may be things like Biomaterial, Processing/ProtocolApplication etc.
@@ -40,7 +40,7 @@ import uk.ac.ebi.fg.core_model.toplevel.DefaultAccessibleAnnotatable;
  */
 @MappedSuperclass
 @SuppressWarnings ( "rawtypes" )
-public abstract class Node<U extends Node, D extends Node> extends DefaultAccessibleAnnotatable
+public abstract class Node<U extends Node, D extends Node> extends Accessible
 {
 	private Set<U> upstreamNodes = new HashSet<U> ();
 	private Set<D> downstreamNodes = new HashSet<D> ();

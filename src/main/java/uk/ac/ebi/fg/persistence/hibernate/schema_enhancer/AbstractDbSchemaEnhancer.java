@@ -19,7 +19,7 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.SessionFactory;
-import org.hibernate.ejb.HibernateEntityManagerFactory;
+import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.hibernate.metadata.ClassMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +54,7 @@ public abstract class AbstractDbSchemaEnhancer implements DbSchemaEnhancer
 	/**
 	 * Lookup all the {@link JoinTable} annotations in the model model that is accessible from the classpath (i.e., as 
 	 * defined in persistence.xml) and, if these defines the table name and both the join column and the inverse
-	 * join column, it create one index for each of such columns. This is necessary because the bloody 
+	 * join column, it creates one index for each of such columns. This is necessary because the bloody 
 	 * <a href = 'https://hibernate.atlassian.net/browse/HHH-4263'>Hibernate doesn't do it automatically</a>.
 	 */
 	protected void indexJoinTables () 

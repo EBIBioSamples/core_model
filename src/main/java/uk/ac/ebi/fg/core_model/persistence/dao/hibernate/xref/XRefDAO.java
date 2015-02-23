@@ -1,7 +1,6 @@
-/*
- * 
- */
 package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.xref;
+
+import static uk.ac.ebi.utils.sql.HqlUtils.parameterizedWithNullHql;
 
 import java.util.List;
 
@@ -13,7 +12,6 @@ import org.apache.commons.lang3.Validate;
 import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.IdentifiableDAO;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 import uk.ac.ebi.fg.core_model.xref.XRef;
-import static uk.ac.ebi.utils.sql.HqlUtils.parameterizedWithNullHql;
 
 /**
  * The DAO to access {@link XRef} entities.

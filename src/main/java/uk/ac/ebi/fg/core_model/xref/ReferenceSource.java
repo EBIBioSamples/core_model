@@ -13,7 +13,7 @@ import org.hibernate.annotations.Index;
 import uk.ac.ebi.fg.core_model.resources.Const;
 import uk.ac.ebi.fg.core_model.terms.OntologyEntry;
 import uk.ac.ebi.fg.core_model.toplevel.Accessible;
-import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
+import uk.ac.ebi.fg.core_model.toplevel.Annotatable;
 
 
 /**
@@ -43,7 +43,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 	appliesTo = "reference_source", 
 	indexes = {	@Index ( name = "refsrc_acc_ver", columnNames = { "acc", "version" } ) }
 )*/
-public class ReferenceSource extends Identifiable
+public class ReferenceSource extends Annotatable
 {
   private String acc;
 
@@ -96,7 +96,7 @@ public class ReferenceSource extends Identifiable
 		return url;
 	}
 
-	public void setUrl ( String url )
+  public void setUrl ( String url )
 	{
 		this.url = url;
 	}

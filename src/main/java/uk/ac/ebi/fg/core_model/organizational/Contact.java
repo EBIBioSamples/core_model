@@ -17,7 +17,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Index;
 
 import uk.ac.ebi.fg.core_model.resources.Const;
-import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
+import uk.ac.ebi.fg.core_model.toplevel.Annotatable;
 
 /**
  * A contact, to be used to model a person who is linked to a representation of biomedical data, such as an experiment's
@@ -34,7 +34,7 @@ import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
 @Entity
 @Table(name = "contact")
 @Inheritance ( strategy = InheritanceType.TABLE_PER_CLASS )
-public class Contact extends DefaultAnnotatable
+public class Contact extends Annotatable
 {
   private String firstName;
   private String lastName;

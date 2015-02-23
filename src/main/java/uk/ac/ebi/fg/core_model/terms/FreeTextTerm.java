@@ -11,7 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
-import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
+import uk.ac.ebi.fg.core_model.toplevel.Annotatable;
 
 /**
  * A free-text annotation that can optionally be linked to existing ontology terms. An example of where this is useful
@@ -27,7 +27,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  *  
  */
 @MappedSuperclass
-public abstract class FreeTextTerm extends Identifiable 
+public abstract class FreeTextTerm extends Annotatable 
 {
   private String termText;
   private Set<OntologyEntry> ontologyTerms = new HashSet<OntologyEntry> ();

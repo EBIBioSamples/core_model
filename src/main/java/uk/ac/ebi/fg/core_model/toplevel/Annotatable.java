@@ -1,8 +1,14 @@
 package uk.ac.ebi.fg.core_model.toplevel;
 
+import java.util.HashSet;
 import java.util.Set;
 
-
+import javax.persistence.CascadeType;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.MappedSuperclass;
 
 /**
  * An object that can receive a set of {@link Annotation annotations}.
@@ -15,12 +21,30 @@ import java.util.Set;
  * packages.</p>
  *
  * <dl><dt>date</dt><dd>May 31, 2012</dd></dl>
- * @author brandizi, imported from AE2.
+ * @author brandizi
  *
  */
-public interface Annotatable 
+@MappedSuperclass
+public class Annotatable extends Identifiable
 {
-	  public Set<Annotation> getAnnotations();
-	  public void addAnnotation ( Annotation annotation );
-	  public void setAnnotations ( Set<Annotation> annotations );
+	private Set<Annotation> annotations = new HashSet<Annotation>();
+  
+  public void addAnnotation ( Annotation annotation ) {
+  	annotations.add ( annotation );
+  }
+
+  @ManyToMany ( cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
+  // By not mentioning the table, one new join table is created per new mapping table
+  @JoinTable ( 
+  	joinColumns = @JoinColumn ( name = "owner_id" ), 
+  	inverseJoinColumns = @JoinColumn ( name = "annotation_id" ), 
+  	indexes = { @Index ( columnList = "owner_id" ), @Index ( columnList = "annotation_id" ) }
+  )
+  public Set<Annotation> getAnnotations() {
+  	return annotations;
+  }
+
+  public void setAnnotations( Set<Annotation> annotations ) {
+  	this.annotations = annotations;
+  }
 }

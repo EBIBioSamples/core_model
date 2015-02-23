@@ -1,5 +1,6 @@
 package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.xref;
 
+
 import static uk.ac.ebi.utils.sql.HqlUtils.parameterizedWithNullHql;
 
 import java.util.List;

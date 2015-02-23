@@ -11,8 +11,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+
 import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterValue;
-import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
+import uk.ac.ebi.fg.core_model.toplevel.Annotatable;
 
 /**
  * A {@link Process} may consist of the execution of a sequence of protocols, this class is to store such sequence and, for
@@ -26,7 +28,7 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  */
 @Entity
 @Table ( name = "protocol_app" )
-public class ProtocolApplication extends Identifiable
+public class ProtocolApplication extends Annotatable
 {
 	private Protocol protocol;
 	private Collection<ParameterValue> parameterValues;
@@ -66,6 +68,7 @@ public class ProtocolApplication extends Identifiable
 	}
 
 	@Column ( name = "application_order" )
+	@Index ( name = "protocol_app_order" )
 	public int getOrder () {
 		return order;
 	}

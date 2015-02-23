@@ -15,7 +15,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Index;
 
 import uk.ac.ebi.fg.core_model.resources.Const;
-import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
+import uk.ac.ebi.fg.core_model.toplevel.Annotatable;
 
 
 /**
@@ -34,7 +34,7 @@ import uk.ac.ebi.fg.core_model.toplevel.DefaultAnnotatable;
  */
 @Entity
 @Table(name = "organization")
-public class Organization extends DefaultAnnotatable
+public class Organization extends Annotatable
 {
 	private String name;
 	private String description;

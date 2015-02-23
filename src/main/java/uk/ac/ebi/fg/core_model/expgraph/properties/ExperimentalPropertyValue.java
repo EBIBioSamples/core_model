@@ -1,5 +1,8 @@
 package uk.ac.ebi.fg.core_model.expgraph.properties;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -9,14 +12,19 @@ import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DiscriminatorOptions;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import uk.ac.ebi.fg.core_model.expgraph.Product;
+import uk.ac.ebi.fg.core_model.expgraph.properties.dataitems.DataItem;
 import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
+import uk.ac.ebi.fg.core_model.terms.OntologyEntry;
 
 /**
  * 
@@ -39,6 +47,7 @@ public class ExperimentalPropertyValue<PT extends ExperimentalPropertyType> exte
 {
 	private PT type;
 	private Unit unit;
+	private Set<DataItem> dataItems = new HashSet<DataItem> ();
 
 	public ExperimentalPropertyValue () {
 		super ();
@@ -85,7 +94,34 @@ public class ExperimentalPropertyValue<PT extends ExperimentalPropertyType> exte
 	{
 		return super.getTermText ();
 	}
+  
+  
+	@ManyToMany ( targetEntity = DataItem.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
+	@JoinTable ( name = "exp_pv_data_item", 
+  	joinColumns = @JoinColumn ( name = "pv_id" ), inverseJoinColumns = @JoinColumn ( name = "data_id" ) )
+	public Set<DataItem> getDataItems ()
+	{
+		return dataItems;
+	}
 
+	public void setDataItems ( Set<DataItem> dataItems )
+	{
+		this.dataItems = dataItems;
+	}
+	
+  public boolean addDataItem ( DataItem di ) {
+  	return this.getDataItems ().add ( di );
+  }
+
+  public boolean removeDataItem ( DataItem di ) {
+  	return this.getDataItems ().remove ( di );
+  }
+
+  public boolean containsDataItem ( DataItem di ) {
+  	return this.getDataItems ().contains ( di );
+  }
+	
+	
 	
 	@Override
 	public String toString ()

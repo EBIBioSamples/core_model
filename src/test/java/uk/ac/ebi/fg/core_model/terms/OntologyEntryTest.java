@@ -37,8 +37,8 @@ public class OntologyEntryTest
 		assertFalse ( "oe1.equals ( oe4 ) fails!", oe1.equals ( oe4 ) );
 		assertFalse ( "oe4.equals ( oe1 ) fails!", oe4.equals ( oe1 ) );
 
-		assertFalse ( "oe4.equals ( oe8 ) fails!", oe4.equals ( oe8 ) );
-		assertFalse ( "oe8.equals ( oe4 ) fails!", oe8.equals ( oe4 ) );
+		assertTrue ( "oe4.equals ( oe8 ) fails!", oe4.equals ( oe8 ) );
+		assertTrue ( "oe8.equals ( oe4 ) fails!", oe8.equals ( oe4 ) );
 		
 		assertFalse ( "oe5.equals ( oe7 ) fails!", oe5.equals ( oe7 ) );
 		assertFalse ( "oe7.equals ( oe5 ) fails!", oe7.equals ( oe5 ) );
