@@ -15,7 +15,6 @@ import org.hibernate.annotations.Index;
 
 import uk.ac.ebi.fg.core_model.expgraph.properties.ParameterValue;
 import uk.ac.ebi.fg.core_model.toplevel.Annotatable;
-import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 
 /**
  * A {@link Process} may consist of the execution of a sequence of protocols, this class is to store such sequence and, for
