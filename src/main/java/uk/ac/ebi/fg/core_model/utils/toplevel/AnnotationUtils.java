@@ -21,7 +21,7 @@ import uk.ac.ebi.fg.core_model.xref.XRef;
 public class AnnotationUtils
 {
 	/**
-	 * TODO: NEVER TESTED
+	 * Finds all annotations having a type label like the parameter. If not found, it returns an empty collection.
 	 */
 	public static List<Annotation> find ( 
 		Collection<Annotation> annotations, String value, String type, boolean isCaseSensitive, boolean onlyFirst 

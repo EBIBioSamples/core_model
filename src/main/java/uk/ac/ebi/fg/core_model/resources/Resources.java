@@ -168,7 +168,7 @@ public class Resources
 		String persistenceUnitName = resourceProperties.getProperty ( 
 			"uk.ac.ebi.fg.models.persistenceUnit", "ebiFgModelsPersistenceUnit" 
 		);
-		return getEntityManagerFactory ( persistenceUnitName, null );
+		return getEntityManagerFactory ( persistenceUnitName, properties );
 	}
 
 	
