@@ -35,7 +35,6 @@ import uk.ac.ebi.fg.core_model.terms.AnnotationType;
 @Inheritance ( strategy = InheritanceType.SINGLE_TABLE ) // TODO: or maybe JOIN?!
 @DiscriminatorColumn ( name = "annotation_class" )
 //@DiscriminatorValue ( "generic" ) // TODO: would never be used, not sure Hibernate is fine without any specification
-@SequenceGenerator( name = "hibernate_seq", sequenceName = "annotation_seq" )
 @Table ( name = "annotation" )
 public abstract class Annotation extends Identifiable 
 {

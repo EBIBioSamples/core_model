@@ -10,17 +10,19 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang3.Validate;
 
-import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.IdentifiableDAO;
+import uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel.AnnotatableDAO;
 import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
 
 /**
  * The DAO to manage {@link ReferenceSource} entities.
  * 
+ * TODO: must extend {@link AnnotatableDAO}.
+ * 
  * <dl><dt>date</dt><dd>Aug 9, 2012</dd></dl>
  * @author Marco Brandizi
  *
  */
-public class ReferenceSourceDAO<S extends ReferenceSource> extends IdentifiableDAO<S>
+public class ReferenceSourceDAO<S extends ReferenceSource> extends AnnotatableDAO<S>
 {
 	public ReferenceSourceDAO ( Class<S> managedClass, EntityManager entityManager ) {
 		super ( managedClass, entityManager );

@@ -21,10 +21,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DiscriminatorOptions;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import uk.ac.ebi.fg.core_model.expgraph.Product;
 import uk.ac.ebi.fg.core_model.expgraph.properties.dataitems.DataItem;
 import uk.ac.ebi.fg.core_model.terms.FreeTextTerm;
-import uk.ac.ebi.fg.core_model.terms.OntologyEntry;
 
 /**
  * 

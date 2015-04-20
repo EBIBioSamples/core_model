@@ -10,8 +10,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Index;
 
@@ -37,11 +37,13 @@ import uk.ac.ebi.fg.core_model.xref.ReferenceSource;
  * @date Jul 12, 2007, imported from the AE2 model in 2012
  */
 @Entity
-@Table( name = "onto_entry" )
+@Table( name = "onto_entry"
+	/* TODO:We cannot add this as yet, cause the current databases have multiple entires for these fields.
+	uniqueConstraints = @UniqueConstraint ( columnNames = { "acc", "source_id" }, name = "oe_acc_src_idx" ) */
+)
 @Inheritance ( strategy = InheritanceType.SINGLE_TABLE )
 @DiscriminatorColumn ( name = "term_category" )
 @DiscriminatorValue ( "generic" )
-@SequenceGenerator( name = "hibernate_seq", sequenceName = "onto_entry_seq" )
 public class OntologyEntry extends Annotatable
 {
 	private String acc, label; 
@@ -61,7 +63,6 @@ public class OntologyEntry extends Annotatable
 	}
 
   @Column ( length = Const.COL_LENGTH_L, nullable = false ) // We need it long, cause it can contains URIs
-  @Index( name = "oe_acc" )
 	public String getAcc () {
 		return acc;
 	}
@@ -71,7 +72,7 @@ public class OntologyEntry extends Annotatable
 	}
 
   @Column ( length = Const.COL_LENGTH_M )
-  @Index( name = "oe_label" )
+  @Index ( name = "oe_label" )
 	public String getLabel () {
 		return label;
 	}

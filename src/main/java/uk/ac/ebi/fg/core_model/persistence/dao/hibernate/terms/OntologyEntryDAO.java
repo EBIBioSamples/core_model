@@ -146,15 +146,15 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends AnnotatableDAO<O
 	  if ( src != null )
 	  	Validate.notEmpty ( src.getAcc(), "Database access error: cannot fetch an ontology entry with with an empty-accession ref source" );
 	  
-	  OE xdb = src == null 
+	  OE oedb = src == null 
 	  	? find ( oe.getAcc (), null, null, null ) 
 	  	: find ( oe.getAcc (), src.getAcc(), src.getVersion (), src.getUrl () );
 	  
-	  if ( xdb == null ) {
+	  if ( oedb == null ) {
 	    create ( oe );
-	    xdb = oe;
+	    oedb = oe;
 	  }
-	  return xdb;
+	  return oedb;
 	}
 
 	/**
@@ -188,6 +188,17 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends AnnotatableDAO<O
 		List<OE> result = query.getResultList();
 		return result.isEmpty () ? null : result.get ( 0 );
 	}
+	
+	public OE find ( OE example )
+	{
+		if ( example == null ) return null;
+		
+		ReferenceSource src = example.getSource ();
+		return src == null 
+			? find ( example.getAcc (), null, null, null )
+		  : find ( example.getAcc (), src.getAcc (), src.getVersion (), src.getUrl () );
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public List<OE> find ( String accession, String srcAcc, String srcVer ) 
@@ -250,4 +261,5 @@ public class OntologyEntryDAO<OE extends OntologyEntry> extends AnnotatableDAO<O
 		
 		return query.getResultList();
 	}
+	
 }

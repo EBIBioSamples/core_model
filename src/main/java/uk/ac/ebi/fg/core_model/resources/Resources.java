@@ -215,13 +215,24 @@ public class Resources
 		return entityManagerFactory;
 	}
 
+	
+	/**
+	 * Reset the application entity manager factory, so that a call to 
+	 * {@link #getEntityManagerFactory(String, Map)} (and its variants) will recreate a new EMF.
+	 * 
+	 */
+	public void reset () 
+	{
+    if ( entityManagerFactory != null && entityManagerFactory.isOpen() ) entityManagerFactory.close();
+    entityManagerFactory = null;
+	}
+	
 	/**
 	 * closes the {@link #entityManagerFactory}
 	 */
 	@Override
 	protected void finalize () throws Throwable
 	{
-    if ( entityManagerFactory != null && entityManagerFactory.isOpen() )
-    	entityManagerFactory.close();
+		reset ();
 	}
 }

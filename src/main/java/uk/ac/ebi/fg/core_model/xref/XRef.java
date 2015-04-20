@@ -44,7 +44,7 @@ public class XRef extends Annotation
 	}
 
   @Column ( length = Const.COL_LENGTH_S, name = "xref_acc" )
-	@Index ( name = "xr_acc" )
+	@Index ( name = "xr_acc_idx" )
 	public String getAcc () {
 		return this.acc;
 	}
