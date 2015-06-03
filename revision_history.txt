@@ -1,3 +1,6 @@
+4.0-SNAPSHOT
+  - Snapshot version used for the annotations_performance branch 
+  
 3.0.1-SNAPSHOT
   - Just started
 
