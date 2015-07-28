@@ -34,6 +34,8 @@ import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
  * <dl><dt>date</dt><dd>Jul 17, 2012</dd></dl>
  * @author Marco Brandizi
  *
+ * TODO: We need updateFlag set to true in many places. 
+ * 
  */
 public class IdentifiableDAO<T extends Identifiable> // extends AbstractHibernateManagedGenericDao<Long, D>
 {

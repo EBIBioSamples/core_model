@@ -3,6 +3,7 @@ package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
@@ -94,35 +95,49 @@ public class AccessibleDAO<A extends Accessible> extends IdentifiableDAO<A>
 	  return mergeBeanHelper ( accessible, accDB ); // we only need this, the rest will come with transaction's commit.
   }
 	
-  /**
-   * Finds by accession, optionally allows for the search of a specific A's subclass. 
-   */
-  public A find ( String accession, Class<? extends A> targetClass ) 
+	/**
+   * Finds by accession, optionally allows for the search of a specific A's subclass.
+   * 
+   * @param targetClass, default is {@link #getManagedClass()}.
+	 * @param failIfNotFound true, generates an {@link IllegalArgumentException} when no result is found. Default is false.
+	 * @param isForUpdate true, Uses {@link LockModeType#PESSIMISTIC_WRITE} to perform the query, which is intended
+   * for subsequent updates of the object that is/isn't found (including its creation/removal). Default is false.
+   * 
+	 */
+	public A find ( String accession, Class<? extends A> targetClass, boolean failIfNotFound, boolean isForUpdate ) 
   {
     Validate.notEmpty ( accession, "Database access error: cannot fetch an empty accessible" );
     
 		String queryStr= "SELECT a FROM " + targetClass.getCanonicalName () + " a WHERE a.acc = :acc";
 		Query query = getEntityManager ().createQuery ( queryStr );
 		query.setParameter ( "acc", accession );
+
+		if ( isForUpdate ) query.setLockMode ( LockModeType.PESSIMISTIC_WRITE );
 		
 		@SuppressWarnings("unchecked")
-		List<A> result = query.getResultList();
-		return result.isEmpty () ? null : result.get ( 0 );
+		List<A> results = query.getResultList();
+		A result = results.isEmpty () ? null : results.get ( 0 );
+		if ( failIfNotFound && result == null ) throw new IllegalArgumentException (
+			"'" + accession + "' not found"
+		);
+		return result;
   }
 
-  /**
-   * A wrapper of {@link #find(String, Class)} that uses {@link #getManagedClass()}.
-   */
+	public A find ( String accession, boolean failIfNotFound, boolean isForUpdate ) {
+  	return find ( accession, getManagedClass (), failIfNotFound, isForUpdate );
+  }
+
+	public A find ( String accession, Class<? extends A> targetClass ) {
+		return find ( accession, false, false );
+	} 
+    
   public A find ( String accession ) {
   	return find ( accession, this.getManagedClass () );
   } 
   
-	/**
-	 * Like {@link #find(String)}, but fails if it doesn't find anything.
-	 */
-	public A findAndFail ( String accession, Class<? extends A> targetClass ) 
+  public A findAndFail ( String accession, Class<? extends A> targetClass ) 
 	{
-		A result = find ( accession );
+		A result = find ( accession, targetClass, true, false );
 		if ( result == null ) throw new IllegalArgumentException ( "'" + accession + "' not found" );
 		return result;
 	}
