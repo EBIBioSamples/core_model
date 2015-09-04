@@ -1,56 +1,32 @@
 package uk.ac.ebi.fg.core_model.resources;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.Properties;
+import java.util.ServiceLoader;
 
 import javax.persistence.EntityManagerFactory;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 
-import uk.ac.ebi.fg.persistence.hibernate.schema_enhancer.DbSchemaEnhancerProcessor;
+import uk.ac.ebi.fg.persistence.hibernate.schema_enhancer.DbSchemaEnhancer;
+import uk.ac.ebi.fg.persistence.hibernate.schema_enhancer.DefaultDbSchemaEnhancer;
+import uk.ac.ebi.utils.collections.ArraySearchUtils;
 
 /**
  * <p>The resources used by this application, such as the {@link #getEntityManagerFactory() entity manager factory}, i.e., 
  * the connection to the database.</p>
  * 
  * <p>{@link LocalContainerEntityManagerFactoryBean} is used to instantiate Hibernate (see below), so you don't need
- * persistence.xml any more, just to set proper conncetion and other Hibernate parameters in hibernate.properties.</p>
+ * persistence.xml any more, just to set proper connection and other Hibernate parameters in hibernate.properties.</p>
  * 
- * <p>This class can be customised by placing a file named /fg_models.properties on top of your classpath, usually 
- * inside a Jar that extends this core_model (on top-level of it, which is achieved by using /src/main/resources in 
- * Maven). Such file can contain the following properties:</p>
- * 
- * <dl>
- *   <dt>uk.ac.ebi.fg.models.packages</dt>
- *   <dd>A comma-separated list of packages to scan for looking at JPA entities. This is split into an array and passed
- *   to LocalContainerEntityManagerFactoryBean, to build a correct entity manager factory. If your model is an extension
- *   of this core model (why are you using this module, if not?) you <strong>do need</strong> to list uk.ac.ebi.fg.core_model.**.*
- *   in this parameter (this is the default if it's not specified at all). As you see, you can use the common syntax for
- *   any name at a given level ('*'), or any sublevel ('**').</dd>
- *   
- *   <dt>uk.ac.ebi.fg.models.persistenceUnit</dt>
- *   <dd>The name of the JPA/Hibernate persistence unit, used to create the EntityManager factory via 
- *   {@link #getEntityManagerFactory(String, Map)}. The default for this is 'ebiFgModelsPersistenceUnit' and you should
- *   be fine with it in most cases, ie, when your model is a single-lineage extension of this core. For instance, if 
- *   your model A is an extension of core and you want a database containing the merge of the two, you don't need
- *   to change persistence unit name. That's true for any chain of A1, A2.. An, where An extends A(n-1) and A1 extends
- *   this core. Instead, if you have independent models A and B, both extending the core and both mapping distinct 
- *   databases, you'll need two different persistence units.</dd>
- *   
- *   <dt>uk.ac.ebi.fg.models.resourceClass</dt>
- *   <dd>If you don't like the way this class works, you can extend it and make your application to load your custom
- *   version, by means of this property. your implementation will be given by {@link #getInstance()}. (TODO: we plan
- *   to change this slightly messed approach with Spring beans). While we don't see extreme need for this, in case you 
- *   do it, we recommend you start from this class {@link #getEntityManagerFactory(String, Map)} in particular, where
- *   there is code to use Spring to instantiate Hibernate and to fix the schema via {@link DbSchemaEnhancerProcessor}.
- *   </dd>
- * </dl>
- * 
+ * <p>Resources can be customised by extending this class and declaring your custom extension via the SPI mechanism, 
+ * i.e., {@link Resources#getInstance()} will look at the classpath, for files named 
+ * {@code META-INF/uk.ac.ebi.fg.core_model.resources.Resources}, and will return the class named in such file that has highest
+ * {@link Resources#getPriority() priority} defined in such files (see biosd_model for an example).</p> 
  *
  * <dl><dt>date</dt><dd>Aug 2, 2012</dd></dl>
  * @author Marco Brandizi
@@ -59,73 +35,43 @@ import uk.ac.ebi.fg.persistence.hibernate.schema_enhancer.DbSchemaEnhancerProces
 public class Resources
 {
 	private EntityManagerFactory entityManagerFactory = null;
-	private static Properties resourceProperties = null;
 	
 	private final static Resources instance;
 
 	static
 	{
-		resourceProperties = new Properties ();
-		InputStream repPropIn = Resources.class.getResourceAsStream ( "/fg_models.properties" );
-		try {
-			if ( repPropIn != null ) resourceProperties.load ( new InputStreamReader ( repPropIn ) );
-		}
-		catch ( IOException ex ) {
-			throw new RuntimeException ( 
-				"Internal error: cannot read from internal resource /fg_models.properties, due to: " + ex.getMessage (), 
-				ex 
-			);
+		// SPI returns all the services in undetermined order, we pick up the top extension by means of the priority
+		// property.
+		// 
+		int maxPriority = 0;
+		Resources maxPriorityResources = null;
+		
+		for ( Resources res: ServiceLoader.load ( Resources.class ) )
+		{
+			if ( maxPriorityResources == null ) {
+				maxPriority = res.getPriority ();
+				maxPriorityResources = res;
+			}
+			else if ( res.getPriority () > maxPriority ) 
+				maxPriorityResources = res;
 		}
 		
-		String resClassName = resourceProperties.getProperty ( "uk.ac.ebi.fg.models.resourceClass", null );
-		
-		if ( resClassName == null )
-		{
-			instance = new Resources ();
-		}
-		else 
-		{
-			@SuppressWarnings ( "rawtypes" )
-			Class resClass = null;
-			Resources result = null;
-			try
-			{
-				resClass = Class.forName ( resClassName );
-				result = (Resources) resClass.newInstance ();
-			} catch ( ClassNotFoundException ex )
-			{
-				// TODO: proper exception
-				throw new RuntimeException ( String.format ( 
-					  "Internal error while initialising application resource handler, class '%s' not found: %s", 
-					  resClass,
-					  ex.getMessage ()
-					),
-					ex 
-				);
-			} 
-			catch ( InstantiationException ex ) 
-			{
-				throw new RuntimeException ( 
-					"Internal error while initialising application resource handler: " + ex.getMessage (), ex );
-			} 
-			catch ( IllegalAccessException ex )
-			{
-				throw new RuntimeException ( 
-					"Internal error while initialising application resource handler: " + ex.getMessage (), ex );
-			}
-			finally {
-				instance = result;
-			}
-		}
+		instance = maxPriorityResources == null ? new Resources () : maxPriorityResources; 
 	}
 	
 	
-	private Resources () {
+	/**
+	 * SPI requires this to be public, but you should never instance thiese classes directly, use 
+	 * {@link #getInstance()} instead.
+	 * 
+	 */
+	public Resources () {
 	}
 
+
 	/**
-	 * This can be affected by the property {@link #CUSTOM_RESOURCES_CLASS_PROPERTY}, to customise the Resources class
-	 * that is actually used. 
+	 * This returns the top-{@link Resources#getPriority() priority} top-priority {@link Resources} subclass that 
+	 * is defined in SPI files (see above).
 	 */
 	public static Resources getInstance () 
 	{
@@ -134,6 +80,50 @@ public class Resources
 		);
 		return instance;
 	}
+
+	/**
+	 * The priority of this resource class. Returns 0 by default, your extension having biggest priority (and defined
+	 * in the SPI file in META-INF/, and available in the classpath), will be the one picked up by {@link #getInstance()}.
+	 * 
+	 * Hence, a typical way to override this method is: {@code return super.getPriority () + 10}
+	 * See biosd_model for examples.
+	 */
+	public int getPriority () {
+		return 0;
+	}
+
+	/**
+	 * The packages that {@link LocalContainerEntityManagerFactoryBean} will scan to get JPA entity classes.
+	 * You need to add your model classes to JPA by means of this method (and custom Resources class).
+	 * 
+	 * A typical way to override this method is:
+	 * <code>return {@link ArrayUtils#add(Object[], Object) add}.( super.getPackagesToScan (), 0, "uk.ac.ebi.fg.biosd.annotator.model.**" )</code>
+	 *  
+	 */
+	public String[] getPackagesToScan () {
+		return new String [] { "uk.ac.ebi.fg.core_model.**.*" };
+	}
+	
+	/**
+	 * {@link DbSchemaEnhancer Schema enhancers} are invoked by {@link #getEntityManagerFactory(String, Map)}, 
+	 * when hibernate.hbm2ddl.auto is "create" or "update", and after having let hibernate to initialise the schema
+	 * based on JPA annotations. 
+	 */
+	public DbSchemaEnhancer[] getDbSchemaEnhancers () {
+		return new DbSchemaEnhancer[] { new DefaultDbSchemaEnhancer () };
+	}
+
+	/**
+	 * This is usually "ebiFgModelsPersistenceUnit" and, as usually, you shouldn't need to change it, if you're using 
+	 * only one database. One case where using different persistence unit names might be useful is when you want to
+	 * use two different extensions of this core_model (or a derived one), and such extensions go to different databases,
+	 * with different schemas.
+	 *  
+	 */
+	public String getDefaultPersistenceUnitName () {
+		return "ebiFgModelsPersistenceUnit";
+	}
+	
 	
 	/**
 	 * Uses "defaultPersistenceUnit" and null as property object, i.e., takes the properties from an hibernate.properties 
@@ -154,45 +144,29 @@ public class Resources
 	}
 	
 	/**
-	 * Uses 'ebiFgModelsPersistenceUnit' as persistence unit name. This should be used for all the models
-	 * extending core_model. Possibly you need to redefine your own persistence.xml for such extended models, see 
-	 * the project biosd_model/ for details (in particular how the JPA Maven plug-in is used to scan all the classes
-	 * automatically).
-	 * 
-	 * While this method to get an EMF is flexible enough in most situation, there might still be cases where you need
-	 * something more advanced . 
-	 * 
+	 * Uses {@link #getDefaultPersistenceUnitName()}. 
 	 */
 	public EntityManagerFactory getEntityManagerFactory ( Map<String, String> properties )
 	{
-		String persistenceUnitName = resourceProperties.getProperty ( 
-			"uk.ac.ebi.fg.models.persistenceUnit", "ebiFgModelsPersistenceUnit" 
-		);
-		return getEntityManagerFactory ( persistenceUnitName, properties );
+		return getEntityManagerFactory ( getDefaultPersistenceUnitName (), properties );
 	}
 
 	
 	/**
-	 * The wrapper to the database. If not already done creates an {@link EntityManagerFactory}, by looking up 
-	 * a persistence.xml file that defines a persistence unit named persistenceUnitName. It also passes the properties
-	 * parameter to Hibernate. See Hibernate documentation for more information.
-	 * 
-	 * While this method to get an EMF is flexible enough in most situation, there might still be cases where you need
-	 * something more advanced. For instance, Hibernate doesn't support the merging of multiple persistence.xml, which
-	 * can be done via <a href = 'http://tinyurl.com/k44hyxk'>Spring</a>. 
+	 * The wrapper to the database. If not already done creates an {@link EntityManagerFactory}, using
+	 * {@link #getPackagesToScan()} and taking properties like the JDBC connection parameters from the
+	 * properties method parameter. If such parameter is null, it takes properties the usual way, i.e., 
+	 * looking for hibernate.properties in the classpath.
 	 * 
 	 */
 	public EntityManagerFactory getEntityManagerFactory ( String persistenceUnitName, Map<String, String> properties )
 	{
-		if ( entityManagerFactory != null ) return entityManagerFactory;
+		if ( this.entityManagerFactory != null ) return this.entityManagerFactory;
 
 		// Spring scans JPA annotations across multiple .jars, very convenient, no persistence.xml needed
 		LocalContainerEntityManagerFactoryBean springEmf = new LocalContainerEntityManagerFactoryBean ();
 
-		String packagesToScan = resourceProperties.getProperty ( 
-			"uk.ac.ebi.fg.models.packages", "uk.ac.ebi.fg.core_model.**.*" 
-		);
-		springEmf.setPackagesToScan ( packagesToScan.split ( "," ) );
+		springEmf.setPackagesToScan ( getPackagesToScan () );
 		
 		springEmf.setPersistenceUnitName ( persistenceUnitName );
 		springEmf.setJpaDialect ( new HibernateJpaDialect () );
@@ -207,14 +181,31 @@ public class Resources
 		}
 		
 		springEmf.afterPropertiesSet ();
-		entityManagerFactory = springEmf.getObject ();
+		this.entityManagerFactory = springEmf.getObject ();
 		
 		// Add indices and other improvements to the database schema. See the code inside this class for details.
-		new DbSchemaEnhancerProcessor ( entityManagerFactory ).enhance ();
+		this.enhanceDbSchema ();
 		
-		return entityManagerFactory;
+		return this.entityManagerFactory;
 	}
-
+	
+	/**
+	 * See {@link #getDbSchemaEnhancers()}.
+	 */
+	protected void enhanceDbSchema ()
+	{
+		Map<String, Object> props = this.entityManagerFactory.getProperties ();
+		
+		// TODO: Are there more DBs the jerk doesn't work well with?!
+		if ( !StringUtils.trimToEmpty ( (String) props.get ( "hibernate.connection.driver_class" ) ).contains ( "Oracle" ) )
+			return;
+		
+		if ( !ArraySearchUtils.isOneOf ( (String) props.get ( "hibernate.hbm2ddl.auto" ), "create", "update" )) return;
+		
+		for ( DbSchemaEnhancer enhancer: getDbSchemaEnhancers () ) 
+			enhancer.enhance ( this.entityManagerFactory );
+	}
+	
 	
 	/**
 	 * Reset the application entity manager factory, so that a call to 
@@ -235,4 +226,5 @@ public class Resources
 	{
 		reset ();
 	}
+
 }

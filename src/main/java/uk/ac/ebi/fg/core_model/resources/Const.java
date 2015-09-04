@@ -1,6 +1,3 @@
-/*
- * 
- */
 package uk.ac.ebi.fg.core_model.resources;
 
 /**

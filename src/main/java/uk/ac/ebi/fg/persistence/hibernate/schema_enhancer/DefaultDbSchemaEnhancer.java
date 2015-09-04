@@ -15,7 +15,7 @@ import javax.persistence.EntityManagerFactory;
  * @author Marco Brandizi
  *
  */
-public class DefaultDbSchemaEnhancer extends AbstractDbSchemaEnhancer
+public class DefaultDbSchemaEnhancer extends DbSchemaEnhancer
 {
 	public void enhance ( EntityManagerFactory emf )
 	{

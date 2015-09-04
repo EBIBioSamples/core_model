@@ -5,8 +5,6 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
