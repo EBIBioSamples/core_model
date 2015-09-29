@@ -1,9 +1,7 @@
 4.0-SNAPSHOT
-  - Snapshot version used for the annotations_performance branch 
+  - Entities moved to feature annotator
+  - New mechanism to define model extensions at Hibernate level (see the Resources class).
   
-3.0.1-SNAPSHOT
-  - Just started
-
 3.0
   - New model, with unified annotations and data items
   - HibernateUtils added
