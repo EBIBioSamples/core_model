@@ -20,5 +20,8 @@ public class Const
 
 	/** Length used for database character columns, e.g., address, citation, (short) description */
 	public static final int COL_LENGTH_XL = 1000;
+	
+	/** Length used for URIs and the like */
+	public static final int COL_LENGTH_URIS = 2000;
 
 }
