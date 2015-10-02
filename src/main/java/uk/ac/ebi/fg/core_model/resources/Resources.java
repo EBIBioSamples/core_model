@@ -9,6 +9,8 @@ import javax.persistence.EntityManagerFactory;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.jpa.HibernatePersistenceProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 
@@ -40,6 +42,8 @@ public class Resources
 
 	static
 	{
+		Logger log = LoggerFactory.getLogger ( Resources.class );
+		
 		// SPI returns all the services in undetermined order, we pick up the top extension by means of the priority
 		// property.
 		// 
@@ -48,15 +52,22 @@ public class Resources
 		
 		for ( Resources res: ServiceLoader.load ( Resources.class ) )
 		{
+			log.debug ( 
+				"Found FG Model Resource class  {}, priority: {}", res.getClass ().getCanonicalName (), res.getPriority () 
+			);
+
 			if ( maxPriorityResources == null ) {
 				maxPriority = res.getPriority ();
 				maxPriorityResources = res;
 			}
-			else if ( res.getPriority () > maxPriority ) 
+			else if ( res.getPriority () > maxPriority ) {
+				maxPriority = res.getPriority ();
 				maxPriorityResources = res;
+			}
 		}
 		
 		instance = maxPriorityResources == null ? new Resources () : maxPriorityResources; 
+		log.debug ( "Picking FG Model Resource class = {}", instance.getClass ().getCanonicalName () );
 	}
 	
 	
