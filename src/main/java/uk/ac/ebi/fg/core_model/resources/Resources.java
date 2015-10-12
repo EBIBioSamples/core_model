@@ -42,32 +42,35 @@ public class Resources
 
 	static
 	{
-		Logger log = LoggerFactory.getLogger ( Resources.class );
-		
-		// SPI returns all the services in undetermined order, we pick up the top extension by means of the priority
-		// property.
-		// 
-		int maxPriority = 0;
-		Resources maxPriorityResources = null;
-		
-		for ( Resources res: ServiceLoader.load ( Resources.class ) )
+		synchronized ( Resources.class )
 		{
-			log.debug ( 
-				"Found FG Model Resource class  {}, priority: {}", res.getClass ().getCanonicalName (), res.getPriority () 
-			);
-
-			if ( maxPriorityResources == null ) {
-				maxPriority = res.getPriority ();
-				maxPriorityResources = res;
+			Logger log = LoggerFactory.getLogger ( Resources.class );
+			
+			// SPI returns all the services in undetermined order, we pick up the top extension by means of the priority
+			// property.
+			// 
+			int maxPriority = 0;
+			Resources maxPriorityResources = null;
+			
+			for ( Resources res: ServiceLoader.load ( Resources.class ) )
+			{
+				log.debug ( 
+					"Found FG Model Resource class  {}, priority: {}", res.getClass ().getCanonicalName (), res.getPriority () 
+				);
+	
+				if ( maxPriorityResources == null ) {
+					maxPriority = res.getPriority ();
+					maxPriorityResources = res;
+				}
+				else if ( res.getPriority () > maxPriority ) {
+					maxPriority = res.getPriority ();
+					maxPriorityResources = res;
+				}
 			}
-			else if ( res.getPriority () > maxPriority ) {
-				maxPriority = res.getPriority ();
-				maxPriorityResources = res;
-			}
+			
+			instance = maxPriorityResources == null ? new Resources () : maxPriorityResources; 
+			log.debug ( "Picking FG Model Resource class = {}", instance.getClass ().getCanonicalName () );
 		}
-		
-		instance = maxPriorityResources == null ? new Resources () : maxPriorityResources; 
-		log.debug ( "Picking FG Model Resource class = {}", instance.getClass ().getCanonicalName () );
 	}
 	
 	
@@ -170,7 +173,8 @@ public class Resources
 	 * looking for hibernate.properties in the classpath.
 	 * 
 	 */
-	public EntityManagerFactory getEntityManagerFactory ( String persistenceUnitName, Map<String, String> properties )
+	public synchronized EntityManagerFactory getEntityManagerFactory ( 
+		String persistenceUnitName, Map<String, String> properties )
 	{
 		if ( this.entityManagerFactory != null ) return this.entityManagerFactory;
 
@@ -223,7 +227,7 @@ public class Resources
 	 * {@link #getEntityManagerFactory(String, Map)} (and its variants) will recreate a new EMF.
 	 * 
 	 */
-	public void reset () 
+	public synchronized void reset () 
 	{
     if ( entityManagerFactory != null && entityManagerFactory.isOpen() ) entityManagerFactory.close();
     entityManagerFactory = null;
