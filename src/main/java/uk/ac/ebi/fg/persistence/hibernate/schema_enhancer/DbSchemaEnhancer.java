@@ -59,13 +59,16 @@ public abstract class DbSchemaEnhancer
 	{		
 		SessionFactory sessionFact = ((HibernateEntityManagerFactory) entityManagerFactory).getSessionFactory ();
 				
-		Set<String> idxDefs = new HashSet<String> ();
+		Set<String> alreadyDoneIdxDefs = new HashSet<String> ();
 		
+		// Let's start from here to go into all classes
 		for ( ClassMetadata cmeta: sessionFact.getAllClassMetadata ().values () )
 		{
 			Class<?> eclass = cmeta.getMappedClass ();
+			// And now all the methods
 			for ( Method meth: eclass.getMethods () )
 			{
+				// And, for each of them, all the @annotations, see if there is a @JoinTable
 				for ( Annotation ann: meth.getDeclaredAnnotations () )
 				{
 					if ( !(ann instanceof JoinTable ) ) continue;
@@ -74,6 +77,7 @@ public abstract class DbSchemaEnhancer
 					final String tbname = StringUtils.trimToNull ( jt.name () ); 
 					if ( tbname == null ) continue;
 					
+					// The index expression for the owning key
 					String ownerJColExpr = "";
 					for ( JoinColumn ownerJCol: jt.joinColumns () )
 					{
@@ -81,6 +85,7 @@ public abstract class DbSchemaEnhancer
 						ownerJColExpr += ownerJCol.name ();
 					}
 					
+					// The index expression for the foreign key
 					String fkExpr = "";
 					for ( JoinColumn fkCol: jt.inverseJoinColumns () )
 					{
@@ -90,7 +95,7 @@ public abstract class DbSchemaEnhancer
 					
 					if ( ownerJColExpr.length () == 0 || fkExpr.length () == 0 ) continue;
 															
-					indexJoinTable ( tbname, ownerJColExpr, fkExpr, idxDefs );					
+					indexJoinTable ( tbname, ownerJColExpr, fkExpr, alreadyDoneIdxDefs );					
 				} // for ann
 			} // for meth
 		} // for cmeta

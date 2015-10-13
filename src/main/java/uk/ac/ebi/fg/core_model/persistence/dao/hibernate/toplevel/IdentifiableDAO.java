@@ -13,12 +13,6 @@ import javax.persistence.Query;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.Validate;
-import org.hibernate.CacheMode;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Example;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Projections;
 
 import uk.ac.ebi.fg.core_model.toplevel.Identifiable;
 
@@ -94,9 +88,7 @@ public class IdentifiableDAO<T extends Identifiable> extends AbstractDAO<T>
   }
 	
 	/**
-	 * Does the merge of src into dest, as explained in {@link #mergeBean(Identifiable)}. Put here, cause it
-	 * is needed in {@link AccessibleDAO} as well.
-	 * 
+	 * Does the merge of src into dest, as explained in {@link #mergeBean(Identifiable)}.
 	 */
 	public static <T extends Identifiable> T mergeBeanHelper ( T src, T dest )
 	{
@@ -106,7 +98,7 @@ public class IdentifiableDAO<T extends Identifiable> extends AbstractDAO<T>
 	  	try {
 	  		Object pval = pd.getReadMethod ().invoke ( src );
 	  		Method setter = pd.getWriteMethod ();
-	  		if ( setter == null || ( setter.getModifiers () | Modifier.PUBLIC ) == 0 ) continue;
+	  		if ( setter == null || ( setter.getModifiers () & Modifier.PUBLIC ) == 0 ) continue;
 	  		if ( pval == null ) continue;
 	  		if ( pval instanceof Collection && ((Collection<?>) pval).isEmpty () ) continue;
 				BeanUtils.copyProperty ( dest, pd.getName (), pval );

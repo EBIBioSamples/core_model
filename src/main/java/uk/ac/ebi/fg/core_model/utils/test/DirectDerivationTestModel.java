@@ -34,7 +34,6 @@ public class DirectDerivationTestModel
 {
 	public BioMaterial bm1;
 	public BioMaterial bm2;
-	public BioMaterialProcessing proc1;
 	public BioMaterial bm3;
 	public Data data1;
 	public Data data2;
