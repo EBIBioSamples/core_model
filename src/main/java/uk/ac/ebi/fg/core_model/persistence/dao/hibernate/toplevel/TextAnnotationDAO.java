@@ -1,9 +1,6 @@
 package uk.ac.ebi.fg.core_model.persistence.dao.hibernate.toplevel;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 import uk.ac.ebi.fg.core_model.toplevel.TextAnnotation;
 

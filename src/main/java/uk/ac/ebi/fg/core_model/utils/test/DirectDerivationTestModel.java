@@ -9,7 +9,6 @@ import java.util.HashSet;
 import javax.persistence.EntityManager;
 
 import uk.ac.ebi.fg.core_model.expgraph.BioMaterial;
-import uk.ac.ebi.fg.core_model.expgraph.BioMaterialProcessing;
 import uk.ac.ebi.fg.core_model.expgraph.Data;
 import uk.ac.ebi.fg.core_model.expgraph.Product;
 import uk.ac.ebi.fg.core_model.expgraph.properties.BioCharacteristicType;
