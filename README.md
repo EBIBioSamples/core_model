@@ -10,7 +10,7 @@ For the moment, there is a separated extension of this project, which realises t
 
 You find documentation about the BioSD/Core models [here](http://github.com/EBIBioSamples/biosd_model/tree/master/doc).
 
-PLEASE NOTE THE BINARY FOR THIS MODULE IS SHIPPED WITHOUT hibernate.properties. This is so because this core model is usually extended to some other model. You should include such Hibernate file in the extension. See [Resources](/EBIBioSamples/core_model/blob/master/src/main/java/uk/ac/ebi/fg/core_model/resources/Resources.java) to have an idea on how you can include your own classes into the ones that Hibernate detects for ORM (no persistence.xml is needed). An example of that can be found in the BioSD model mentioned above.
+PLEASE NOTE THE BINARY FOR THIS MODULE IS SHIPPED WITHOUT hibernate.properties. This is so because this core model is usually extended to some other model. You should include such Hibernate file in the extension. See [Resources](/src/main/java/uk/ac/ebi/fg/core_model/resources/Resources.java) to have an idea on how you can include your own classes into the ones that Hibernate detects for ORM (no persistence.xml is needed). An example of that can be found in the BioSD model mentioned above.
 
 __ TODO __
 
