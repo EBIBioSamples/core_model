@@ -1,26 +1,27 @@
 4.0.1-SNAPSHOT
+  - Next dev version.
 
 4.0
-  - Entities moved to feature annotator
+  - Entities moved to feature annotator.
   - New mechanism to define model extensions at Hibernate level (see the Resources class).
   
 3.0
-  - New model, with unified annotations and data items
-  - HibernateUtils added
-  - Minor fixes with FindBugs
+  - New model, with unified annotations and data items.
+  - HibernateUtils added.
+  - Minor fixes with FindBugs.
   
 2.2
-  - jUtils dependency upgraded and some incompatibilities introduced by that fixed. 
+  - jUtils dependency upgraded and some incompatibilities introduced by that fixed.
   
 2.1
-  - Making the Hibernate persistence unit name specific of FG/BioSD models (which required changes in Resources) 
-  - Minor bugfixing
-  - Addition of a common parent POM for all BioSD-related projects 
+  - Making the Hibernate persistence unit name specific of FG/BioSD models (which required changes in Resources). 
+  - Minor bugfixing.
+  - Addition of a common parent POM for all BioSD-related projects.
   
   
 2.0
-  - Code to automatically add indices that Hibernate doesn't create
-  - Some DAOs extended with a target subclass in find() and contains() 
+  - Code to automatically add indices that Hibernate doesn't create.
+  - Some DAOs extended with a target subclass in find() and contains().
   - Some bug-fixing.
 
 1.0
