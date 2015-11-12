@@ -215,7 +215,8 @@ public class Resources
 		if ( !StringUtils.trimToEmpty ( (String) props.get ( "hibernate.connection.driver_class" ) ).contains ( "Oracle" ) )
 			return;
 		
-		if ( !ArraySearchUtils.isOneOf ( (String) props.get ( "hibernate.hbm2ddl.auto" ), "create", "update" )) return;
+		if ( !ArraySearchUtils.isOneOf ( (String) props.get ( "hibernate.hbm2ddl.auto" ), "create", "update" )) 
+			return;
 		
 		for ( DbSchemaEnhancer enhancer: getDbSchemaEnhancers () ) 
 			enhancer.enhance ( this.entityManagerFactory );
