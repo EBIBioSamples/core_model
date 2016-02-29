@@ -87,7 +87,7 @@ public abstract class Submission extends Accessible
 		this.version = version;
 	}
 	
-  @Column ( length = Const.COL_LENGTH_S )
+   @Column ( name= "formatversion", length = Const.COL_LENGTH_S )
 	public String getFormatVersion ()
 	{
 		return formatVersion;
